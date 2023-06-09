@@ -1,40 +1,31 @@
-# vite React TypeScript tailwindcss starter
+# Python Fear and Greed Client
 
-Template for vite, React + tailwindcss + TypeScript projects with some tools preconfigured.
+A React TypeScript app with Vite which returns data from Fear and Greed scraper
 
-## About
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8919e806-1f5a-4463-9685-6f5ca2fbc87f/deploy-status)](https://app.netlify.com/sites/steady-dasik-4bf816/deploys)
 
-Template for vite, React + tailwindcss + TypeScript projects with some tools preconfigured.
+API URL here: [`https://main--steady-dasik-4bf816.netlify.app/`](https://main--steady-dasik-4bf816.netlify.app/)
 
-![Screenshot](assets/screenshot.png)
+The list of repositories are as follow:
 
-### Libraries
+- Python Flask API repository [here](https://github.com/MatthewCYLau/python-fear-greed-api)
+- React with Vite client repository [here](https://github.com/MatthewCYLau/python-fear-greed-client)
+- Scraper and GCP infrastructure repository [here](https://github.com/MatthewCYLau/python-fear-greed-scraper)
 
-- [Jest 29](https://jestjs.io/)
-- [React 18](https://reactjs.org/)
-- [tailwindcss 3](https://tailwindcss.com/)
-  - [tailwindcss forms plugin](https://tailwindcss-forms.vercel.app/)
-- [TypeScript 4.9.5](https://www.typescriptlang.org/)
-- [vite 4](https://vitejs.dev/)
-
-### Tools
-
-- [commitlint 17](https://commitlint.js.org)
-- [Conventional Commits 1](https://www.conventionalcommits.org)
-- [editorconfig](https://editorconfig.org/)
-- [eslint 8](https://eslint.org/)
-- [husky 8](https://typicode.github.io/husky/#/)
-- [Prettier 2](https://prettier.io/)
-- [VS Code settings](https://code.visualstudio.com/)
-
-## Usage
-
-Create a new project from this template by clicking the "Use this template" button:
-
-![](assets/template-usage.png)
+## Run/build app locally
 
 ```bash
 yarn
 yarn dev
 yarn test
 ```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
