@@ -1,68 +1,36 @@
-import React, { ReactElement, useState } from 'react'
-import logo from './logo.svg'
-import viteLogo from './vite.svg'
-import tailwindLogo from './tailwind.svg'
+import { ReactElement } from 'react'
 
 function App(): ReactElement {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="p-20 border shadow-xl border-gray-50 rounded-xl">
-      <header>
-        <div className="flex justify-center">
-          <img src={viteLogo} className="w-32 h-32" alt="vite logo" />
-          <img src={logo} className="w-32 h-32" alt="React logo" />
-          <img
-            src={tailwindLogo}
-            className="w-32 h-32"
-            alt="Tailwind CSS logo"
-          />
+    <div className="bg-white dark:bg-gray-900 h-screen">
+      <div className="container mx-auto px-6 py-16 pt-28 text-center">
+        <div className="mx-auto max-w-lg">
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-white md:text-4xl">
+            Python Fear and Greed Index Notification
+          </h1>
+
+          <p className="mt-6 text-gray-500 dark:text-gray-300">
+            Receive notification on investor sentiment
+          </p>
+
+          <div className="mx-auto mt-6 w-full max-w-sm rounded-md border bg-transparent focus-within:border-blue-400 focus-within:ring focus-within:ring-blue-300 focus-within:ring-opacity-40 dark:border-gray-700 dark:focus-within:border-blue-300">
+            <form className="flex flex-col md:flex-row">
+              <input
+                type="email"
+                placeholder="Enter your email address"
+                className="m-1 h-10 flex-1 appearance-none border-none bg-transparent px-4 py-2 text-gray-700 placeholder-gray-400 focus:placeholder-transparent focus:outline-none focus:ring-0 dark:text-gray-200"
+              />
+
+              <button
+                type="button"
+                className="m-1 h-10 transform rounded-md bg-blue-500 px-4 py-2 text-white transition-colors duration-300 hover:bg-blue-400 focus:bg-blue-400 focus:outline-none"
+              >
+                Sign Up Now!
+              </button>
+            </form>
+          </div>
         </div>
-        <p className="pb-3 text-2xl">Hello Vite + React + Tailwind CSS!</p>
-        <p>
-          <button
-            className="pt-1 pb-1 pl-2 pr-2 text-sm text-purple-100 bg-purple-400 rounded"
-            onClick={() => setCount((count) => count + 1)}
-          >
-            count is: {count}
-          </button>
-        </p>
-        <p className="pt-3 pb-3">
-          Edit{' '}
-          <code className="border border-1 pl-1 pr-1 pb-0.5 pt-0.5 rounded border-purple-400 font-mono text-sm bg-purple-100 text-purple-900">
-            src/App.tsx
-          </code>{' '}
-          and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="text-purple-400 underline"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="text-purple-400 underline"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-          {' | '}
-          <a
-            className="text-purple-400 underline"
-            href="https://tailwindcss.com/docs"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Tailwind CSS Docs
-          </a>
-        </p>
-      </header>
+      </div>
     </div>
   )
 }
