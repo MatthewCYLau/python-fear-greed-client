@@ -1,16 +1,16 @@
 import { ReactElement } from 'react'
 
-const SignUpPage = (): ReactElement => {
+const LoginPage = (): ReactElement => {
   return (
     <div className="flex items-center min-h-screen bg-white dark:bg-gray-900">
       <div className="container mx-auto">
         <div className="max-w-md mx-auto my-10">
           <div className="text-center">
             <h1 className="my-3 text-3xl font-semibold text-gray-700 dark:text-gray-200">
-              Sign up
+              Login
             </h1>
             <p className="text-gray-500 dark:text-gray-400">
-              Sign up to create your account
+              Login to access your account
             </p>
           </div>
           <div className="m-7">
@@ -38,6 +38,12 @@ const SignUpPage = (): ReactElement => {
                   >
                     Password
                   </label>
+                  <a
+                    href="#!"
+                    className="text-sm text-gray-400 focus:outline-none focus:text-indigo-500 hover:text-indigo-500 dark:hover:text-indigo-300"
+                  >
+                    Forgot password?
+                  </a>
                 </div>
                 <input
                   type="password"
@@ -52,16 +58,16 @@ const SignUpPage = (): ReactElement => {
                   type="button"
                   className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
                 >
-                  Sign up
+                  Login
                 </button>
               </div>
               <p className="text-sm text-center text-gray-400">
-                Return{' '}
+                Don&#x27;t have an account yet?{' '}
                 <a
-                  href="/"
+                  href="/sign-up"
                   className="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500 dark:focus:border-indigo-800"
                 >
-                  home
+                  Sign up
                 </a>
                 .
               </p>
@@ -73,4 +79,4 @@ const SignUpPage = (): ReactElement => {
   )
 }
 
-export default SignUpPage
+export default LoginPage
