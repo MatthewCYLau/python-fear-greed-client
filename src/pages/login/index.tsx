@@ -1,7 +1,16 @@
 import { ReactElement } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const LoginPage = (): ReactElement => {
+  const navigate = useNavigate()
+  const submitHandler = async (e: React.SyntheticEvent) => {
+    e.preventDefault()
+    try {
+      navigate('/dashboard')
+    } catch (err) {
+      console.log(err)
+    }
+  }
   return (
     <div className="flex items-center min-h-screen bg-white dark:bg-gray-900">
       <div className="container mx-auto">
@@ -58,6 +67,7 @@ const LoginPage = (): ReactElement => {
                 <button
                   type="button"
                   className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
+                  onClick={submitHandler}
                 >
                   Login
                 </button>
