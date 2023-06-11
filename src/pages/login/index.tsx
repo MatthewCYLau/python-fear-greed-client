@@ -1,4 +1,5 @@
 import { ReactElement } from 'react'
+import { Link } from 'react-router-dom'
 
 const LoginPage = (): ReactElement => {
   return (
@@ -63,12 +64,12 @@ const LoginPage = (): ReactElement => {
               </div>
               <p className="text-sm text-center text-gray-400">
                 Don&#x27;t have an account yet?{' '}
-                <a
-                  href="/sign-up"
+                <Link
                   className="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500 dark:focus:border-indigo-800"
+                  to="/sign-up"
                 >
                   Sign up
-                </a>
+                </Link>
                 .
               </p>
             </form>
