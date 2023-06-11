@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { StoreProvider } from './store'
 import HomePage from './pages/home'
 import SignUpPage from './pages/sign-up'
 import LoginPage from './pages/login'
@@ -26,7 +27,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div className="App">
-      <RouterProvider router={router} />
+      <StoreProvider>
+        <RouterProvider router={router} />
+      </StoreProvider>
     </div>
   )
 }

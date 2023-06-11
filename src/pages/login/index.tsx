@@ -1,11 +1,26 @@
-import { ReactElement } from 'react'
+import { ReactElement, useState, useContext, ChangeEvent } from 'react'
+import { Store } from '../../store'
 import { Link, useNavigate } from 'react-router-dom'
 
 const LoginPage = (): ReactElement => {
   const navigate = useNavigate()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const { state, dispatch } = useContext(Store)
+
+  const emailOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value
+    setEmail(email)
+  }
+
+  const passwordOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const password = e.target.value
+    setPassword(password)
+  }
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     try {
+      console.log({ email, password })
       navigate('/dashboard')
     } catch (err) {
       console.log(err)
@@ -38,6 +53,7 @@ const LoginPage = (): ReactElement => {
                   id="email"
                   placeholder="you@company.com"
                   className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+                  onChange={emailOnChangeHandler}
                 />
               </div>
               <div className="mb-6">
@@ -61,6 +77,7 @@ const LoginPage = (): ReactElement => {
                   id="password"
                   placeholder="Your Password"
                   className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+                  onChange={passwordOnChangeHandler}
                 />
               </div>
               <div className="mb-6">
