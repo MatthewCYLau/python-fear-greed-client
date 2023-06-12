@@ -1,4 +1,5 @@
 import { ReactElement, useState, useContext, ChangeEvent } from 'react'
+import axios from 'axios'
 import { Store } from '../../store'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -20,7 +21,18 @@ const LoginPage = (): ReactElement => {
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     try {
-      console.log({ email, password })
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/auth`,
+        {
+          email,
+          password
+        },
+        {
+          headers: {
+            'content-type': 'application/json'
+          }
+        }
+      )
       navigate('/dashboard')
     } catch (err) {
       console.log(err)
