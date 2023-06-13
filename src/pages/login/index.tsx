@@ -33,10 +33,14 @@ const LoginPage = (): ReactElement => {
           }
         }
       )
-      navigate('/dashboard')
+      dispatch({ type: 'LOGIN_SUCCESS', payload: res.data })
     } catch (err) {
       console.log(err)
     }
+  }
+
+  if (state.isAuthenticated) {
+    navigate('/dashboard')
   }
   return (
     <div className="flex items-center min-h-screen bg-white dark:bg-gray-900">

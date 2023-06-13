@@ -1,19 +1,34 @@
 import React from 'react'
 
+interface Token {
+  token: string
+}
+interface User {
+  user_id: string
+  email: string
+  time_created: string
+}
+
 type AppState = {
+  token: string | null
   isAuthenticated: boolean
+  loading: boolean
+  user: User | null
 }
 
 const initialState: AppState = {
-  isAuthenticated: false
+  token: localStorage.getItem('token'),
+  isAuthenticated: false,
+  loading: true,
+  user: null
 }
 
-type Action = { type: 'USER_SIGNIN'; payload: boolean }
+type Action = { type: 'LOGIN_SUCCESS'; payload: Token }
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
-    case 'USER_SIGNIN':
-      return { ...state, isAuthenticated: action.payload }
+    case 'LOGIN_SUCCESS':
+      return { ...state, isAuthenticated: true }
     default:
       return state
   }
