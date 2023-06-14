@@ -1,13 +1,5 @@
 import React from 'react'
-
-interface Token {
-  token: string
-}
-interface User {
-  user_id: string
-  email: string
-  time_created: string
-}
+import { User, Token, ActionType } from '../types'
 
 type AppState = {
   token: string | null
@@ -23,11 +15,11 @@ const initialState: AppState = {
   user: null
 }
 
-type Action = { type: 'LOGIN_SUCCESS'; payload: Token }
+type Action = { type: ActionType.LOGIN_SUCCESS; payload: Token }
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
-    case 'LOGIN_SUCCESS':
+    case ActionType.LOGIN_SUCCESS:
       return { ...state, isAuthenticated: true }
     default:
       return state

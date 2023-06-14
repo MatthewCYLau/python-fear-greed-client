@@ -1,6 +1,7 @@
 import { ReactElement, useState, useContext, ChangeEvent } from 'react'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { Store } from '../../store'
+import { Token, ActionType } from '../../types'
 import { Link, useNavigate } from 'react-router-dom'
 
 const LoginPage = (): ReactElement => {
@@ -21,7 +22,7 @@ const LoginPage = (): ReactElement => {
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     try {
-      const res = await axios.post(
+      const { data }: AxiosResponse<Token> = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/auth`,
         {
           email,
@@ -33,7 +34,7 @@ const LoginPage = (): ReactElement => {
           }
         }
       )
-      dispatch({ type: 'LOGIN_SUCCESS', payload: res.data })
+      dispatch({ type: ActionType.LOGIN_SUCCESS, payload: data })
     } catch (err) {
       console.log(err)
     }
