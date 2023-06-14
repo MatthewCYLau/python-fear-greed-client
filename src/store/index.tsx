@@ -1,7 +1,7 @@
 import React from 'react'
 import { User, Token, ActionType } from '../types'
 
-type AppState = {
+export type AppState = {
   token: string | null
   isAuthenticated: boolean
   loading: boolean
@@ -20,7 +20,7 @@ type Action = { type: ActionType.LOGIN_SUCCESS; payload: Token }
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case ActionType.LOGIN_SUCCESS:
-      return { ...state, isAuthenticated: true }
+      return { ...state, token: action.payload.token, isAuthenticated: true }
     default:
       return state
   }

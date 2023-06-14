@@ -1,5 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { ReactElement } from 'react'
 import { StoreProvider } from './store'
+import Wrapper from './components/wrapper'
 import HomePage from './pages/home'
 import SignUpPage from './pages/sign-up'
 import LoginPage from './pages/login'
@@ -24,11 +26,13 @@ const router = createBrowserRouter([
   }
 ])
 
-function App() {
+const App = (): ReactElement => {
   return (
     <div className="App">
       <StoreProvider>
-        <RouterProvider router={router} />
+        <Wrapper>
+          <RouterProvider router={router} />
+        </Wrapper>
       </StoreProvider>
     </div>
   )
