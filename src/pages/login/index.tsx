@@ -54,7 +54,7 @@ const LoginPage = (): ReactElement => {
             </p>
           </div>
           <div className="m-7">
-            <form action="">
+            <form onSubmit={submitHandler}>
               <div className="mb-6">
                 <label
                   htmlFor="email"
@@ -99,9 +99,8 @@ const LoginPage = (): ReactElement => {
               </div>
               <div className="mb-6">
                 <button
-                  type="button"
+                  type="submit"
                   className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
-                  onClick={submitHandler}
                 >
                   Login
                 </button>
