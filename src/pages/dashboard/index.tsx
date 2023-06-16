@@ -2,7 +2,6 @@ import { useContext, ReactElement, useEffect } from 'react'
 import { AxiosResponse } from 'axios'
 import api from '../../utils/api'
 import { Store } from '../../store'
-import { Alert } from '../../types'
 import UserCard from '../../components/user-card'
 import SideNav from '../../components/side-nav'
 
@@ -11,7 +10,9 @@ const DashboardPage = (): ReactElement => {
 
   const getAlerts = async () => {
     try {
-      const { data }: AxiosResponse<Alert> = await api.get('/api/alerts')
+      const { data }: AxiosResponse<any> = await api.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/alerts`
+      )
       console.log(data)
     } catch (err) {
       console.log('error!')
