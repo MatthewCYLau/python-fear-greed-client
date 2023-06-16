@@ -1,10 +1,27 @@
-import { useContext, ReactElement } from 'react'
+import { useContext, ReactElement, useEffect } from 'react'
+import { AxiosResponse } from 'axios'
+import api from '../../utils/api'
 import { Store } from '../../store'
 import UserCard from '../../components/user-card'
 import SideNav from '../../components/side-nav'
 
 const DashboardPage = (): ReactElement => {
   const { state } = useContext(Store)
+
+  const getAlerts = async () => {
+    try {
+      const { data }: AxiosResponse<any> = await api.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/alerts`
+      )
+      console.log(data)
+    } catch (err) {
+      console.log('error!')
+    }
+  }
+
+  useEffect(() => {
+    getAlerts()
+  }, [])
 
   return (
     <div className="antialiased bg-black w-full min-h-screen text-slate-300 relative py-4">
