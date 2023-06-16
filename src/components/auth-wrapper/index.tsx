@@ -21,9 +21,7 @@ const AuthWrapper = ({ children }: AuthWrapperProps): ReactElement => {
 
   const loadUser = async () => {
     try {
-      const { data }: AxiosResponse<User> = await api.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/auth`
-      )
+      const { data }: AxiosResponse<User> = await api.get('/api/auth')
       dispatch({
         type: ActionType.USER_LOADED,
         payload: data

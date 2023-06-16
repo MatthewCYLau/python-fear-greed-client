@@ -7,6 +7,11 @@ export interface User {
   time_created: string
 }
 
+export interface Alert {
+  index: number
+  created: Date
+}
+
 export enum ActionType {
   USER_LOADED = 'user_loaded',
   AUTH_ERROR = 'auth_error',
