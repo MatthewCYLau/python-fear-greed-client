@@ -2,11 +2,11 @@ import { ReactChildren, ReactElement, ReactNode, useContext } from 'react'
 import setAuthToken from '../../utils/setAuthToken'
 import { Store } from '../../store'
 
-interface WrapperProps {
+interface AuthWrapperProps {
   children: ReactChildren | ReactNode | ReactElement
 }
 
-const Wrapper = ({ children }: WrapperProps): ReactElement => {
+const AuthWrapper = ({ children }: AuthWrapperProps): ReactElement => {
   const { dispatch, ...rest } = useContext(Store)
 
   const token = rest.state.token
@@ -17,4 +17,4 @@ const Wrapper = ({ children }: WrapperProps): ReactElement => {
   return <>{children}</>
 }
 
-export default Wrapper
+export default AuthWrapper
