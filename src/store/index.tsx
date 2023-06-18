@@ -9,6 +9,7 @@ export type AppState = {
     | User
     | {
         email: ''
+        name: ''
       }
 }
 
@@ -17,7 +18,8 @@ const initialState: AppState = {
   isAuthenticated: false,
   loading: true,
   user: {
-    email: ''
+    email: '',
+    name: ''
   }
 }
 

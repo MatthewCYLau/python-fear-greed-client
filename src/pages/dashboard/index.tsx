@@ -31,7 +31,7 @@ const DashboardPage = (): ReactElement => {
             Dashboard<span className="text-indigo-400">.</span>
           </h1>
           <p className="text-slate-400 text-sm mb-2">Welcome back,</p>
-          <UserCard name="Jon Doe" email={state.user.email} />
+          <UserCard name={state.user.name} email={state.user.email} />
           <hr className="my-2 border-slate-700" />
           <SideNav />
         </div>
