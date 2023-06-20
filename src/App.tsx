@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { ReactElement } from 'react'
 import { StoreProvider } from './store'
 import AuthWrapper from './components/auth-wrapper'
+import Alert from './components/alert'
 import HomePage from './pages/home'
 import SignUpPage from './pages/sign-up'
 import LoginPage from './pages/login'
@@ -31,6 +32,7 @@ const App = (): ReactElement => {
     <div className="App">
       <StoreProvider>
         <AuthWrapper>
+          <Alert />
           <RouterProvider router={router} />
         </AuthWrapper>
       </StoreProvider>
