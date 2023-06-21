@@ -1,10 +1,11 @@
 import React from 'react'
-import { User, Token, ActionType } from '../types'
+import { User, Token, ActionType, Alert } from '../types'
 
 export type AppState = {
   token: string | null
   isAuthenticated: boolean
   loading: boolean
+  alerts: Alert[]
   user:
     | User
     | {
@@ -17,6 +18,13 @@ const initialState: AppState = {
   token: localStorage.getItem('token'),
   isAuthenticated: false,
   loading: true,
+  alerts: [
+    // {
+    //   id: '',
+    //   message: 'foo',
+    //   severity: 'error'
+    // }
+  ],
   user: {
     email: '',
     name: ''
