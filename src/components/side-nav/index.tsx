@@ -1,10 +1,10 @@
-import React from 'react'
+import { Link } from 'react-router-dom'
 
 const SideNav = () => {
   return (
     <div id="menu" className="flex flex-col space-y-2 my-5">
-      <a
-        href="#"
+      <Link
+        to="/dashboard"
         className="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group"
       >
         <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 space-x-2 items-center">
@@ -33,9 +33,9 @@ const SideNav = () => {
             </p>
           </div>
         </div>
-      </a>
-      <a
-        href="#"
+      </Link>
+      <Link
+        to="/create-alert"
         className="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group"
       >
         <div className="relative flex flex-col space-y-2 md:flex-row md:space-y-0 space-x-2 items-center">
@@ -57,17 +57,17 @@ const SideNav = () => {
           </div>
           <div>
             <p className="font-bold text-base lg:text-lg text-slate-200 leading-4 group-hover:text-indigo-400">
-              Invoices
+              Create Alert
             </p>
             <p className="text-slate-400 text-sm hidden md:block">
-              Manage invoices
+              Create new alerts
             </p>
           </div>
-          <div className="absolute -top-3 -right-3 md:top-0 md:right-0 px-2 py-1.5 rounded-full bg-indigo-800 text-xs font-mono font-bold">
+          {/* <div className="absolute -top-3 -right-3 md:top-0 md:right-0 px-2 py-1.5 rounded-full bg-indigo-800 text-xs font-mono font-bold">
             23
-          </div>
+          </div> */}
         </div>
-      </a>
+      </Link>
       <a
         href="#"
         className="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group"
