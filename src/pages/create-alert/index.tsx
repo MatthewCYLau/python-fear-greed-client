@@ -27,7 +27,10 @@ const CreateAlertPage = (): ReactElement => {
     try {
       await api.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/alerts`,
-        formValues,
+        {
+          index: +formValues.index,
+          note: formValues.note
+        },
         {
           headers: {
             'content-type': 'application/json'
@@ -64,7 +67,7 @@ const CreateAlertPage = (): ReactElement => {
                   Index
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   name="index"
                   id="index"
                   placeholder="50"
