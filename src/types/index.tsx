@@ -8,7 +8,7 @@ export interface User {
   time_created: string
 }
 
-export interface Alert {
+export interface AppAlert {
   id: string
   message: string
   severity: 'error' | 'info'

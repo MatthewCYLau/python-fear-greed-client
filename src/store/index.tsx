@@ -1,11 +1,11 @@
 import React from 'react'
-import { User, Token, ActionType, Alert } from '../types'
+import { User, Token, ActionType, AppAlert } from '../types'
 
 export type AppState = {
   token: string | null
   isAuthenticated: boolean
   loading: boolean
-  alerts: Alert[]
+  alerts: AppAlert[]
   user:
     | User
     | {
