@@ -14,6 +14,12 @@ export interface AppAlert {
   severity: 'error' | 'info'
 }
 
+export interface Alert {
+  _id: string
+  created: string
+  index: number
+}
+
 export enum ActionType {
   USER_LOADED = 'user_loaded',
   AUTH_ERROR = 'auth_error',
