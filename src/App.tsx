@@ -7,6 +7,7 @@ import HomePage from './pages/home'
 import SignUpPage from './pages/sign-up'
 import LoginPage from './pages/login'
 import DashboardPage from './pages/dashboard'
+import CreateAlertPage from './pages/create-alert'
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: <DashboardPage />
+  },
+  {
+    path: '/create-alert',
+    element: <CreateAlertPage />
   },
   {
     path: '/*',
