@@ -116,7 +116,7 @@ const DashboardPage = (): ReactElement => {
             </div>
           </div>
           <div id="last-incomes">
-            <h1 className="font-bold py-4 uppercase">Previous values</h1>
+            <h1 className="font-bold py-4 uppercase">Events</h1>
             <div
               id="stats"
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
@@ -125,8 +125,8 @@ const DashboardPage = (): ReactElement => {
                 <div className="flex flex-row items-center">
                   <div className="text-3xl p-4">💰</div>
                   <div className="p-2">
-                    <p className="text-xl font-bold">348$</p>
-                    <p className="text-gray-500 font-medium">Amber Gates</p>
+                    <p className="text-xl font-bold">35</p>
+                    <p className="text-gray-500 font-medium">Date</p>
                     <p className="text-gray-500 text-sm">24 Nov 2022</p>
                   </div>
                 </div>

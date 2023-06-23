@@ -1,45 +1,44 @@
-import { useContext, ReactElement, useEffect, useState } from 'react'
-import { AxiosResponse } from 'axios'
+import { useContext, ReactElement, useState, ChangeEvent } from 'react'
 import api from '../../utils/api'
+import { useNavigate } from 'react-router-dom'
 import { Store } from '../../store'
-import { Alert } from '../../types'
 import UserCard from '../../components/user-card'
 import SideNav from '../../components/side-nav'
-import KeyStatisticsCard from '../../components/key-statistics-card'
+
+interface Values {
+  index: number
+  note: string
+}
 
 const CreateAlertPage = (): ReactElement => {
   const { state } = useContext(Store)
-  const [currentIndex, setCurrentIndex] = useState<number>(0)
-  const [currentUserAlerts, setCurrentUserAlerts] = useState<Alert[]>([])
-  const [currentUserMostRecentAlert, setCurrentUserMostRecentAlert] =
-    useState<number>(0)
-  const getCurrentIndex = async () => {
-    try {
-      const { data }: AxiosResponse<any> = await api.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/records`
-      )
-      setCurrentIndex(data[0].index)
-    } catch (err) {
-      console.log('error!')
-    }
-  }
-  const getCurrentUserAlerts = async () => {
-    try {
-      const { data }: AxiosResponse<Alert[]> = await api.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/alerts/me`
-      )
-      setCurrentUserAlerts(data)
-      setCurrentUserMostRecentAlert(data[0].index)
-    } catch (err) {
-      setCurrentUserAlerts
-      console.log('error!')
-    }
+  const navigate = useNavigate()
+  const [formValues, setFormValues] = useState<Values>({
+    index: 0,
+    note: ''
+  })
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
 
-  useEffect(() => {
-    getCurrentIndex()
-    getCurrentUserAlerts()
-  }, [])
+  const submitHandler = async (e: React.SyntheticEvent) => {
+    e.preventDefault()
+    try {
+      await api.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/alerts`,
+        formValues,
+        {
+          headers: {
+            'content-type': 'application/json'
+          }
+        }
+      )
+      navigate('/dashboard')
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   return (
     <div className="antialiased bg-black w-full min-h-screen text-slate-300 py-4">
@@ -56,47 +55,41 @@ const CreateAlertPage = (): ReactElement => {
         <div id="content" className="bg-white/10 col-span-9 rounded-lg p-6">
           <div className="m-7 w-1/2">
             <h1 className="font-bold py-4 uppercase">Create Alert</h1>
-            <form>
+            <form onSubmit={submitHandler}>
               <div className="mb-6">
                 <label
-                  htmlFor="email"
+                  htmlFor="index"
                   className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
                 >
-                  Email Address
+                  Index
                 </label>
                 <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="you@company.com"
+                  type="text"
+                  name="index"
+                  id="index"
+                  placeholder="50"
                   className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
-                  // value={formValues.email}
-                  // onChange={(e) => onChange(e)}
+                  value={formValues.index}
+                  onChange={(e) => onChange(e)}
                 />
               </div>
               <div className="mb-6">
                 <div className="flex justify-between mb-2">
                   <label
-                    htmlFor="password"
+                    htmlFor="note"
                     className="text-sm text-gray-600 dark:text-gray-400"
                   >
-                    Password
+                    Note
                   </label>
-                  <a
-                    href="#!"
-                    className="text-sm text-gray-400 focus:outline-none focus:text-indigo-500 hover:text-indigo-500 dark:hover:text-indigo-300"
-                  >
-                    Forgot password?
-                  </a>
                 </div>
                 <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Your Password"
+                  type="text"
+                  name="note"
+                  id="note"
+                  placeholder="Add a custom note"
                   className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
-                  // value={formValues.password}
-                  // onChange={(e) => onChange(e)}
+                  value={formValues.note}
+                  onChange={(e) => onChange(e)}
                 />
               </div>
               <div className="mb-6">
@@ -104,7 +97,7 @@ const CreateAlertPage = (): ReactElement => {
                   type="submit"
                   className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
                 >
-                  Login
+                  Create Alert
                 </button>
               </div>
             </form>
