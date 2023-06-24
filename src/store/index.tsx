@@ -18,13 +18,7 @@ const initialState: AppState = {
   token: localStorage.getItem('token'),
   isAuthenticated: false,
   loading: true,
-  alerts: [
-    // {
-    //   id: '',
-    //   message: 'foo',
-    //   severity: 'error'
-    // }
-  ],
+  alerts: [],
   user: {
     email: '',
     name: ''
@@ -36,6 +30,18 @@ type Action =
   | { type: ActionType.USER_LOADED; payload: User }
   | { type: ActionType.REGISTRATION_SUCCESS; payload: Token }
   | { type: ActionType.LOGOUT }
+  | {
+      type: ActionType.SET_ALERT
+      payload: {
+        id: string
+        message: string
+        severity: 'error' | 'info'
+      }
+    }
+  | {
+      type: ActionType.REMOVE_ALERT
+      payload: string
+    }
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
@@ -59,6 +65,16 @@ function reducer(state: AppState, action: Action): AppState {
           email: '',
           name: ''
         }
+      }
+    case ActionType.SET_ALERT:
+      return {
+        ...state,
+        alerts: [...state.alerts, action.payload]
+      }
+    case ActionType.REMOVE_ALERT:
+      return {
+        ...state,
+        alerts: state.alerts.filter((alert) => alert.id !== action.payload)
       }
     default:
       return state

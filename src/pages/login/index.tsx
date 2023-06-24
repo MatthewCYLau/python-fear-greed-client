@@ -1,4 +1,5 @@
 import { ReactElement, useState, useContext, ChangeEvent } from 'react'
+import { v4 as uuid } from 'uuid'
 import axios, { AxiosResponse } from 'axios'
 import { Store } from '../../store'
 import { Token, ActionType } from '../../types'
@@ -33,8 +34,14 @@ const LoginPage = (): ReactElement => {
         }
       )
       dispatch({ type: ActionType.LOGIN_SUCCESS, payload: data })
-    } catch (err) {
-      console.log(err)
+    } catch (err: any) {
+      const errors: Error[] = err.response.data.errors
+      errors.forEach((e) =>
+        dispatch({
+          type: ActionType.SET_ALERT,
+          payload: { id: uuid(), message: e.message, severity: 'error' }
+        })
+      )
     }
   }
 

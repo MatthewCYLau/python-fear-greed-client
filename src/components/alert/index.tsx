@@ -1,8 +1,16 @@
 import { useContext } from 'react'
+import { ActionType } from '../../types'
 import { Store } from '../../store'
 
 const Alert = () => {
-  const { state } = useContext(Store)
+  const { state, dispatch } = useContext(Store)
+
+  const handleAlertOnClick = (id: string) => {
+    dispatch({
+      type: ActionType.REMOVE_ALERT,
+      payload: id
+    })
+  }
 
   return (
     <div>
@@ -18,7 +26,11 @@ const Alert = () => {
               className="absolute top-2.5 right-3 w-max rounded-lg transition-all hover:bg-white hover:bg-opacity-20"
               data-dismissible-target="alert"
             >
-              <button role="button" className="w-max rounded-lg p-1">
+              <button
+                onClick={() => handleAlertOnClick(alert.id)}
+                role="button"
+                className="w-max rounded-lg p-1"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"

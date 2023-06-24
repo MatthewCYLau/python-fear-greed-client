@@ -31,5 +31,8 @@ export enum ActionType {
   VERIFY_EMAIL_SUCCESS = 'verify_email_success',
   VERIFY_EMAIL_FAILED = 'verify_email_failed',
   TRIGGER_VERIFICATION_SUCCESS = 'trigger_verification_success',
-  TRIGGER_VERIFICATION_FAILED = 'trigger_verification_failed'
+  TRIGGER_VERIFICATION_FAILED = 'trigger_verification_failed',
+  SET_ALERT = 'set_alert',
+  REMOVE_ALERT = 'remove_alert',
+  REMOVE_ALL_ALERT = 'remove_all_alert'
 }
