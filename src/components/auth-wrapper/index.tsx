@@ -34,9 +34,8 @@ const AuthWrapper = ({ children }: AuthWrapperProps): ReactElement => {
   }
 
   const token = rest.state.token
-  if (token) {
-    setAuthToken(token)
-  }
+
+  setAuthToken(token)
 
   useEffect(() => {
     loadUser()

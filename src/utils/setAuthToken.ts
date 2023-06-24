@@ -1,6 +1,6 @@
 import api from './api'
 
-const setAuthToken = (token: string) => {
+const setAuthToken = (token: string | null) => {
   if (token) {
     api.defaults.headers.common['x-auth-token'] = token
     localStorage.setItem('token', token)

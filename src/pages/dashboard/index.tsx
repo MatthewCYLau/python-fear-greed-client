@@ -1,4 +1,5 @@
 import { useContext, ReactElement, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AxiosResponse } from 'axios'
 import api from '../../utils/api'
 import { Store } from '../../store'
@@ -9,6 +10,7 @@ import KeyStatisticsCard from '../../components/key-statistics-card'
 
 const DashboardPage = (): ReactElement => {
   const { state } = useContext(Store)
+  const navigate = useNavigate()
   const [currentIndex, setCurrentIndex] = useState<number>(0)
   const [currentUserAlerts, setCurrentUserAlerts] = useState<Alert[]>([])
   const [currentUserMostRecentAlert, setCurrentUserMostRecentAlert] =
@@ -45,9 +47,18 @@ const DashboardPage = (): ReactElement => {
   }
 
   useEffect(() => {
+    if (!state.isAuthenticated) {
+      navigate('/login')
+    }
     getCurrentIndex()
     getCurrentUserAlerts()
   }, [])
+
+  useEffect(() => {
+    if (!state.isAuthenticated) {
+      navigate('/login')
+    }
+  }, [state.isAuthenticated])
 
   useEffect(() => {
     if (!!currentUserAlerts.length) {

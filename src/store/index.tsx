@@ -35,7 +35,7 @@ type Action =
   | { type: ActionType.LOGIN_SUCCESS; payload: Token }
   | { type: ActionType.USER_LOADED; payload: User }
   | { type: ActionType.REGISTRATION_SUCCESS; payload: Token }
-  | { type: ActionType.LOGOUT; payload: Token }
+  | { type: ActionType.LOGOUT }
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
