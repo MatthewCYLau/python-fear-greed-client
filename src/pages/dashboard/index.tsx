@@ -97,7 +97,7 @@ const DashboardPage = (): ReactElement => {
                   </div>
                   <div>
                     <p className="text-teal-300 text-sm font-medium uppercase leading-4">
-                      Alert Threshold
+                      Current Alert
                     </p>
                     <p className="text-white font-bold text-2xl inline-flex items-center space-x-2">
                       <span>{currentUserMostRecentAlert}</span>
@@ -170,6 +170,7 @@ const DashboardPage = (): ReactElement => {
                 <thead className="bg-black/60">
                   <th className="text-left py-3 px-2 rounded-l-lg">Created</th>
                   <th className="text-left py-3 px-2">Index</th>
+                  <th className="text-left py-3 px-2">Note</th>
                   <th className="text-left py-3 px-2 rounded-r-lg">Actions</th>
                 </thead>
                 {!!currentUserAlerts &&
@@ -177,6 +178,7 @@ const DashboardPage = (): ReactElement => {
                     <tr key={alert._id} className="border-b border-gray-700">
                       <td className="py-3 px-2 font-bold">{alert.created}</td>
                       <td className="py-3 px-2">{alert.index}</td>
+                      <td className="py-3 px-2">{alert.note}</td>
                       <td className="py-3 px-2">
                         <div className="inline-flex items-center space-x-3">
                           <button

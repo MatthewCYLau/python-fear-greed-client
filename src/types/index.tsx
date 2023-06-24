@@ -18,6 +18,7 @@ export interface Alert {
   _id: string
   created: string
   index: number
+  note: string
 }
 
 export enum ActionType {
