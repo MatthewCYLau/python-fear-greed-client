@@ -35,6 +35,7 @@ type Action =
   | { type: ActionType.LOGIN_SUCCESS; payload: Token }
   | { type: ActionType.USER_LOADED; payload: User }
   | { type: ActionType.REGISTRATION_SUCCESS; payload: Token }
+  | { type: ActionType.LOGOUT; payload: Token }
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
@@ -48,6 +49,17 @@ function reducer(state: AppState, action: Action): AppState {
     case ActionType.LOGIN_SUCCESS:
     case ActionType.REGISTRATION_SUCCESS:
       return { ...state, token: action.payload.token, isAuthenticated: true }
+    case ActionType.LOGOUT:
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        user: {
+          email: '',
+          name: ''
+        }
+      }
     default:
       return state
   }
