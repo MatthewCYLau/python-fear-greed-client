@@ -67,7 +67,7 @@ const CreateAlertPage = (): ReactElement => {
                   Index
                 </label>
                 <input
-                  type="number"
+                  type="text"
                   name="index"
                   id="index"
                   placeholder="50"
