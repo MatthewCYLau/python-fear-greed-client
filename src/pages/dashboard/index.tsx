@@ -136,7 +136,11 @@ const DashboardPage = (): ReactElement => {
                 {!!currentUserAlerts &&
                   currentUserAlerts.map((alert) => (
                     <tr key={alert._id} className="border-b border-gray-700">
-                      <td className="py-3 px-2 font-bold">{alert.created}</td>
+                      <td className="py-3 px-2 font-bold">
+                        {new Date(Date.parse(alert.created))
+                          .toLocaleString()
+                          .toString()}
+                      </td>
                       <td className="py-3 px-2">{alert.index}</td>
                       <td className="py-3 px-2">{alert.note}</td>
                       <td className="py-3 px-2">
