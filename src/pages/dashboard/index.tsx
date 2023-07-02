@@ -56,8 +56,6 @@ const DashboardPage = (): ReactElement => {
   useEffect(() => {
     if (!!currentUserAlerts.length) {
       setCurrentUserMostRecentAlert(currentUserAlerts[0].index)
-    } else {
-      setCurrentUserMostRecentAlert(0)
     }
   }, [currentUserAlerts])
 
@@ -74,50 +72,52 @@ const DashboardPage = (): ReactElement => {
               className="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
               <KeyStatisticsCard subject="Current Index" index={currentIndex} />
-              <div className="bg-black/60 p-6 rounded-lg">
-                <div className="flex flex-row space-x-4 items-center">
-                  <div id="stats-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      className="w-10 h-10 text-white"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        stroke-linejoin="round"
-                        d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="text-teal-300 text-sm font-medium uppercase leading-4">
-                      Current Alert
-                    </p>
-                    <p className="text-white font-bold text-2xl inline-flex items-center space-x-2">
-                      <span>{currentUserMostRecentAlert}</span>
-                      <span>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="currentColor"
-                          className="w-6 h-6"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            stroke-linejoin="round"
-                            d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"
-                          />
-                        </svg>
-                      </span>
-                    </p>
+              {!!currentUserAlerts.length && (
+                <div className="bg-black/60 p-6 rounded-lg">
+                  <div className="flex flex-row space-x-4 items-center">
+                    <div id="stats-1">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        className="w-10 h-10 text-white"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          stroke-linejoin="round"
+                          d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="text-teal-300 text-sm font-medium uppercase leading-4">
+                        Current Alert
+                      </p>
+                      <p className="text-white font-bold text-2xl inline-flex items-center space-x-2">
+                        <span>{currentUserMostRecentAlert}</span>
+                        <span>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              stroke-linejoin="round"
+                              d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"
+                            />
+                          </svg>
+                        </span>
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
           <div id="last-incomes">
@@ -126,7 +126,7 @@ const DashboardPage = (): ReactElement => {
           </div>
           <div id="last-users">
             <h1 className="font-bold py-4 uppercase">Alerts</h1>
-            <div>
+            {!!currentUserAlerts.length ? (
               <table className="w-full whitespace-nowrap">
                 <thead className="bg-black/60">
                   <th className="text-left py-3 px-2 rounded-l-lg">Created</th>
@@ -134,62 +134,67 @@ const DashboardPage = (): ReactElement => {
                   <th className="text-left py-3 px-2">Note</th>
                   <th className="text-left py-3 px-2 rounded-r-lg">Actions</th>
                 </thead>
-                {!!currentUserAlerts &&
-                  currentUserAlerts.map((alert) => (
-                    <tr key={alert._id} className="border-b border-gray-700">
-                      <td className="py-3 px-2 font-bold">
-                        {new Date(Date.parse(alert.created))
-                          .toLocaleString()
-                          .toString()}
-                      </td>
-                      <td className="py-3 px-2">{alert.index}</td>
-                      <td className="py-3 px-2">{alert.note}</td>
-                      <td className="py-3 px-2">
-                        <div className="inline-flex items-center space-x-3">
-                          <Link
-                            to={`/alerts/${alert._id}`}
-                            className="hover:text-white"
+                {currentUserAlerts.map((alert) => (
+                  <tr key={alert._id} className="border-b border-gray-700">
+                    <td className="py-3 px-2 font-bold">
+                      {new Date(Date.parse(alert.created))
+                        .toLocaleString()
+                        .toString()}
+                    </td>
+                    <td className="py-3 px-2">{alert.index}</td>
+                    <td className="py-3 px-2">{alert.note}</td>
+                    <td className="py-3 px-2">
+                      <div className="inline-flex items-center space-x-3">
+                        <Link
+                          to={`/alerts/${alert._id}`}
+                          className="hover:text-white"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            className="w-5 h-5"
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="1.5"
-                              stroke="currentColor"
-                              className="w-5 h-5"
-                            >
-                              <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                              />
-                            </svg>
-                          </Link>
-                          <button
-                            onClick={() => handleOnAlertDelete(alert._id)}
-                            className="hover:text-white"
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                            />
+                          </svg>
+                        </Link>
+                        <button
+                          onClick={() => handleOnAlertDelete(alert._id)}
+                          className="hover:text-white"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            className="w-5 h-5"
                           >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke-width="1.5"
-                              stroke="currentColor"
-                              className="w-5 h-5"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                stroke-linejoin="round"
-                                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                            <path
+                              strokeLinecap="round"
+                              stroke-linejoin="round"
+                              d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
               </table>
-            </div>
+            ) : (
+              <div className="flex justify-center">
+                <span className="text-base text-white font-bold">
+                  No alerts found!
+                </span>
+              </div>
+            )}
           </div>
         </>
       )}

@@ -89,8 +89,8 @@ const EventCard = () => {
                 </p>
                 <p className="text-xs leading-4 text-white pb-3 ">
                   Alert was triggered on{' '}
-                  <span className="font-black">24th May 2023</span> when index
-                  was <span className="font-black">35</span>
+                  <span className="font-bold">24th May 2023</span> when index
+                  was <span className="font-bold">35</span>
                 </p>
               </div>
             )}
