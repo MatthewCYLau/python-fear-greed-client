@@ -2,9 +2,10 @@ import { ReactElement, useEffect, useState } from 'react'
 import { AxiosResponse } from 'axios'
 import { Link } from 'react-router-dom'
 import api from '../../utils/api'
-import { Alert } from '../../types'
+import { Alert, Event } from '../../types'
 import Layout from '../../components/layout'
 import EventCard from '../../components/event-card'
+import NoItemsFoundCard from '../../components/no-item-found-card'
 import Loader from '../../components/loader'
 import KeyStatisticsCard from '../../components/key-statistics-card'
 
@@ -12,6 +13,7 @@ const DashboardPage = (): ReactElement => {
   const [currentIndex, setCurrentIndex] = useState<number>(0)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentUserAlerts, setCurrentUserAlerts] = useState<Alert[]>([])
+  const [currentUserEvents, setCurrentUserEvents] = useState<Event[]>([])
   const [currentUserMostRecentAlert, setCurrentUserMostRecentAlert] =
     useState<number>(0)
   const getCurrentIndex = async () => {
@@ -39,6 +41,17 @@ const DashboardPage = (): ReactElement => {
     }
   }
 
+  const getCurrentUserEvents = async () => {
+    try {
+      const { data }: AxiosResponse<Event[]> = await api.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/events/me`
+      )
+      setCurrentUserEvents(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   const handleOnAlertDelete = async (id: string) => {
     try {
       await api.delete(`${import.meta.env.VITE_API_BASE_URL}/api/alerts/${id}`)
@@ -51,6 +64,7 @@ const DashboardPage = (): ReactElement => {
   useEffect(() => {
     getCurrentIndex()
     getCurrentUserAlerts()
+    getCurrentUserEvents()
   }, [])
 
   useEffect(() => {
@@ -122,7 +136,11 @@ const DashboardPage = (): ReactElement => {
           </div>
           <div id="last-incomes">
             <h1 className="font-bold py-4 uppercase">Events</h1>
-            <EventCard />
+            {!!currentUserEvents.length ? (
+              currentUserEvents.map(() => <EventCard />)
+            ) : (
+              <NoItemsFoundCard itemName="event" />
+            )}
           </div>
           <div id="last-users">
             <h1 className="font-bold py-4 uppercase">Alerts</h1>
@@ -189,11 +207,7 @@ const DashboardPage = (): ReactElement => {
                 ))}
               </table>
             ) : (
-              <div className="flex justify-center">
-                <span className="text-base text-white font-bold">
-                  No alerts found!
-                </span>
-              </div>
+              <NoItemsFoundCard itemName="alert" />
             )}
           </div>
         </>

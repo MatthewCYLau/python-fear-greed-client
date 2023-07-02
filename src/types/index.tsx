@@ -21,6 +21,12 @@ export interface Alert {
   note: string
 }
 
+export interface Event {
+  _id: string
+  created: string
+  index: number
+}
+
 export enum ActionType {
   USER_LOADED = 'user_loaded',
   AUTH_ERROR = 'auth_error',
