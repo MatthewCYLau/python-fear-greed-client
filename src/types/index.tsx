@@ -2,7 +2,7 @@ export interface Token {
   token: string
 }
 export interface User {
-  user_id: string
+  _id: string
   email: string
   name: string
   time_created: string

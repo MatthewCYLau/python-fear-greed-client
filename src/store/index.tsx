@@ -9,6 +9,7 @@ export type AppState = {
   user:
     | User
     | {
+        _id: ''
         email: ''
         name: ''
       }
@@ -20,6 +21,7 @@ const initialState: AppState = {
   loading: true,
   alerts: [],
   user: {
+    _id: '',
     email: '',
     name: ''
   }
@@ -62,6 +64,7 @@ function reducer(state: AppState, action: Action): AppState {
         isAuthenticated: false,
         loading: false,
         user: {
+          _id: '',
           email: '',
           name: ''
         }

@@ -8,6 +8,7 @@ import LoginPage from '../pages/login'
 import DashboardPage from '../pages/dashboard'
 import CreateAlertPage from '../pages/create-alert'
 import EditAlertPage from '../pages/edit-alert'
+import UpdateUserPage from '../pages/update-user'
 
 type PrivateRouteProps = {
   component: React.ComponentType<any>
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
   {
     path: '/create-alert',
     element: <PrivateRoute component={CreateAlertPage} />
+  },
+  {
+    path: '/update-user',
+    element: <PrivateRoute component={UpdateUserPage} />
   },
   {
     path: '/alerts/:id',

@@ -69,13 +69,10 @@ const SideNav = () => {
               Create new alerts
             </p>
           </div>
-          {/* <div className="absolute -top-3 -right-3 md:top-0 md:right-0 px-2 py-1.5 rounded-full bg-indigo-800 text-xs font-mono font-bold">
-            23
-          </div> */}
         </div>
       </Link>
-      <a
-        href="#"
+      <Link
+        to="/update-user"
         className="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group"
       >
         <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 space-x-2 items-center">
@@ -109,7 +106,7 @@ const SideNav = () => {
             </p>
           </div>
         </div>
-      </a>
+      </Link>
       <button
         onClick={logout}
         className="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group"
