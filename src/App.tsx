@@ -4,6 +4,7 @@ import { StoreProvider } from './store'
 import AuthWrapper from './components/auth-wrapper'
 import { router } from './routes'
 import Alert from './components/alert'
+import Modal from './components/modal'
 
 const App = (): ReactElement => {
   return (
@@ -11,6 +12,7 @@ const App = (): ReactElement => {
       <StoreProvider>
         <AuthWrapper>
           <Alert />
+          <Modal />
           <RouterProvider router={router} />
         </AuthWrapper>
       </StoreProvider>
