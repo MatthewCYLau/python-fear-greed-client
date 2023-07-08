@@ -156,7 +156,13 @@ const DashboardPage = (): ReactElement => {
           <div id="last-incomes">
             <h1 className="font-bold py-4 uppercase">Events</h1>
             {!!currentUserEvents.length ? (
-              currentUserEvents.map(() => <EventCard />)
+              currentUserEvents.map((n) => (
+                <EventCard
+                  id={n._id}
+                  index={n.index}
+                  date={new Date(Date.parse(n.created)).toDateString()}
+                />
+              ))
             ) : (
               <NoItemsFoundCard itemName="event" />
             )}

@@ -1,6 +1,12 @@
-import { useState } from 'react'
+import { useState, FC } from 'react'
 
-const EventCard = () => {
+interface Props {
+  id: string
+  date: string
+  index: number
+}
+
+const EventCard: FC<Props> = ({ id, date, index }) => {
   const [showToolTip, setShowToolTip] = useState<boolean>(false)
 
   const onClickHandler = () => {
@@ -8,6 +14,7 @@ const EventCard = () => {
   }
   return (
     <div
+      key={id}
       id="stats"
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
     >
@@ -15,9 +22,9 @@ const EventCard = () => {
         <div className="flex flex-row items-center">
           <div className="text-3xl p-4">💰</div>
           <div className="p-2">
-            <p className="text-xl font-bold">35</p>
+            <p className="text-xl font-bold">{index}</p>
             <p className="text-gray-500 font-medium">Date</p>
-            <p className="text-gray-500 text-sm">24 May 2023</p>
+            <p className="text-gray-500 text-sm">{date}</p>
           </div>
         </div>
         <div className="border-t border-white/5 p-4 relative">
@@ -89,8 +96,8 @@ const EventCard = () => {
                 </p>
                 <p className="text-xs leading-4 text-white pb-3 ">
                   Alert was triggered on{' '}
-                  <span className="font-bold">24th May 2023</span> when index
-                  was <span className="font-bold">35</span>
+                  <span className="font-bold">{date}</span> when index was{' '}
+                  <span className="font-bold">{index}</span>
                 </p>
               </div>
             )}
