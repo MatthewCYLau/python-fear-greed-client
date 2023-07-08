@@ -40,5 +40,7 @@ export enum ActionType {
   TRIGGER_VERIFICATION_SUCCESS = 'trigger_verification_success',
   TRIGGER_VERIFICATION_FAILED = 'trigger_verification_failed',
   SET_ALERT = 'set_alert',
-  REMOVE_ALERT = 'remove_alert'
+  REMOVE_ALERT = 'remove_alert',
+  SET_MODAL = 'set_modal',
+  REMOVE_MODAL = 'remove_modal'
 }

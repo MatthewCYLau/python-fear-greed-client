@@ -1,4 +1,6 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState, useContext } from 'react'
+import { Store } from '../../store'
+import { ActionType } from '../../types'
 import { AxiosResponse } from 'axios'
 import { Link } from 'react-router-dom'
 import api from '../../utils/api'
@@ -10,6 +12,7 @@ import Loader from '../../components/loader'
 import KeyStatisticsCard from '../../components/key-statistics-card'
 
 const DashboardPage = (): ReactElement => {
+  const { dispatch } = useContext(Store)
   const [currentIndex, setCurrentIndex] = useState<number>(0)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentUserAlerts, setCurrentUserAlerts] = useState<Alert[]>([])
@@ -33,7 +36,9 @@ const DashboardPage = (): ReactElement => {
         `${import.meta.env.VITE_API_BASE_URL}/api/alerts/me`
       )
       setCurrentUserAlerts(data)
-      setCurrentUserMostRecentAlert(data[0].index)
+      if (!!data.length) {
+        setCurrentUserMostRecentAlert(data[0].index)
+      } else setCurrentUserMostRecentAlert(0)
     } catch (err) {
       console.log(err)
     } finally {
@@ -52,13 +57,27 @@ const DashboardPage = (): ReactElement => {
     }
   }
 
-  const handleOnAlertDelete = async (id: string) => {
+  const deleteAlertById = async (id: string) => {
     try {
       await api.delete(`${import.meta.env.VITE_API_BASE_URL}/api/alerts/${id}`)
       getCurrentUserAlerts()
     } catch (err) {
       console.log(err)
     }
+  }
+
+  const handleOnAlertDelete = (id: string) => {
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: 'Do you want to delete alert?',
+        onCancel: () => dispatch({ type: ActionType.REMOVE_MODAL }),
+        onConfirm: () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+          deleteAlertById(id)
+        }
+      }
+    })
   }
 
   useEffect(() => {

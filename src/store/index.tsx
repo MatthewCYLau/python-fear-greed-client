@@ -5,6 +5,12 @@ export type AppState = {
   token: string | null
   isAuthenticated: boolean
   loading: boolean
+  modal: {
+    showModal: boolean
+    message: string
+    onConfirm?: () => void
+    onCancel?: () => void
+  }
   alerts: AppAlert[]
   user:
     | User
@@ -19,6 +25,10 @@ const initialState: AppState = {
   token: localStorage.getItem('token'),
   isAuthenticated: false,
   loading: true,
+  modal: {
+    showModal: false,
+    message: ''
+  },
   alerts: [],
   user: {
     _id: '',
@@ -43,6 +53,17 @@ type Action =
   | {
       type: ActionType.REMOVE_ALERT
       payload: string
+    }
+  | {
+      type: ActionType.SET_MODAL
+      payload: {
+        message: string
+        onConfirm: () => void
+        onCancel: () => void
+      }
+    }
+  | {
+      type: ActionType.REMOVE_MODAL
     }
 
 function reducer(state: AppState, action: Action): AppState {
@@ -78,6 +99,24 @@ function reducer(state: AppState, action: Action): AppState {
       return {
         ...state,
         alerts: state.alerts.filter((alert) => alert.id !== action.payload)
+      }
+    case ActionType.SET_MODAL:
+      return {
+        ...state,
+        modal: {
+          showModal: true,
+          message: action.payload.message,
+          onCancel: action.payload.onCancel,
+          onConfirm: action.payload.onConfirm
+        }
+      }
+    case ActionType.REMOVE_MODAL:
+      return {
+        ...state,
+        modal: {
+          showModal: false,
+          message: ''
+        }
       }
     default:
       return state
