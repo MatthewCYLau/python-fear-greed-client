@@ -10,6 +10,7 @@ import EventCard from '../../components/event-card'
 import NoItemsFoundCard from '../../components/no-item-found-card'
 import Loader from '../../components/loader'
 import KeyStatisticsCard from '../../components/key-statistics-card'
+import LineChart from '../../components/line-chart'
 
 const DashboardPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
@@ -98,7 +99,7 @@ const DashboardPage = (): ReactElement => {
         <Loader />
       ) : (
         <>
-          <div id="24h">
+          <div id="key-statistics">
             <h1 className="font-bold py-4 uppercase">Key Statistics</h1>
             <div
               id="stats"
@@ -153,6 +154,9 @@ const DashboardPage = (): ReactElement => {
               )}
             </div>
           </div>
+          <div id="chart">
+            <LineChart />
+          </div>
           <div id="events">
             <h1 className="font-bold py-4 uppercase">Events</h1>
             {!!currentUserEvents.length ? (
@@ -169,7 +173,7 @@ const DashboardPage = (): ReactElement => {
               <NoItemsFoundCard itemName="event" />
             )}
           </div>
-          <div id="last-users">
+          <div id="alerts">
             <h1 className="font-bold py-4 uppercase">Alerts</h1>
             {!!currentUserAlerts.length ? (
               <table className="w-full whitespace-nowrap">
