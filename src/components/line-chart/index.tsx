@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react'
 import './chart.css'
 import * as d3 from 'd3'
