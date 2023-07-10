@@ -1,0 +1,25 @@
+.chart {
+    font-size: 16px;
+    color: #666;
+    padding: 25px;
+}
+
+.chart svg {
+    overflow: visible;
+}
+
+.chart text {
+    fill: gainsboro;
+    color: gainsboro;
+    font-size: 16px;
+}
+
+.chart .subtitle text {
+    text-decoration: underline;
+    font-size: 12px;
+}
+
+.chart .axis .domain,
+.chart .axis.xAxis line {
+    display: none;
+}
