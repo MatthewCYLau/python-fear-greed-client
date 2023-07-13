@@ -1,7 +1,7 @@
 .chart {
     font-size: 16px;
     color: #666;
-    padding: 25px;
+    padding: 65px 25px 10px;
 }
 
 .chart svg {

@@ -1,9 +1,10 @@
 // @ts-nocheck
-import React from 'react'
+import React, { useEffect } from 'react'
+import api from '../../utils/api'
 import './chart.css'
 import * as d3 from 'd3'
 
-const margin = { top: 40, right: 80, bottom: 60, left: 50 },
+const margin = { top: 40, right: 20, bottom: 20, left: 50 },
   width = 960 - margin.left - margin.right,
   height = 280 - margin.top - margin.bottom,
   color = 'OrangeRed'
@@ -12,27 +13,33 @@ const LineChart = () => {
   const [activeIndex, setActiveIndex] = React.useState(null),
     [data, setData] = React.useState([])
 
-  React.useEffect(() => {
-    d3.csv(
-      'https://raw.githubusercontent.com/jukuznets/datasets/main/usd-2020.csv'
-    ).then((d) => {
-      d = d.reverse()
-      const parseDate = d3.timeParse('%m/%d/%Y')
-      d.forEach((i) => {
-        i.date = parseDate(i.date)
-        i.price = Number(i.price)
+  const getRecords = async () => {
+    try {
+      const { data } = await api.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/records?count=365&order=asc`
+      )
+      data.forEach((i) => {
+        i.created = new Date(Date.parse(i.created ? i.created : i.creatd))
+        i.index = Number(i.index)
       })
-      setData(d)
-    })
-    return () => undefined
+      setData(data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  console.log(data)
+
+  useEffect(() => {
+    getRecords()
   }, [])
 
-  const yMinValue = d3.min(data, (d) => d.price),
-    yMaxValue = d3.max(data, (d) => d.price)
+  const yMinValue = d3.min(data, (d) => d.index),
+    yMaxValue = d3.max(data, (d) => d.index)
 
   const getX = d3
     .scaleTime()
-    .domain(d3.extent(data, (d) => d.date))
+    .domain(d3.extent(data, (d) => d.created))
     .range([0, width])
 
   const getY = d3
@@ -42,7 +49,7 @@ const LineChart = () => {
 
   const getXAxis = (ref) => {
     const xAxis = d3.axisBottom(getX)
-    d3.select(ref).call(xAxis.tickFormat(d3.timeFormat('%b')))
+    d3.select(ref).call(xAxis.tickFormat(d3.timeFormat('%d/%m/%Y')))
   }
 
   const getYAxis = (ref) => {
@@ -52,19 +59,19 @@ const LineChart = () => {
 
   const linePath = d3
     .line()
-    .x((d) => getX(d.date))
-    .y((d) => getY(d.price))
+    .x((d) => getX(d.created))
+    .y((d) => getY(d.index))
     .curve(d3.curveMonotoneX)(data)
 
   const areaPath = d3
     .area()
-    .x((d) => getX(d.date))
-    .y0((d) => getY(d.price))
+    .x((d) => getX(d.created))
+    .y0((d) => getY(d.index))
     .y1(() => getY(yMinValue - 1))
     .curve(d3.curveMonotoneX)(data)
 
   const handleMouseMove = (e) => {
-    const bisect = d3.bisector((d) => d.date).left,
+    const bisect = d3.bisector((d) => d.created).left,
       x0 = getX.invert(d3.pointer(e, this)[0]),
       index = bisect(data, x0, 1)
     setActiveIndex(index)
@@ -73,7 +80,6 @@ const LineChart = () => {
   const handleMouseLeave = () => {
     setActiveIndex(null)
   }
-
   return (
     <div className="chart">
       <svg
@@ -107,15 +113,15 @@ const LineChart = () => {
             <g key={index}>
               <text
                 fill="#666"
-                x={getX(item.date)}
-                y={getY(item.price) - 20}
+                x={getX(item.created)}
+                y={getY(item.index) - 20}
                 textAnchor="middle"
               >
-                {index === activeIndex ? item.price : ''}
+                {index === activeIndex ? item.index : ''}
               </text>
               <circle
-                cx={getX(item.date)}
-                cy={getY(item.price)}
+                cx={getX(item.created)}
+                cy={getY(item.index)}
                 r={index === activeIndex ? 6 : 4}
                 fill={color}
                 strokeWidth={index === activeIndex ? 2 : 0}
