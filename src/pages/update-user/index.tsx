@@ -64,6 +64,12 @@ const UpdateUserPage = (): ReactElement => {
           <div className="mb-6">
             <button
               type="submit"
+              className="mb-4 w-1/3 px-3 py-2 text-white bg-indigo-600 rounded-md focus:outline-none hover:bg-indigo-500"
+            >
+              Upload image
+            </button>
+            <button
+              type="submit"
               className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
             >
               Update Password
