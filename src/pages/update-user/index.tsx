@@ -62,12 +62,17 @@ const UpdateUserPage = (): ReactElement => {
             />
           </div>
           <div className="mb-6">
-            <button
-              type="submit"
-              className="mb-4 w-1/3 px-3 py-2 text-white bg-indigo-600 rounded-md focus:outline-none hover:bg-indigo-500"
+            <label
+              className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+              htmlFor="file_input"
             >
               Upload image
-            </button>
+            </label>
+            <input
+              className="mb-4 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              id="file_input"
+              type="file"
+            />
             <button
               type="submit"
               className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
