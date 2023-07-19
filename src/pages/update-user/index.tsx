@@ -13,6 +13,7 @@ const UpdateUserPage = (): ReactElement => {
   const [formValues, setFormValues] = useState<Values>({
     password: ''
   })
+  const [file, setFile] = useState<File>()
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
@@ -39,6 +40,14 @@ const UpdateUserPage = (): ReactElement => {
       console.log(err)
     }
   }
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0])
+    }
+  }
+
+  file && console.log(`${file.name} - ${file.type}`)
 
   return (
     <Layout>
@@ -72,6 +81,7 @@ const UpdateUserPage = (): ReactElement => {
               className="mb-4 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
               id="file_input"
               type="file"
+              onChange={handleFileChange}
             />
             <button
               type="submit"

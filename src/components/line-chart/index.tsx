@@ -28,8 +28,6 @@ const LineChart = () => {
     }
   }
 
-  console.log(data)
-
   useEffect(() => {
     getRecords()
   }, [])
