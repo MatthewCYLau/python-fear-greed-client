@@ -1,4 +1,10 @@
-import { ReactElement, useState, ChangeEvent, useContext } from 'react'
+import {
+  ReactElement,
+  useState,
+  ChangeEvent,
+  useContext,
+  useEffect
+} from 'react'
 import { Store } from '../../store'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
@@ -17,6 +23,23 @@ const UpdateUserPage = (): ReactElement => {
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
+  }
+
+  const uploadFile = async () => {
+    const formData = new FormData()
+    if (file) {
+      formData.append('file', file)
+      const { data } = await api.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/upload-image`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      )
+      console.log(data.asset_url)
+    }
   }
 
   const submitHandler = async (e: React.SyntheticEvent) => {
@@ -47,7 +70,9 @@ const UpdateUserPage = (): ReactElement => {
     }
   }
 
-  file && console.log(`${file.name} - ${file.type}`)
+  useEffect(() => {
+    uploadFile()
+  }, [file])
 
   return (
     <Layout>
