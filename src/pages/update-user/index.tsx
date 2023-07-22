@@ -16,6 +16,7 @@ interface Values {
 const UpdateUserPage = (): ReactElement => {
   const navigate = useNavigate()
   const { state } = useContext(Store)
+  const [avatarImageUrl, setAvatarImageUrl] = useState<string>('')
   const [formValues, setFormValues] = useState<Values>({
     password: ''
   })
@@ -38,7 +39,7 @@ const UpdateUserPage = (): ReactElement => {
           }
         }
       )
-      console.log(data.asset_url)
+      setAvatarImageUrl(data.asset_url)
     }
   }
 
@@ -50,7 +51,8 @@ const UpdateUserPage = (): ReactElement => {
         {
           name: state.user.name,
           email: state.user.email,
-          password: formValues.password
+          password: formValues.password,
+          avatarImageUrl
         },
         {
           headers: {
