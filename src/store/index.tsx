@@ -18,6 +18,7 @@ export type AppState = {
         _id: ''
         email: ''
         name: ''
+        avatarImageUrl: ''
       }
 }
 
@@ -33,7 +34,8 @@ const initialState: AppState = {
   user: {
     _id: '',
     email: '',
-    name: ''
+    name: '',
+    avatarImageUrl: ''
   }
 }
 
@@ -87,7 +89,8 @@ function reducer(state: AppState, action: Action): AppState {
         user: {
           _id: '',
           email: '',
-          name: ''
+          name: '',
+          avatarImageUrl: ''
         }
       }
     case ActionType.SET_ALERT:

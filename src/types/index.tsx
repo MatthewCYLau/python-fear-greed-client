@@ -6,6 +6,7 @@ export interface User {
   email: string
   name: string
   time_created: string
+  avatarImageUrl: string
 }
 
 export interface AppAlert {
