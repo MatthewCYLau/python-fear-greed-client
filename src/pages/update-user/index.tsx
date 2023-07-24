@@ -96,7 +96,7 @@ const UpdateUserPage = (): ReactElement => {
   return (
     <Layout>
       <div className="m-7 w-1/2">
-        <h1 className="font-bold py-4 uppercase">Update Password</h1>
+        <h1 className="font-bold py-4 uppercase">Update User</h1>
         <form onSubmit={submitHandler}>
           <div className="mb-6">
             <label
@@ -132,7 +132,7 @@ const UpdateUserPage = (): ReactElement => {
               type="submit"
               className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none disabled:opacity-75"
             >
-              Update Password
+              Update User
             </button>
           </div>
         </form>
