@@ -43,17 +43,34 @@ const UpdateUserPage = (): ReactElement => {
     }
   }
 
+  const evaluatePayload = (): {
+    name: string
+    email: string
+    password?: string
+    avatarImageUrl: string
+  } => {
+    if (formValues.password) {
+      return {
+        name: state.user.name,
+        email: state.user.email,
+        password: formValues.password,
+        avatarImageUrl: state.user.avatarImageUrl
+      }
+    } else {
+      return {
+        name: state.user.name,
+        email: state.user.email,
+        avatarImageUrl: avatarImageUrl
+      }
+    }
+  }
+
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     try {
       await api.put(
         `${import.meta.env.VITE_API_BASE_URL}/api/users/${state.user._id}`,
-        {
-          name: state.user.name,
-          email: state.user.email,
-          password: formValues.password,
-          avatarImageUrl
-        },
+        evaluatePayload(),
         {
           headers: {
             'content-type': 'application/json'
@@ -111,8 +128,9 @@ const UpdateUserPage = (): ReactElement => {
               onChange={handleFileChange}
             />
             <button
+              disabled={!avatarImageUrl && !formValues.password}
               type="submit"
-              className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
+              className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none disabled:opacity-75"
             >
               Update Password
             </button>
