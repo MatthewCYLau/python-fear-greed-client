@@ -42,6 +42,10 @@ const initialState: AppState = {
 type Action =
   | { type: ActionType.LOGIN_SUCCESS; payload: Token }
   | { type: ActionType.USER_LOADED; payload: User }
+  | {
+      type: ActionType.USER_AVATAR_IMAGE_URL_UPDATED
+      payload: string
+    }
   | { type: ActionType.REGISTRATION_SUCCESS; payload: Token }
   | { type: ActionType.LOGOUT }
   | {
@@ -76,6 +80,14 @@ function reducer(state: AppState, action: Action): AppState {
         isAuthenticated: true,
         loading: false,
         user: action.payload
+      }
+    case ActionType.USER_AVATAR_IMAGE_URL_UPDATED:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          avatarImageUrl: action.payload
+        }
       }
     case ActionType.LOGIN_SUCCESS:
     case ActionType.REGISTRATION_SUCCESS:

@@ -6,6 +6,7 @@ import {
   useEffect
 } from 'react'
 import { Store } from '../../store'
+import { ActionType } from '../../types'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
@@ -15,7 +16,7 @@ interface Values {
 
 const UpdateUserPage = (): ReactElement => {
   const navigate = useNavigate()
-  const { state } = useContext(Store)
+  const { state, dispatch } = useContext(Store)
   const [avatarImageUrl, setAvatarImageUrl] = useState<string>('')
   const [formValues, setFormValues] = useState<Values>({
     password: ''
@@ -77,6 +78,10 @@ const UpdateUserPage = (): ReactElement => {
           }
         }
       )
+      dispatch({
+        type: ActionType.USER_AVATAR_IMAGE_URL_UPDATED,
+        payload: avatarImageUrl
+      })
       navigate('/dashboard')
     } catch (err) {
       console.log(err)
