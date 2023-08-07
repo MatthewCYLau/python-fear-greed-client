@@ -9,6 +9,7 @@ import { v4 as uuid } from 'uuid'
 import axios, { AxiosResponse } from 'axios'
 import { Store } from '../../store'
 import { Token, ActionType } from '../../types'
+import { ActionType as AuthActionType } from '../../store/auth/action-types'
 import { Link, useNavigate } from 'react-router-dom'
 
 interface Values {
@@ -48,7 +49,7 @@ const SignUpPage = (): ReactElement => {
           }
         }
       )
-      dispatch({ type: ActionType.REGISTRATION_SUCCESS, payload: data })
+      dispatch({ type: AuthActionType.REGISTRATION_SUCCESS, payload: data })
     } catch (err: any) {
       const errors: Error[] = err.response.data.errors
       errors.forEach((e) =>

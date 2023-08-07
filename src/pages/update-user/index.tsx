@@ -6,7 +6,7 @@ import {
   useEffect
 } from 'react'
 import { Store } from '../../store'
-import { ActionType } from '../../types'
+import { ActionType as AuthActionType } from '../../store/auth/action-types'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
@@ -79,7 +79,7 @@ const UpdateUserPage = (): ReactElement => {
         }
       )
       dispatch({
-        type: ActionType.USER_AVATAR_IMAGE_URL_UPDATED,
+        type: AuthActionType.USER_AVATAR_IMAGE_URL_UPDATED,
         payload: avatarImageUrl
       })
       navigate('/dashboard')

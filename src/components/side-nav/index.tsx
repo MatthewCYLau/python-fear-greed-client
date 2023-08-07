@@ -1,12 +1,12 @@
 import { useContext } from 'react'
 import { Store } from '../../store'
-import { ActionType } from '../../types'
+import { ActionType as AuthActionType } from '../../store/auth/action-types'
 import { Link } from 'react-router-dom'
 
 const SideNav = () => {
   const { dispatch } = useContext(Store)
 
-  const logout = () => dispatch({ type: ActionType.LOGOUT })
+  const logout = () => dispatch({ type: AuthActionType.LOGOUT })
   return (
     <div id="menu" className="flex flex-col space-y-2 my-5">
       <Link

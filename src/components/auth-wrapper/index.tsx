@@ -7,7 +7,8 @@ import {
 } from 'react'
 import { AxiosResponse } from 'axios'
 import setAuthToken from '../../utils/setAuthToken'
-import { ActionType, User } from '../../types'
+import { User } from '../../types'
+import { ActionType as AuthActionType } from '../../store/auth/action-types'
 import api from '../../utils/api'
 
 import { Store } from '../../store'
@@ -25,7 +26,7 @@ const AuthWrapper = ({ children }: AuthWrapperProps): ReactElement => {
         `${import.meta.env.VITE_API_BASE_URL}/api/auth`
       )
       dispatch({
-        type: ActionType.USER_LOADED,
+        type: AuthActionType.USER_LOADED,
         payload: data
       })
     } catch (err) {

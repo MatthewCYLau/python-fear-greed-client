@@ -1,5 +1,7 @@
 import React from 'react'
-import { User, Token, ActionType, AppAlert } from '../types'
+import { Actions as AuthActions } from './auth/actions'
+import { ActionType as AuthActionType } from './auth/action-types'
+import { User, ActionType, AppAlert } from '../types'
 
 export type AppState = {
   token: string | null
@@ -40,14 +42,6 @@ const initialState: AppState = {
 }
 
 type Action =
-  | { type: ActionType.LOGIN_SUCCESS; payload: Token }
-  | { type: ActionType.USER_LOADED; payload: User }
-  | {
-      type: ActionType.USER_AVATAR_IMAGE_URL_UPDATED
-      payload: string
-    }
-  | { type: ActionType.REGISTRATION_SUCCESS; payload: Token }
-  | { type: ActionType.LOGOUT }
   | {
       type: ActionType.SET_ALERT
       payload: {
@@ -71,17 +65,18 @@ type Action =
   | {
       type: ActionType.REMOVE_MODAL
     }
+  | AuthActions
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
-    case ActionType.USER_LOADED:
+    case AuthActionType.USER_LOADED:
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
         user: action.payload
       }
-    case ActionType.USER_AVATAR_IMAGE_URL_UPDATED:
+    case AuthActionType.USER_AVATAR_IMAGE_URL_UPDATED:
       return {
         ...state,
         user: {
@@ -89,10 +84,10 @@ function reducer(state: AppState, action: Action): AppState {
           avatarImageUrl: action.payload
         }
       }
-    case ActionType.LOGIN_SUCCESS:
-    case ActionType.REGISTRATION_SUCCESS:
+    case AuthActionType.LOGIN_SUCCESS:
+    case AuthActionType.REGISTRATION_SUCCESS:
       return { ...state, token: action.payload.token, isAuthenticated: true }
-    case ActionType.LOGOUT:
+    case AuthActionType.LOGOUT:
       return {
         ...state,
         token: null,
