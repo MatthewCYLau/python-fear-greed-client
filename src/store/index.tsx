@@ -1,6 +1,8 @@
 import React from 'react'
 import { Actions as AuthActions } from './auth/actions'
 import { ActionType as AuthActionType } from './auth/action-types'
+import { Actions as AlertActions } from './alert/actions'
+import { ActionType as AlertActionType } from './alert/action-types'
 import { User, ActionType, AppAlert } from '../types'
 
 export type AppState = {
@@ -43,18 +45,6 @@ const initialState: AppState = {
 
 type Action =
   | {
-      type: ActionType.SET_ALERT
-      payload: {
-        id: string
-        message: string
-        severity: 'error' | 'info'
-      }
-    }
-  | {
-      type: ActionType.REMOVE_ALERT
-      payload: string
-    }
-  | {
       type: ActionType.SET_MODAL
       payload: {
         message: string
@@ -66,6 +56,7 @@ type Action =
       type: ActionType.REMOVE_MODAL
     }
   | AuthActions
+  | AlertActions
 
 function reducer(state: AppState, action: Action): AppState {
   switch (action.type) {
@@ -100,12 +91,12 @@ function reducer(state: AppState, action: Action): AppState {
           avatarImageUrl: ''
         }
       }
-    case ActionType.SET_ALERT:
+    case AlertActionType.SET_ALERT:
       return {
         ...state,
         alerts: [...state.alerts, action.payload]
       }
-    case ActionType.REMOVE_ALERT:
+    case AlertActionType.REMOVE_ALERT:
       return {
         ...state,
         alerts: state.alerts.filter((alert) => alert.id !== action.payload)

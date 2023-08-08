@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { ActionType } from '../../types'
+import { ActionType as AlertActionType } from '../../store/alert/action-types'
 import { Store } from '../../store'
 
 const Alert = () => {
@@ -7,7 +7,7 @@ const Alert = () => {
 
   const handleAlertOnClick = (id: string) => {
     dispatch({
-      type: ActionType.REMOVE_ALERT,
+      type: AlertActionType.REMOVE_ALERT,
       payload: id
     })
   }

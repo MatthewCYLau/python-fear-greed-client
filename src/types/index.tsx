@@ -28,8 +28,6 @@ export interface Event {
 }
 
 export enum ActionType {
-  SET_ALERT = 'set_alert',
-  REMOVE_ALERT = 'remove_alert',
   SET_MODAL = 'set_modal',
   REMOVE_MODAL = 'remove_modal'
 }
