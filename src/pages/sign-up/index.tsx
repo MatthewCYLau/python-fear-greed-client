@@ -10,6 +10,7 @@ import axios, { AxiosResponse } from 'axios'
 import { Store } from '../../store'
 import { Token, ActionType } from '../../types'
 import { ActionType as AuthActionType } from '../../store/auth/action-types'
+import { ActionType as AlertActionType } from '../../store/alert/action-types'
 import { Link, useNavigate } from 'react-router-dom'
 
 interface Values {
@@ -54,7 +55,7 @@ const SignUpPage = (): ReactElement => {
       const errors: Error[] = err.response.data.errors
       errors.forEach((e) =>
         dispatch({
-          type: ActionType.SET_ALERT,
+          type: AlertActionType.SET_ALERT,
           payload: { id: uuid(), message: e.message, severity: 'error' }
         })
       )
