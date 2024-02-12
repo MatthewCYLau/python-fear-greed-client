@@ -177,7 +177,9 @@ const DashboardPage = (): ReactElement => {
             </div>
           </div>
           <div id="chart">
-            <CtaButton onClickHandler={handleExportCsvOnClick} />
+            <div className="absolute">
+              <CtaButton onClickHandler={handleExportCsvOnClick} />
+            </div>
             <LineChart />
           </div>
           <div id="events">
