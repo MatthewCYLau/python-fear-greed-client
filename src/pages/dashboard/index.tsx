@@ -11,6 +11,7 @@ import NoItemsFoundCard from '../../components/no-item-found-card'
 import Loader from '../../components/loader'
 import KeyStatisticsCard from '../../components/key-statistics-card'
 import LineChart from '../../components/line-chart'
+import CtaButton from '../../components/cta-button'
 
 const DashboardPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
@@ -155,6 +156,7 @@ const DashboardPage = (): ReactElement => {
             </div>
           </div>
           <div id="chart">
+            <CtaButton />
             <LineChart />
           </div>
           <div id="events">
