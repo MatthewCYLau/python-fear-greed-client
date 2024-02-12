@@ -84,9 +84,20 @@ const DashboardPage = (): ReactElement => {
 
   const handleExportCsvOnClick = async () => {
     try {
-      await api.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/records/export-csv`
-      )
+      await api
+        .post(`${import.meta.env.VITE_API_BASE_URL}/api/records/export-csv`, {
+          responseType: 'blob'
+        })
+        .then((response) => {
+          const url = window.URL.createObjectURL(new Blob([response.data]))
+          const link = document.createElement('a')
+          link.href = url
+          const fileName = `${new Date().toLocaleDateString()}.csv`
+          link.setAttribute('download', fileName)
+          document.body.appendChild(link)
+          link.click()
+          link.remove()
+        })
     } catch (err) {
       console.log(err)
     }
