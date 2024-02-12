@@ -82,6 +82,16 @@ const DashboardPage = (): ReactElement => {
     })
   }
 
+  const handleExportCsvOnClick = async () => {
+    try {
+      await api.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/records/export-csv`
+      )
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
     getCurrentIndex()
     getCurrentUserAlerts()
@@ -156,7 +166,7 @@ const DashboardPage = (): ReactElement => {
             </div>
           </div>
           <div id="chart">
-            <CtaButton />
+            <CtaButton onClickHandler={handleExportCsvOnClick} />
             <LineChart />
           </div>
           <div id="events">
