@@ -82,7 +82,7 @@ const SideNav = () => {
           </div>
           <div>
             <p className="font-bold text-base lg:text-lg text-slate-200 leading-4 group-hover:text-indigo-400">
-              Export Date
+              Export Data
             </p>
             <p className="text-slate-400 text-sm hidden md:block">
               Export data to CSV

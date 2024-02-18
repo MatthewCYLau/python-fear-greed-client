@@ -1,9 +1,16 @@
-import { ReactElement } from 'react'
+import { ReactElement, useState } from 'react'
+import DatePicker from 'react-datepicker'
 import Layout from '../../components/layout'
 
+import 'react-datepicker/dist/react-datepicker.css'
+
 const ExportDataPage = (): ReactElement => {
+  const [fromDate, setFromDate] = useState(new Date())
+  const [toDate, setToDate] = useState(new Date())
+
   const submitHandler = async (e: React.SyntheticEvent) => {
-    console.log('export data...')
+    e.preventDefault()
+    console.log(`exporting data from ${fromDate} to ${toDate}`)
   }
 
   return (
@@ -18,6 +25,11 @@ const ExportDataPage = (): ReactElement => {
             >
               From date
             </label>
+            <DatePicker
+              className="mb-4 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              selected={fromDate}
+              onChange={(date) => date && setFromDate(date)}
+            />
           </div>
           <div className="mb-6">
             <label
@@ -26,6 +38,11 @@ const ExportDataPage = (): ReactElement => {
             >
               To date
             </label>
+            <DatePicker
+              className="mb-4 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              selected={toDate}
+              onChange={(date) => date && setToDate(date)}
+            />
             <button
               type="submit"
               className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none disabled:opacity-75"
