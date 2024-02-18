@@ -103,7 +103,7 @@ const LineChart = () => {
         >
           {'Index'}
         </text>
-        <text x={width / 2} y={0 - margin.top / 2} text-anchor="middle">
+        <text x={width / 2} y={0 - margin.top / 2} textAnchor="middle">
           {'Fear and Greed Index'}
         </text>
         {data.map((item, index) => {

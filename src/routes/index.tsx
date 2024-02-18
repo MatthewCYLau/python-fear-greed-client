@@ -9,6 +9,7 @@ import DashboardPage from '../pages/dashboard'
 import CreateAlertPage from '../pages/create-alert'
 import EditAlertPage from '../pages/edit-alert'
 import UpdateUserPage from '../pages/update-user'
+import ExportDataPage from '../pages/export-data'
 
 type PrivateRouteProps = {
   component: React.ComponentType<any>
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
   {
     path: '/update-user',
     element: <PrivateRoute component={UpdateUserPage} />
+  },
+  {
+    path: '/export-data',
+    element: <PrivateRoute component={ExportDataPage} />
   },
   {
     path: '/alerts/:id',
