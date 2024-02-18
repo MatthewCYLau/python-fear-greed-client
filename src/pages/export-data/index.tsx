@@ -1,5 +1,7 @@
 import { ReactElement, useState } from 'react'
 import DatePicker from 'react-datepicker'
+import api from '../../utils/api'
+import { convertDateToValidFormet } from '../../utils/date'
 import Layout from '../../components/layout'
 
 import 'react-datepicker/dist/react-datepicker.css'
@@ -10,7 +12,31 @@ const ExportDataPage = (): ReactElement => {
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault()
-    console.log(`exporting data from ${fromDate} to ${toDate}`)
+    try {
+      await api
+        .post(
+          `${
+            import.meta.env.VITE_API_BASE_URL
+          }/api/records/export-csv?startDate=${convertDateToValidFormet(
+            fromDate
+          )}&endDate=${convertDateToValidFormet(toDate)}`,
+          {
+            responseType: 'blob'
+          }
+        )
+        .then((response) => {
+          const url = window.URL.createObjectURL(new Blob([response.data]))
+          const link = document.createElement('a')
+          link.href = url
+          const fileName = `${new Date().toLocaleDateString()}.csv`
+          link.setAttribute('download', fileName)
+          document.body.appendChild(link)
+          link.click()
+          link.remove()
+        })
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -26,7 +52,7 @@ const ExportDataPage = (): ReactElement => {
               From date
             </label>
             <DatePicker
-              className="mb-4 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
               selected={fromDate}
               onChange={(date) => date && setFromDate(date)}
             />

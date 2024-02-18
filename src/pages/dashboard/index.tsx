@@ -11,7 +11,6 @@ import NoItemsFoundCard from '../../components/no-item-found-card'
 import Loader from '../../components/loader'
 import KeyStatisticsCard from '../../components/key-statistics-card'
 import LineChart from '../../components/line-chart'
-import CtaButton from '../../components/cta-button'
 
 const DashboardPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
@@ -80,27 +79,6 @@ const DashboardPage = (): ReactElement => {
         }
       }
     })
-  }
-
-  const handleExportCsvOnClick = async () => {
-    try {
-      await api
-        .post(`${import.meta.env.VITE_API_BASE_URL}/api/records/export-csv`, {
-          responseType: 'blob'
-        })
-        .then((response) => {
-          const url = window.URL.createObjectURL(new Blob([response.data]))
-          const link = document.createElement('a')
-          link.href = url
-          const fileName = `${new Date().toLocaleDateString()}.csv`
-          link.setAttribute('download', fileName)
-          document.body.appendChild(link)
-          link.click()
-          link.remove()
-        })
-    } catch (err) {
-      console.log(err)
-    }
   }
 
   useEffect(() => {
@@ -177,9 +155,6 @@ const DashboardPage = (): ReactElement => {
             </div>
           </div>
           <div id="chart">
-            <div className="absolute">
-              <CtaButton onClickHandler={handleExportCsvOnClick} />
-            </div>
             <LineChart />
           </div>
           <div id="events">
