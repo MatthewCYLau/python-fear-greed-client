@@ -1,6 +1,13 @@
-import { ReactElement, useState, ChangeEvent, useContext } from 'react'
+import {
+  ReactElement,
+  useState,
+  ChangeEvent,
+  useContext,
+  useEffect
+} from 'react'
 import { Store } from '../../store'
-import { ActionType } from '../../types'
+import { AxiosResponse } from 'axios'
+import { ActionType, AnalysisJob, AnalysisJobsResponse } from '../../types'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
@@ -23,6 +30,25 @@ const AnalysisJobPage = (): ReactElement => {
     useState<GetAnalysisJobValues>({
       analysisJobId: ''
     })
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [pageCount, setPageCount] = useState<number>(1)
+  const [analysisJobs, setAnalysisJobs] = useState<AnalysisJob[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const pageSize: number = 10
+
+  const getAnalysisJobs = async () => {
+    try {
+      const { data }: AxiosResponse<AnalysisJobsResponse> = await api.get(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/analysis-jobs?page=${currentPage}&pageSize=${pageSize}`
+      )
+      setAnalysisJobs(data.analysisJobs)
+      setPageCount(data.paginationMetadata.totalPages)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const onCreateAnalysisJobFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCreateAnalysisJobformValues({
@@ -89,6 +115,17 @@ const AnalysisJobPage = (): ReactElement => {
       console.log(err)
     }
   }
+
+  const handleOnNextPageClick = () => setCurrentPage(currentPage + 1)
+  const handleOnPreviousPageClick = () => setCurrentPage(currentPage - 1)
+
+  useEffect(() => {
+    getAnalysisJobs()
+  }, [])
+
+  useEffect(() => {
+    getAnalysisJobs()
+  }, [currentPage])
 
   return (
     <Layout>

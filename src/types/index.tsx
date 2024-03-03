@@ -31,3 +31,21 @@ export enum ActionType {
   SET_MODAL = 'set_modal',
   REMOVE_MODAL = 'remove_modal'
 }
+
+export interface AnalysisJob {
+  _id: string
+  created: string
+  fair_value: number
+  stock_symbol: string
+}
+
+export interface PaginationMeta {
+  totalRecords: number
+  currentPage: number
+  totalPages: number
+}
+
+export interface AnalysisJobsResponse {
+  paginationMetadata: PaginationMeta
+  analysisJobs: AnalysisJob[]
+}
