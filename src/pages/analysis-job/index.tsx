@@ -8,6 +8,7 @@ import {
 import { Store } from '../../store'
 import { AxiosResponse } from 'axios'
 import { ActionType, AnalysisJob, AnalysisJobsResponse } from '../../types'
+import NoItemsFoundCard from '../../components/no-item-found-card'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
@@ -184,6 +185,46 @@ const AnalysisJobPage = (): ReactElement => {
             </button>
           </div>
         </form>
+      </div>
+      <div className="m-7" id="alerts">
+        <h1 className="font-bold py-4 uppercase">Analysis Jobs</h1>
+        {!!analysisJobs.length ? (
+          <>
+            <table className="w-full whitespace-nowrap">
+              <thead className="bg-black/60">
+                <th className="text-left py-3 px-2 rounded-l-lg">Created</th>
+                <th className="text-left py-3 px-2">Stock Symbol</th>
+                <th className="text-left py-3 px-2">Fair Value</th>
+              </thead>
+              {analysisJobs.map((job) => (
+                <tr key={job._id} className="border-b border-gray-700">
+                  <td className="py-3 px-2 font-bold">
+                    {new Date(Date.parse(job.created))
+                      .toLocaleString()
+                      .toString()}
+                  </td>
+                  <td className="py-3 px-2">{job.stock_symbol}</td>
+                  <td className="py-3 px-2">{job.fair_value}</td>
+                </tr>
+              ))}
+            </table>
+            <div className="flex justify-center items-center space-x-4 mt-4">
+              <button
+                disabled={currentPage === 1}
+                onClick={handleOnPreviousPageClick}
+                className="rounded-md px-2 text-3xl cursor-pointer disabled:cursor-default text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none disabled:opacity-75 disabled:bg-indigo-500"
+              >{`<`}</button>
+              <div className="text-slate-500">{`${currentPage} / ${pageCount}`}</div>
+              <button
+                disabled={currentPage === pageCount}
+                onClick={handleOnNextPageClick}
+                className="rounded-md px-2 text-3xl cursor-pointer disabled:cursor-default text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none disabled:opacity-75 disabled:bg-indigo-500"
+              >{`>`}</button>
+            </div>
+          </>
+        ) : (
+          <NoItemsFoundCard itemName="alert" />
+        )}
       </div>
     </Layout>
   )
