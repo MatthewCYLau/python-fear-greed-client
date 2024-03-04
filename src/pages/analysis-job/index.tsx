@@ -12,6 +12,7 @@ import NoItemsFoundCard from '../../components/no-item-found-card'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
+import PaginationNavButton from '../../components/pagination-nav-button'
 interface CreateAnalysisJobValues {
   stock: string
 }
@@ -209,17 +210,17 @@ const AnalysisJobPage = (): ReactElement => {
               ))}
             </table>
             <div className="flex justify-center items-center space-x-4 mt-4">
-              <button
+              <PaginationNavButton
                 disabled={currentPage === 1}
-                onClick={handleOnPreviousPageClick}
-                className="rounded-md px-2 text-3xl cursor-pointer disabled:cursor-default text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none disabled:opacity-75 disabled:bg-indigo-500"
-              >{`<`}</button>
+                onClickHandler={handleOnPreviousPageClick}
+                copy="<"
+              />
               <div className="text-slate-500">{`${currentPage} / ${pageCount}`}</div>
-              <button
+              <PaginationNavButton
                 disabled={currentPage === pageCount}
-                onClick={handleOnNextPageClick}
-                className="rounded-md px-2 text-3xl cursor-pointer disabled:cursor-default text-white bg-indigo-500 rounded-md hover:bg-indigo-600 focus:outline-none disabled:opacity-75 disabled:bg-indigo-500"
-              >{`>`}</button>
+                onClickHandler={handleOnNextPageClick}
+                copy=">"
+              />
             </div>
           </>
         ) : (
