@@ -212,6 +212,11 @@ const AnalysisJobPage = (): ReactElement => {
             <div className="flex justify-center items-center space-x-4 mt-4">
               <PaginationNavButton
                 disabled={currentPage === 1}
+                onClickHandler={() => setCurrentPage(1)}
+                copy="<<"
+              />
+              <PaginationNavButton
+                disabled={currentPage === 1}
                 onClickHandler={handleOnPreviousPageClick}
                 copy="<"
               />
@@ -220,6 +225,11 @@ const AnalysisJobPage = (): ReactElement => {
                 disabled={currentPage === pageCount}
                 onClickHandler={handleOnNextPageClick}
                 copy=">"
+              />
+              <PaginationNavButton
+                disabled={currentPage === pageCount}
+                onClickHandler={() => setCurrentPage(pageCount)}
+                copy=">>"
               />
             </div>
           </>
