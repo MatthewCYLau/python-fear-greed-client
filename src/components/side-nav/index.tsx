@@ -15,7 +15,7 @@ const SideNav = () => {
 
   const logout = () => dispatch({ type: AuthActionType.LOGOUT })
   return (
-    <div id="menu" className="flex flex-col space-y-2 my-5">
+    <div id="sidenav" className="flex flex-col space-y-2 my-5">
       <SideNavButton
         url="/dashboard"
         iconComponant={<HomeIcon />}
