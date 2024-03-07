@@ -8,6 +8,7 @@ import LogoutIcon from '../icons/logout-icon'
 import CogwheelIcon from '../icons/cogwheel-icon'
 import HomeIcon from '../icons/home-icon'
 import DocumentIcon from '../icons/document-icon'
+import SideNavButton from '../side-nav-button'
 
 const SideNav = () => {
   const { dispatch } = useContext(Store)
@@ -15,24 +16,12 @@ const SideNav = () => {
   const logout = () => dispatch({ type: AuthActionType.LOGOUT })
   return (
     <div id="menu" className="flex flex-col space-y-2 my-5">
-      <Link
-        to="/dashboard"
-        className="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group"
-      >
-        <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 space-x-2 items-center">
-          <div>
-            <HomeIcon />
-          </div>
-          <div>
-            <p className="font-bold text-base lg:text-lg text-slate-200 leading-4 group-hover:text-indigo-400">
-              Dashboard
-            </p>
-            <p className="text-slate-400 text-sm hidden md:block">
-              Data overview
-            </p>
-          </div>
-        </div>
-      </Link>
+      <SideNavButton
+        url="/dashboard"
+        iconComponant={<HomeIcon />}
+        copy="Dashboard"
+        description="Data overview"
+      />
       <Link
         to="/create-alert"
         className="hover:bg-white/10 transition duration-150 ease-linear rounded-lg py-3 px-2 group"
