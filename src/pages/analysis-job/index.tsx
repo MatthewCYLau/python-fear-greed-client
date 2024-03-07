@@ -109,12 +109,22 @@ const AnalysisJobPage = (): ReactElement => {
           message: `Fair value for stock ${res.data.stock_symbol} is: ${res.data.fair_value}`,
           onConfirm: () => {
             dispatch({ type: ActionType.REMOVE_MODAL })
-            navigate('/dashboard')
+            setGetAnalysisJobformValues({ analysisJobId: '' })
           }
         }
       })
     } catch (err) {
       console.log(err)
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: 'Get analysis job result failed!',
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+            navigate('/dashboard')
+          }
+        }
+      })
     }
   }
 
