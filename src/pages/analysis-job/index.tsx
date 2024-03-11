@@ -5,9 +5,11 @@ import {
   useContext,
   useEffect
 } from 'react'
+import { v4 as uuid } from 'uuid'
 import { Store } from '../../store'
 import { AxiosResponse } from 'axios'
 import { ActionType, AnalysisJob, AnalysisJobsResponse } from '../../types'
+import { ActionType as AlertActionType } from '../../store/alert/action-types'
 import NoItemsFoundCard from '../../components/no-item-found-card'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
@@ -90,8 +92,14 @@ const AnalysisJobPage = (): ReactElement => {
           }
         }
       })
-    } catch (err) {
-      console.log(err)
+    } catch (err: any) {
+      const errors: Error[] = err.response.data.errors
+      errors.forEach((e) =>
+        dispatch({
+          type: AlertActionType.SET_ALERT,
+          payload: { id: uuid(), message: e.message, severity: 'error' }
+        })
+      )
     }
   }
 
