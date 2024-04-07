@@ -58,8 +58,22 @@ const EditAlertPage = (): ReactElement => {
     }
   }
 
+  const incrementAlertViewCountById = async (id: string) => {
+    try {
+      await api.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/alerts/${id}/views`,
+        {
+          action: 'increment'
+        }
+      )
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
     id && getAlertById(id)
+    id && incrementAlertViewCountById(id)
   }, [])
 
   return (
