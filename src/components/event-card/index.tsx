@@ -1,4 +1,5 @@
 import { useState, FC } from 'react'
+import DeleteIcon from '../icons/delete-icon'
 
 interface Props {
   id: string
@@ -22,7 +23,7 @@ const EventCard: FC<Props> = ({ id, date, index }) => {
           <p className="text-gray-500 text-sm">{date}</p>
         </div>
       </div>
-      <div className="border-t border-white/5 p-4 relative">
+      <div className="border-t border-white/5 p-4 relative flex flex-row justify-between">
         <button
           className="inline-flex space-x-2 items-center text-center"
           onClick={onClickHandler}
@@ -96,6 +97,7 @@ const EventCard: FC<Props> = ({ id, date, index }) => {
             </div>
           )}
         </button>
+        <DeleteIcon />
       </div>
     </div>
   )
