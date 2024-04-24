@@ -5,9 +5,10 @@ interface Props {
   id: string
   date: string
   index: number
+  onDeleteHandler?: () => void
 }
 
-const EventCard: FC<Props> = ({ id, date, index }) => {
+const EventCard: FC<Props> = ({ id, date, index, onDeleteHandler }) => {
   const [showToolTip, setShowToolTip] = useState<boolean>(false)
 
   const onClickHandler = () => {
@@ -97,7 +98,9 @@ const EventCard: FC<Props> = ({ id, date, index }) => {
             </div>
           )}
         </button>
-        <DeleteIcon />
+        <button onClick={onDeleteHandler} className="hover:text-white">
+          <DeleteIcon />
+        </button>
       </div>
     </div>
   )

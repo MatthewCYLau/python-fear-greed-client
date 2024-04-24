@@ -51,7 +51,7 @@ const DashboardPage = (): ReactElement => {
   const getCurrentUserEvents = async () => {
     try {
       const { data }: AxiosResponse<Event[]> = await api.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/events/me`
+        `${import.meta.env.VITE_API_BASE_URL}/api/events/me?acknowledged=True`
       )
       setCurrentUserEvents(data)
     } catch (err) {
@@ -167,6 +167,7 @@ const DashboardPage = (): ReactElement => {
                     id={n._id}
                     index={n.index}
                     date={new Date(Date.parse(n.created)).toDateString()}
+                    onDeleteHandler={() => console.log(n._id)}
                   />
                 ))}
               </div>
