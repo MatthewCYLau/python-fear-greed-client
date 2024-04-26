@@ -82,6 +82,20 @@ const DashboardPage = (): ReactElement => {
     })
   }
 
+  const handleOnEventDelete = (id: string) => {
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: 'Do you want to acknowledge event?',
+        onCancel: () => dispatch({ type: ActionType.REMOVE_MODAL }),
+        onConfirm: () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+          console.log(`acknowledge alert ${id}`)
+        }
+      }
+    })
+  }
+
   useEffect(() => {
     getCurrentIndex()
     getCurrentUserAlerts()
@@ -167,7 +181,7 @@ const DashboardPage = (): ReactElement => {
                     id={n._id}
                     index={n.index}
                     date={new Date(Date.parse(n.created)).toDateString()}
-                    onDeleteHandler={() => console.log(n._id)}
+                    onDeleteHandler={() => handleOnEventDelete(n._id)}
                   />
                 ))}
               </div>
