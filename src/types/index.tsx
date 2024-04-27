@@ -49,3 +49,5 @@ export interface AnalysisJobsResponse {
   paginationMetadata: PaginationMeta
   analysisJobs: AnalysisJob[]
 }
+
+export type Domain = 'event' | 'alert'

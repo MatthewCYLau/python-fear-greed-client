@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState, useContext } from 'react'
 import { Store } from '../../store'
-import { ActionType } from '../../types'
+import { ActionType, Domain } from '../../types'
 import { AxiosResponse } from 'axios'
 import { Link } from 'react-router-dom'
 import api from '../../utils/api'
@@ -79,30 +79,28 @@ const DashboardPage = (): ReactElement => {
     }
   }
 
-  const handleOnAlertDelete = (id: string) => {
-    dispatch({
-      type: ActionType.SET_MODAL,
-      payload: {
-        message: 'Do you want to delete alert?',
-        onCancel: () => dispatch({ type: ActionType.REMOVE_MODAL }),
-        onConfirm: () => {
-          dispatch({ type: ActionType.REMOVE_MODAL })
-          deleteAlertById(id)
-        }
-      }
-    })
-  }
-
-  const handleOnEventDelete = (id: string) => {
-    dispatch({
-      type: ActionType.SET_MODAL,
-      payload: {
-        message: 'Do you want to acknowledge event?',
-        onCancel: () => dispatch({ type: ActionType.REMOVE_MODAL }),
-        onConfirm: () => {
+  const handleOnDelete = (id: string, domain: Domain) => {
+    let onConfirm = (): void => {}
+    switch (domain) {
+      case 'event':
+        onConfirm = () => {
           dispatch({ type: ActionType.REMOVE_MODAL })
           acknowledgeEventById(id)
         }
+      case 'alert':
+        onConfirm = () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+          deleteAlertById(id)
+        }
+      default:
+        break
+    }
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: `Do you want to delete ${domain}?`,
+        onCancel: () => dispatch({ type: ActionType.REMOVE_MODAL }),
+        onConfirm
       }
     })
   }
@@ -192,7 +190,7 @@ const DashboardPage = (): ReactElement => {
                     id={n._id}
                     index={n.index}
                     date={new Date(Date.parse(n.created)).toDateString()}
-                    onDeleteHandler={() => handleOnEventDelete(n._id)}
+                    onDeleteHandler={() => handleOnDelete(n._id, 'event')}
                   />
                 ))}
               </div>
@@ -241,7 +239,7 @@ const DashboardPage = (): ReactElement => {
                           </svg>
                         </Link>
                         <button
-                          onClick={() => handleOnAlertDelete(alert._id)}
+                          onClick={() => handleOnDelete(alert._id, 'alert')}
                           className="hover:text-white"
                         >
                           <DeleteIcon />
