@@ -51,7 +51,7 @@ const DashboardPage = (): ReactElement => {
   const getCurrentUserEvents = async () => {
     try {
       const { data }: AxiosResponse<Event[]> = await api.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/events/me?acknowledged=True`
+        `${import.meta.env.VITE_API_BASE_URL}/api/events/me?acknowledged=False`
       )
       setCurrentUserEvents(data)
     } catch (err) {
@@ -63,6 +63,17 @@ const DashboardPage = (): ReactElement => {
     try {
       await api.delete(`${import.meta.env.VITE_API_BASE_URL}/api/alerts/${id}`)
       getCurrentUserAlerts()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const acknowledgeEventById = async (id: string) => {
+    try {
+      await api.put(`${import.meta.env.VITE_API_BASE_URL}/api/events/${id}`, {
+        acknowledged: 'True'
+      })
+      getCurrentUserEvents()
     } catch (err) {
       console.log(err)
     }
@@ -90,7 +101,7 @@ const DashboardPage = (): ReactElement => {
         onCancel: () => dispatch({ type: ActionType.REMOVE_MODAL }),
         onConfirm: () => {
           dispatch({ type: ActionType.REMOVE_MODAL })
-          console.log(`acknowledge alert ${id}`)
+          acknowledgeEventById(id)
         }
       }
     })
