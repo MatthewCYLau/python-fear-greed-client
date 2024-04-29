@@ -5,7 +5,7 @@ interface Props {
   id: string
   date: string
   index: number
-  onDeleteHandler?: () => void
+  onDeleteHandler: () => void
 }
 
 const EventCard: FC<Props> = ({ id, date, index, onDeleteHandler }) => {

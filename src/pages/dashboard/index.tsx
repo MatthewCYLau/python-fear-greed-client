@@ -87,11 +87,13 @@ const DashboardPage = (): ReactElement => {
           dispatch({ type: ActionType.REMOVE_MODAL })
           acknowledgeEventById(id)
         }
+        break
       case 'alert':
         onConfirm = () => {
           dispatch({ type: ActionType.REMOVE_MODAL })
           deleteAlertById(id)
         }
+        break
       default:
         break
     }
