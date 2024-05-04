@@ -218,9 +218,7 @@ const AnalysisJobPage = (): ReactElement => {
               {analysisJobs.map((job) => (
                 <tr key={job._id} className="border-b border-gray-700">
                   <td className="py-3 px-2 font-bold">
-                    {new Date(Date.parse(job.created))
-                      .toLocaleString()
-                      .toString()}
+                    {new Date(Date.parse(job.created)).toLocaleString()}
                   </td>
                   <td className="py-3 px-2">{job.stock_symbol}</td>
                   <td className="py-3 px-2">{job.fair_value}</td>
