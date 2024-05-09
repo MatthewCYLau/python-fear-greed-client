@@ -36,6 +36,7 @@ export interface AnalysisJob {
   _id: string
   created: string
   fair_value: number
+  most_recent_fear_greed_index: number
   stock_symbol: string
 }
 
