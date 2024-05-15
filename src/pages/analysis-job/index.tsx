@@ -214,6 +214,7 @@ const AnalysisJobPage = (): ReactElement => {
                 <th className="text-left py-3 px-2 rounded-l-lg">Created</th>
                 <th className="text-left py-3 px-2">Stock Symbol</th>
                 <th className="text-left py-3 px-2">Fair Value</th>
+                <th className="text-left py-3 px-2">Index Value</th>
               </thead>
               {analysisJobs.map((job) => (
                 <tr key={job._id} className="border-b border-gray-700">
@@ -222,6 +223,9 @@ const AnalysisJobPage = (): ReactElement => {
                   </td>
                   <td className="py-3 px-2">{job.stock_symbol}</td>
                   <td className="py-3 px-2">{job.fair_value}</td>
+                  <td className="py-3 px-2">
+                    {job.most_recent_fear_greed_index}
+                  </td>
                 </tr>
               ))}
             </table>
