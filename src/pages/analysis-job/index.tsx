@@ -18,7 +18,7 @@ import PaginationNavButton from '../../components/pagination-nav-button'
 interface CreateAnalysisJobValues {
   stock: string
   targetFearGreedIndex: number
-  targePeRatio: number
+  targetPeRatio: number
 }
 
 interface GetAnalysisJobValues {
@@ -32,7 +32,7 @@ const AnalysisJobPage = (): ReactElement => {
     useState<CreateAnalysisJobValues>({
       stock: '',
       targetFearGreedIndex: 0,
-      targePeRatio: 0
+      targetPeRatio: 0
     })
   const [getAnalysisJobformValues, setGetAnalysisJobformValues] =
     useState<GetAnalysisJobValues>({
@@ -80,7 +80,7 @@ const AnalysisJobPage = (): ReactElement => {
           stock: createAnalysisJobformValues.stock,
           targetFearGreedIndex:
             +createAnalysisJobformValues.targetFearGreedIndex,
-          targePeRatio: +createAnalysisJobformValues.targePeRatio
+          targetPeRatio: +createAnalysisJobformValues.targetPeRatio
         },
         {
           headers: {
@@ -192,17 +192,17 @@ const AnalysisJobPage = (): ReactElement => {
           </div>
           <div className="mb-6">
             <label
-              htmlFor="targePeRatio"
+              htmlFor="targetPeRatio"
               className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
             >
               Target PE Ratio
             </label>
             <input
               type="text"
-              name="targePeRatio"
-              id="targePeRatio"
+              name="targetPeRatio"
+              id="targetPeRatio"
               className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
-              value={createAnalysisJobformValues.targePeRatio}
+              value={createAnalysisJobformValues.targetPeRatio}
               onChange={(e) => onCreateAnalysisJobFormChange(e)}
             />
           </div>
