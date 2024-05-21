@@ -17,6 +17,8 @@ import Layout from '../../components/layout'
 import PaginationNavButton from '../../components/pagination-nav-button'
 interface CreateAnalysisJobValues {
   stock: string
+  targetFearGreedIndex: number
+  targePeRatio: number
 }
 
 interface GetAnalysisJobValues {
@@ -28,7 +30,9 @@ const AnalysisJobPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
   const [createAnalysisJobformValues, setCreateAnalysisJobformValues] =
     useState<CreateAnalysisJobValues>({
-      stock: ''
+      stock: '',
+      targetFearGreedIndex: 0,
+      targePeRatio: 0
     })
   const [getAnalysisJobformValues, setGetAnalysisJobformValues] =
     useState<GetAnalysisJobValues>({
@@ -37,7 +41,6 @@ const AnalysisJobPage = (): ReactElement => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [pageCount, setPageCount] = useState<number>(1)
   const [analysisJobs, setAnalysisJobs] = useState<AnalysisJob[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(false)
   const pageSize: number = 10
 
   const getAnalysisJobs = async () => {
@@ -74,7 +77,10 @@ const AnalysisJobPage = (): ReactElement => {
       const res = await api.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/analysis-jobs`,
         {
-          stock: createAnalysisJobformValues.stock
+          stock: createAnalysisJobformValues.stock,
+          targetFearGreedIndex:
+            +createAnalysisJobformValues.targetFearGreedIndex,
+          targePeRatio: +createAnalysisJobformValues.targePeRatio
         },
         {
           headers: {
@@ -165,6 +171,38 @@ const AnalysisJobPage = (): ReactElement => {
               id="stock"
               className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
               value={createAnalysisJobformValues.stock}
+              onChange={(e) => onCreateAnalysisJobFormChange(e)}
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="targetFearGreedIndex"
+              className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+            >
+              Target Fear & Greed Index
+            </label>
+            <input
+              type="text"
+              name="targetFearGreedIndex"
+              id="targetFearGreedIndex"
+              className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+              value={createAnalysisJobformValues.targetFearGreedIndex}
+              onChange={(e) => onCreateAnalysisJobFormChange(e)}
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="targePeRatio"
+              className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+            >
+              Target PE Ratio
+            </label>
+            <input
+              type="text"
+              name="targePeRatio"
+              id="targePeRatio"
+              className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+              value={createAnalysisJobformValues.targePeRatio}
               onChange={(e) => onCreateAnalysisJobFormChange(e)}
             />
           </div>
