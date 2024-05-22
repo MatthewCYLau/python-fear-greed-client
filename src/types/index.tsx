@@ -37,6 +37,9 @@ export interface AnalysisJob {
   created: string
   fair_value: number
   most_recent_fear_greed_index: number
+  current_pe_ratio?: number
+  target_fear_greed_index?: number
+  target_pe_ratio?: number
   stock_symbol: string
 }
 
