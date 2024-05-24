@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { Store } from '../../store'
+import CopyIcon from '../icons/copy-icon'
 
 const Modal = () => {
   const { state } = useContext(Store)
@@ -8,9 +9,18 @@ const Modal = () => {
       {state.modal.showModal && (
         <div className="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
           <div className="shadow-lg bg-gray-800 rounded px-20 py-16 rounded-md text-center z-10">
-            <h1 className="text-l mb-4 font-bold text-white ">
-              {state.modal.message}
-            </h1>
+            {state.modal.onCopyClick ? (
+              <div className="text-white flex space-x-2">
+                <h1 className="text-l mb-4 font-bold">{state.modal.message}</h1>
+                <button onClick={state.modal.onCopyClick}>
+                  <CopyIcon />
+                </button>
+              </div>
+            ) : (
+              <h1 className="text-l mb-4 font-bold text-white">
+                {state.modal.message}
+              </h1>
+            )}
             <div className="flex flex-col mt-4 sm:flex-row sm:items-center sm:justify-center">
               {state.modal.onCancel && (
                 <button

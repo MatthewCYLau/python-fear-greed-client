@@ -95,6 +95,9 @@ const AnalysisJobPage = (): ReactElement => {
           onConfirm: () => {
             dispatch({ type: ActionType.REMOVE_MODAL })
             navigate('/dashboard')
+          },
+          onCopyClick: () => {
+            console.log('Copying analysis job ID...')
           }
         }
       })
