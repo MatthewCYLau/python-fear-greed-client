@@ -97,7 +97,7 @@ const AnalysisJobPage = (): ReactElement => {
             navigate('/dashboard')
           },
           onCopyClick: () => {
-            console.log('Copying analysis job ID...')
+            navigator.clipboard.writeText(res.data.analysisJobId)
           }
         }
       })
