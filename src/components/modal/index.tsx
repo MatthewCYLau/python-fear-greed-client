@@ -10,7 +10,7 @@ const Modal = () => {
         <div className="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
           <div className="shadow-lg bg-gray-800 rounded px-20 py-16 rounded-md text-center z-10">
             {state.modal.onCopyClick ? (
-              <div className="text-white flex space-x-2">
+              <div className="text-white flex space-x-2 items-start">
                 <h1 className="text-l mb-4 font-bold">{state.modal.message}</h1>
                 <button onClick={state.modal.onCopyClick}>
                   <CopyIcon />
