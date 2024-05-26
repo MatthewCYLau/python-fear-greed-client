@@ -1,18 +1,31 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Store } from '../../store'
 import CopyIcon from '../icons/copy-icon'
 
 const Modal = () => {
   const { state } = useContext(Store)
+  const [showCopyClickedText, setShowCopyClickedText] = useState(false)
+  const handleOnCopyClick = () => {
+    setShowCopyClickedText(true)
+    state.modal.onCopyClick && state.modal.onCopyClick()
+    setTimeout(() => {
+      setShowCopyClickedText(false)
+    }, 3000)
+  }
   return (
     <>
       {state.modal.showModal && (
         <div className="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
           <div className="shadow-lg bg-gray-800 rounded px-20 py-16 rounded-md text-center z-10">
             {state.modal.onCopyClick ? (
-              <div className="text-white flex space-x-2 items-start">
+              <div className="text-white flex space-x-2 items-start relative">
                 <h1 className="text-l mb-4 font-bold">{state.modal.message}</h1>
-                <button onClick={state.modal.onCopyClick}>
+                {showCopyClickedText && (
+                  <span className="font-bold absolute bottom-12 right-0">
+                    Copied!
+                  </span>
+                )}
+                <button onClick={handleOnCopyClick}>
                   <CopyIcon />
                 </button>
               </div>
