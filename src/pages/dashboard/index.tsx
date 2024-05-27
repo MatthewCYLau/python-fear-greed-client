@@ -190,6 +190,7 @@ const DashboardPage = (): ReactElement => {
                 {currentUserEvents.map((n) => (
                   <EventCard
                     id={n._id}
+                    key={n._id}
                     index={n.index}
                     date={new Date(Date.parse(n.created)).toDateString()}
                     onDeleteHandler={() => handleOnDelete(n._id, 'event')}

@@ -10,6 +10,7 @@ import { Store } from '../../store'
 import { AxiosResponse } from 'axios'
 import { ActionType, AnalysisJob, AnalysisJobsResponse } from '../../types'
 import { ActionType as AlertActionType } from '../../store/alert/action-types'
+import DeleteIcon from '../../components/icons/delete-icon'
 import NoItemsFoundCard from '../../components/no-item-found-card'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
@@ -55,6 +56,10 @@ const AnalysisJobPage = (): ReactElement => {
     } catch (err) {
       console.log(err)
     }
+  }
+
+  const handleOnDelete = (analysisJobId: string) => {
+    console.log(`Deleting analysis job ${analysisJobId}...`)
   }
 
   const onCreateAnalysisJobFormChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -255,6 +260,7 @@ const AnalysisJobPage = (): ReactElement => {
                 <th className="text-left py-3 px-2 rounded-l-lg">Created</th>
                 <th className="text-left py-3 px-2">Stock Symbol</th>
                 <th className="text-left py-3 px-2">Fair Value</th>
+                <th className="text-left py-3 px-2 rounded-r-lg">Actions</th>
               </thead>
               {analysisJobs.map((job) => (
                 <tr key={job._id} className="border-b border-gray-700">
@@ -263,6 +269,16 @@ const AnalysisJobPage = (): ReactElement => {
                   </td>
                   <td className="py-3 px-2">{job.stock_symbol}</td>
                   <td className="py-3 px-2">{job.fair_value}</td>
+                  <td className="py-3 px-2">
+                    <div className="inline-flex items-center space-x-3">
+                      <button
+                        onClick={() => handleOnDelete(job._id)}
+                        className="hover:text-white"
+                      >
+                        <DeleteIcon />
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </table>
