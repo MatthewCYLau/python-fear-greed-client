@@ -11,6 +11,7 @@ import { AxiosResponse } from 'axios'
 import { ActionType, AnalysisJob, AnalysisJobsResponse } from '../../types'
 import { ActionType as AlertActionType } from '../../store/alert/action-types'
 import DeleteIcon from '../../components/icons/delete-icon'
+import InfoIcon from '../../components/icons/info-icon'
 import NoItemsFoundCard from '../../components/no-item-found-card'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
@@ -280,6 +281,7 @@ const AnalysisJobPage = (): ReactElement => {
                         >
                           <DeleteIcon />
                         </button>
+                        <InfoIcon />
                       </div>
                     </td>
                   </tr>
