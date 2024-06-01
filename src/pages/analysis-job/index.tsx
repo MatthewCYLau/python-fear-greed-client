@@ -11,12 +11,12 @@ import { AxiosResponse } from 'axios'
 import { ActionType, AnalysisJob, AnalysisJobsResponse } from '../../types'
 import { ActionType as AlertActionType } from '../../store/alert/action-types'
 import DeleteIcon from '../../components/icons/delete-icon'
-import InfoIcon from '../../components/icons/info-icon'
 import NoItemsFoundCard from '../../components/no-item-found-card'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
 import PaginationNavButton from '../../components/pagination-nav-button'
+import AnalysisJobInfo from '../../components/analysis-job-info'
 interface CreateAnalysisJobValues {
   stock: string
   targetFearGreedIndex: number
@@ -281,7 +281,7 @@ const AnalysisJobPage = (): ReactElement => {
                         >
                           <DeleteIcon />
                         </button>
-                        <InfoIcon />
+                        <AnalysisJobInfo />
                       </div>
                     </td>
                   </tr>
