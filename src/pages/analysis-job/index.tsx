@@ -281,7 +281,9 @@ const AnalysisJobPage = (): ReactElement => {
                         >
                           <DeleteIcon />
                         </button>
-                        <AnalysisJobInfo />
+                        <AnalysisJobInfo
+                          targetPeRatio={job.target_pe_ratio || 0}
+                        />
                       </div>
                     </td>
                   </tr>
