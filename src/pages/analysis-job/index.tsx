@@ -59,8 +59,30 @@ const AnalysisJobPage = (): ReactElement => {
     }
   }
 
-  const handleOnDelete = (analysisJobId: string) => {
-    console.log(`Deleting analysis job ${analysisJobId}...`)
+  const deleteAnalyaiaJobById = async (id: string) => {
+    try {
+      await api.delete(
+        `${import.meta.env.VITE_API_BASE_URL}/api/analysis-jobs/${id}`
+      )
+      getAnalysisJobs()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleOnDelete = (id: string) => {
+    const onConfirm = () => {
+      dispatch({ type: ActionType.REMOVE_MODAL })
+      deleteAnalyaiaJobById(id)
+    }
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: `Do you want to delete analysis job?`,
+        onCancel: () => dispatch({ type: ActionType.REMOVE_MODAL }),
+        onConfirm
+      }
+    })
   }
 
   const onCreateAnalysisJobFormChange = (e: ChangeEvent<HTMLInputElement>) => {
