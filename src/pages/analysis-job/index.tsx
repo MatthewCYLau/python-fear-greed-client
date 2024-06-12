@@ -305,6 +305,9 @@ const AnalysisJobPage = (): ReactElement => {
                         </button>
                         <AnalysisJobInfo
                           targetPeRatio={job.target_pe_ratio || 0}
+                          targetFearGreedIndex={
+                            job.target_fear_greed_index || 0
+                          }
                         />
                       </div>
                     </td>
