@@ -27,7 +27,7 @@ const AnalysisJobInfo: FC<Props> = ({
           <p className="text-sm font-bold text-white pb-1">
             Analysis Job Information
           </p>
-          <p className="text-xs leading-4 text-white pb-3 ">
+          <p className="text-xs leading-4 text-white pb-3 whitespace-normal">
             Job was created for target PE ratio of{' '}
             <span className="font-bold">{targetPeRatio}</span> and Fear & Greed
             index of <span className="font-bold">{targetFearGreedIndex}</span>
