@@ -46,7 +46,7 @@ const LineChart = () => {
     .range([height, 0])
 
   const getXAxis = (ref) => {
-    const xAxis = d3.axisBottom(getX)
+    const xAxis = d3.axisBottom(getX).ticks(d3.utcMonth.every(2))
     d3.select(ref).call(xAxis.tickFormat(d3.timeFormat('%d/%m/%Y')))
   }
 
