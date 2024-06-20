@@ -15,7 +15,7 @@ const AnalysisJobInfo: FC<Props> = ({
   const handleInfoIconOnClick = () => setShowToolTip(!showToolTip)
 
   return (
-    <div className="relative">
+    <div className="relative flex">
       <button
         onClick={() => handleInfoIconOnClick()}
         className="hover:text-white"
