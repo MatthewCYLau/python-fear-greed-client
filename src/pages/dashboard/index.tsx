@@ -153,7 +153,7 @@ const DashboardPage = (): ReactElement => {
                     </div>
                     <div>
                       <p className="text-teal-300 text-sm font-medium uppercase leading-4">
-                        Current Alert
+                        Latest Alert
                       </p>
                       <p className="text-white font-bold text-2xl inline-flex items-center space-x-2">
                         <span>{currentUserMostRecentAlert}</span>
