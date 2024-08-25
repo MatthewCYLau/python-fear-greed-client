@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useState, useEffect, useRef } from 'react'
 import InfoIcon from '../../components/icons/info-icon'
 
 interface Props {
@@ -11,8 +11,20 @@ const AnalysisJobInfo: FC<Props> = ({
   targetFearGreedIndex
 }) => {
   const [showToolTip, setShowToolTip] = useState<boolean>(false)
+  const ref = useRef<HTMLDivElement>(null)
 
   const handleInfoIconOnClick = () => setShowToolTip(!showToolTip)
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent): void {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setShowToolTip(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  })
 
   return (
     <div className="relative flex">
@@ -23,7 +35,10 @@ const AnalysisJobInfo: FC<Props> = ({
         <InfoIcon />
       </button>
       {showToolTip && (
-        <div className="z-20 -mt-50 w-64 absolute transition duration-150 ease-in-out ml-8 shadow-lg bg-gray-800 p-4 rounded right-8 bottom-4">
+        <div
+          ref={ref}
+          className="z-20 -mt-50 w-64 absolute transition duration-150 ease-in-out ml-8 shadow-lg bg-gray-800 p-4 rounded right-8 bottom-4"
+        >
           <p className="text-sm font-bold text-white pb-1">
             Analysis Job Information
           </p>
