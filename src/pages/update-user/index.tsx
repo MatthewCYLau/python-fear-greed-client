@@ -32,7 +32,7 @@ const UpdateUserPage = (): ReactElement => {
     if (file) {
       formData.append('file', file)
       const { data } = await api.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/upload-image`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/upload-file`,
         formData,
         {
           headers: {
