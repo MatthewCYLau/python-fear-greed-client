@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import { Store } from '../../store'
 import { ActionType as AuthActionType } from '../../store/auth/action-types'
 import DownloadIcon from '../icons/download-icon'
+import UploadIcon from '../icons/upload-icon'
 import PlusIcon from '../icons/plus-icon'
 import LogoutIcon from '../icons/logout-icon'
 import CogwheelIcon from '../icons/cogwheel-icon'
@@ -32,6 +33,12 @@ const SideNav = () => {
         iconComponant={<DownloadIcon />}
         copy="Export Data"
         description="Export data to CSV"
+      />
+      <SideNavButton
+        url="/import-data"
+        iconComponant={<UploadIcon />}
+        copy="Import Data"
+        description="Import data from CSV"
       />
       <SideNavButton
         url="/update-user"
