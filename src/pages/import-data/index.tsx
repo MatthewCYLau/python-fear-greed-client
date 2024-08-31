@@ -1,4 +1,12 @@
-import { ReactElement, useState, ChangeEvent, useEffect } from 'react'
+import {
+  ReactElement,
+  useState,
+  ChangeEvent,
+  useEffect,
+  useContext
+} from 'react'
+import { ActionType } from '../../types'
+import { Store } from '../../store'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
@@ -8,6 +16,7 @@ interface Values {
 
 const ImportDataPage = (): ReactElement => {
   const navigate = useNavigate()
+  const { dispatch } = useContext(Store)
   const [formValues, setFormValues] = useState<Values>({
     objectUrl: ''
   })
@@ -33,7 +42,7 @@ const ImportDataPage = (): ReactElement => {
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     try {
-      await api.post(
+      const res = await api.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/records/import-from-csv`,
         formValues,
         {
@@ -42,7 +51,16 @@ const ImportDataPage = (): ReactElement => {
           }
         }
       )
-      navigate('/dashboard')
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `Records imported via CSV: ${res.data.count}`,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+            navigate('/dashboard')
+          }
+        }
+      })
     } catch (err) {
       console.log(err)
     }
