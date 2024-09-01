@@ -7,6 +7,7 @@ import { ActionType as AuthActionType } from '../../store/auth/action-types'
 import { ActionType as AlertActionType } from '../../store/alert/action-types'
 import { Link, useNavigate } from 'react-router-dom'
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google'
+import { jwtDecode } from 'jwt-decode'
 
 interface Values {
   email: string
@@ -25,7 +26,10 @@ const LoginPage = (): ReactElement => {
   }
 
   const responseMessage = (response: CredentialResponse) => {
-    console.log(response)
+    if (response.credential != null) {
+      const userCredential = jwtDecode(response.credential)
+      console.log(userCredential)
+    }
   }
 
   const submitHandler = async (e: React.SyntheticEvent) => {
