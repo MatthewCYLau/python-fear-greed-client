@@ -6,6 +6,7 @@ import { Token } from '../../types'
 import { ActionType as AuthActionType } from '../../store/auth/action-types'
 import { ActionType as AlertActionType } from '../../store/alert/action-types'
 import { Link, useNavigate } from 'react-router-dom'
+import { GoogleLogin, CredentialResponse } from '@react-oauth/google'
 
 interface Values {
   email: string
@@ -21,6 +22,10 @@ const LoginPage = (): ReactElement => {
   const { state, dispatch } = useContext(Store)
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
+  }
+
+  const responseMessage = (response: CredentialResponse) => {
+    console.log(response)
   }
 
   const submitHandler = async (e: React.SyntheticEvent) => {
@@ -114,7 +119,8 @@ const LoginPage = (): ReactElement => {
                   Login
                 </button>
               </div>
-              <p className="text-sm text-center text-gray-400">
+              <GoogleLogin onSuccess={responseMessage} />
+              <p className="text-sm text-center text-gray-400 mt-4">
                 Don&#x27;t have an account yet?{' '}
                 <Link
                   className="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500 dark:focus:border-indigo-800"
