@@ -5,7 +5,7 @@ import './App.css'
 import App from './App'
 
 ReactDOM.render(
-  <GoogleOAuthProvider clientId="">
+  <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID}>
     <React.StrictMode>
       <App />
     </React.StrictMode>
