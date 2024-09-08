@@ -25,10 +25,38 @@ const LoginPage = (): ReactElement => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
 
-  const responseMessage = (response: CredentialResponse) => {
+  const responseMessage = async (response: CredentialResponse) => {
     if (response.credential != null) {
       const userCredential = jwtDecode(response.credential)
       console.log(userCredential)
+
+      try {
+        const { data }: AxiosResponse = await axios.post(
+          `${import.meta.env.VITE_API_BASE_URL}/api/validate-token`,
+          { token: response.credential },
+          {
+            headers: {
+              'content-type': 'application/json'
+            }
+          }
+        )
+        dispatch({
+          type: AlertActionType.SET_ALERT,
+          payload: {
+            id: uuid(),
+            message: `${data.name} Google Sign-In via OAuth 2.0 to be supported in future`,
+            severity: 'info'
+          }
+        })
+      } catch (err: any) {
+        const errors: Error[] = err.response.data.errors
+        errors.forEach((e) =>
+          dispatch({
+            type: AlertActionType.SET_ALERT,
+            payload: { id: uuid(), message: e.message, severity: 'error' }
+          })
+        )
+      }
     }
   }
 
