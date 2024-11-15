@@ -77,6 +77,9 @@ const ExportDataPage = (): ReactElement => {
             </button>
           </div>
         </form>
+        <button className="w-full px-3 py-4 text-white bg-orange-400 rounded-md focus:bg-orange-500 focus:outline-none disabled:opacity-75">
+          Plot Data
+        </button>
       </div>
     </Layout>
   )
