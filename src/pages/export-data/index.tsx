@@ -1,4 +1,6 @@
-import { ReactElement, useState } from 'react'
+import { ReactElement, useState, useContext } from 'react'
+import { ActionType } from '../../types'
+import { Store } from '../../store'
 import DatePicker from 'react-datepicker'
 import api from '../../utils/api'
 import { convertDateToValidFormet } from '../../utils/date'
@@ -9,6 +11,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 const ExportDataPage = (): ReactElement => {
   const [fromDate, setFromDate] = useState(new Date())
   const [toDate, setToDate] = useState(new Date())
+  const { dispatch } = useContext(Store)
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault()
@@ -37,6 +40,19 @@ const ExportDataPage = (): ReactElement => {
     } catch (err) {
       console.log(err)
     }
+  }
+
+  const handlePlotDataOnClick = (): void => {
+    console.log('Plotting data...')
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: 'Plot Data',
+        onConfirm: () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+        }
+      }
+    })
   }
 
   return (
@@ -77,7 +93,10 @@ const ExportDataPage = (): ReactElement => {
             </button>
           </div>
         </form>
-        <button className="w-full px-3 py-4 text-white bg-orange-400 rounded-md focus:bg-orange-500 focus:outline-none disabled:opacity-75">
+        <button
+          onClick={() => handlePlotDataOnClick()}
+          className="w-full px-3 py-4 text-white bg-orange-400 rounded-md focus:bg-orange-500 focus:outline-none disabled:opacity-75"
+        >
           Plot Data
         </button>
       </div>
