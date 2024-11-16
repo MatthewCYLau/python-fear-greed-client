@@ -48,6 +48,12 @@ const ExportDataPage = (): ReactElement => {
       type: ActionType.SET_MODAL,
       payload: {
         message: 'Plot Data',
+        children: (
+          <img
+            src="https://storage.googleapis.com/python-fear-greed-client-assets/1731662391.856394-plot.png"
+            alt="Plot data"
+          />
+        ),
         onConfirm: () => {
           dispatch({ type: ActionType.REMOVE_MODAL })
         }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { Actions as AuthActions } from './auth/actions'
 import { ActionType as AuthActionType } from './auth/action-types'
 import { Actions as AlertActions } from './alert/actions'
@@ -12,6 +12,7 @@ export type AppState = {
   modal: {
     showModal: boolean
     message: string
+    children?: ReactNode
     onConfirm?: () => void
     onCancel?: () => void
     onCopyClick?: () => void
@@ -49,6 +50,7 @@ type Action =
       type: ActionType.SET_MODAL
       payload: {
         message: string
+        children?: ReactNode
         onConfirm: () => void
         onCancel?: () => void
         onCopyClick?: () => void
@@ -109,6 +111,7 @@ function reducer(state: AppState, action: Action): AppState {
         modal: {
           showModal: true,
           message: action.payload.message,
+          children: action.payload.children,
           onCancel: action.payload.onCancel,
           onConfirm: action.payload.onConfirm,
           onCopyClick: action.payload.onCopyClick

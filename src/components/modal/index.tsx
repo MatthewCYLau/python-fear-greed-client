@@ -34,6 +34,7 @@ const Modal = () => {
                 {state.modal.message}
               </h1>
             )}
+            {state.modal.children ?? state.modal.children}
             <div className="flex flex-col mt-4 sm:flex-row sm:items-center sm:justify-center">
               {state.modal.onCancel && (
                 <button
