@@ -7,6 +7,7 @@ import { convertDateToValidFormet } from '../../utils/date'
 import Layout from '../../components/layout'
 
 import 'react-datepicker/dist/react-datepicker.css'
+import Loader from '../../components/loader'
 
 const ExportDataPage = (): ReactElement => {
   const [fromDate, setFromDate] = useState(new Date())
@@ -42,23 +43,42 @@ const ExportDataPage = (): ReactElement => {
     }
   }
 
-  const handlePlotDataOnClick = (): void => {
-    console.log('Plotting data...')
+  const handlePlotDataOnClick = async (): Promise<void> => {
     dispatch({
       type: ActionType.SET_MODAL,
       payload: {
         message: 'Plot Data',
         children: (
-          <img
-            src="https://storage.googleapis.com/python-fear-greed-client-assets/1731662391.856394-plot.png"
-            alt="Plot data"
-          />
+          <div className="h-60 w-60">
+            <Loader />
+          </div>
         ),
         onConfirm: () => {
           dispatch({ type: ActionType.REMOVE_MODAL })
         }
       }
     })
+    try {
+      const res = await api.post(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/records/generate-plot?startDate=${convertDateToValidFormet(
+          fromDate
+        )}&endDate=${convertDateToValidFormet(toDate)}`
+      )
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: 'Plot Data',
+          children: <img src={res.data.image_url} alt="Plot data" />,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
