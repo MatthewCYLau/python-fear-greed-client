@@ -76,8 +76,17 @@ const ExportDataPage = (): ReactElement => {
           }
         }
       })
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
+      const errors: Error[] = error.response.data.errors
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `Something went wrong! ${errors[0].message}`,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
     }
   }
 
