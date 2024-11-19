@@ -70,7 +70,15 @@ const ExportDataPage = (): ReactElement => {
         type: ActionType.SET_MODAL,
         payload: {
           message: 'Plot Data',
-          children: <img src={res.data.image_url} alt="Plot data" />,
+          children: (
+            <a
+              href={res.data.image_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={res.data.image_url} alt="Plot data" />
+            </a>
+          ),
           onConfirm: () => {
             dispatch({ type: ActionType.REMOVE_MODAL })
           }
