@@ -36,6 +36,7 @@ export interface AnalysisJob {
   _id: string
   created: string
   fair_value: number
+  delta: number
   most_recent_fear_greed_index: number
   current_pe_ratio?: number
   target_fear_greed_index?: number

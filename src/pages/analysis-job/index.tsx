@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
 import PaginationNavButton from '../../components/pagination-nav-button'
 import AnalysisJobInfo from '../../components/analysis-job-info'
+import Pill from '../../components/pill'
 interface CreateAnalysisJobValues {
   stock: string
   targetFearGreedIndex: number
@@ -284,6 +285,7 @@ const AnalysisJobPage = (): ReactElement => {
                   <th className="text-left py-3 px-2 rounded-l-lg">Created</th>
                   <th className="text-left py-3 px-2">Stock Symbol</th>
                   <th className="text-left py-3 px-2">Fair Value</th>
+                  <th className="text-left py-3 px-2">Delta</th>
                   <th className="text-left py-3 px-2 rounded-r-lg">Actions</th>
                 </tr>
               </thead>
@@ -295,6 +297,9 @@ const AnalysisJobPage = (): ReactElement => {
                     </td>
                     <td className="py-3 px-2">{job.stock_symbol}</td>
                     <td className="py-3 px-2">{job.fair_value}</td>
+                    <td className="py-3 px-2">
+                      <Pill delta={job.delta} />
+                    </td>
                     <td className="py-3 px-2">
                       <div className="inline-flex items-center space-x-3">
                         <button
