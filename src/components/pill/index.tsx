@@ -17,7 +17,7 @@ const Pill: FC<Props> = ({ delta }) => {
         }
       )}
     >
-      {`${(Math.round(delta * 100) / 100).toFixed(2)}%`}
+      {`${Math.round(delta * 100).toFixed(0)}%`}
     </span>
   )
 }
