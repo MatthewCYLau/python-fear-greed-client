@@ -56,3 +56,10 @@ export interface AnalysisJobsResponse {
 }
 
 export type Domain = 'event' | 'alert'
+
+export enum ChartTypeValues {
+  SCATTER = 'scatter',
+  HISTOGRAM = 'histogram'
+}
+
+export type ChartType = ChartTypeValues.SCATTER | ChartTypeValues.HISTOGRAM

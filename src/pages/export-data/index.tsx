@@ -1,5 +1,5 @@
-import { ReactElement, useState, useContext, useRef } from 'react'
-import { ActionType } from '../../types'
+import { ReactElement, useState, useContext, useRef, useEffect } from 'react'
+import { ActionType, ChartType, ChartTypeValues } from '../../types'
 import { Store } from '../../store'
 import DatePicker from 'react-datepicker'
 import api from '../../utils/api'
@@ -10,18 +10,35 @@ import Layout from '../../components/layout'
 import 'react-datepicker/dist/react-datepicker.css'
 import Loader from '../../components/loader'
 
+const chartTypes: ChartType[] = [
+  ChartTypeValues.SCATTER,
+  ChartTypeValues.HISTOGRAM
+]
+
 const ExportDataPage = (): ReactElement => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false)
-  const [chartType, setChartType] = useState<string>('scatter')
+  const [chartType, setChartType] = useState<ChartType>(ChartTypeValues.SCATTER)
   const [fromDate, setFromDate] = useState(new Date())
   const [toDate, setToDate] = useState(new Date())
   const { dispatch } = useContext(Store)
   const ref = useRef<HTMLDivElement>(null)
 
-  const dropdownItemOnClickHandler = (n: string) => {
+  const dropdownItemOnClickHandler = (n: ChartType) => {
     setChartType(n)
     setShowDropdown(!showDropdown)
   }
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent): void {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setShowDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  })
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault()
@@ -148,7 +165,7 @@ const ExportDataPage = (): ReactElement => {
             <button
               onClick={() => setShowDropdown(!showDropdown)}
               type="button"
-              className="inline-flex justify-center w-full px-2 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500"
+              className="inline-flex justify-center w-full px-2 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-500"
             >
               <span className="mr-2">{chartType}</span>
               <svg
@@ -173,7 +190,7 @@ const ExportDataPage = (): ReactElement => {
                 id="dropdown-menu"
                 className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1"
               >
-                {['scatter', 'histogram'].map((n) => (
+                {chartTypes.map((n) => (
                   <button
                     key={n}
                     onClick={() => dropdownItemOnClickHandler(n)}
