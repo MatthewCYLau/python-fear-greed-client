@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker'
 import api from '../../utils/api'
 import cn from 'classnames'
 import { convertDateToValidFormet } from '../../utils/date'
+import { capitaliseFirstLetter } from '../../utils/string'
 import Layout from '../../components/layout'
 
 import 'react-datepicker/dist/react-datepicker.css'
@@ -167,7 +168,7 @@ const ExportDataPage = (): ReactElement => {
               type="button"
               className="inline-flex justify-center w-full px-2 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-500"
             >
-              <span className="mr-2">{chartType}</span>
+              <span className="mr-2">{capitaliseFirstLetter(chartType)}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className={cn('w-5 h-5 ml-2 -mr-1', {
@@ -196,7 +197,7 @@ const ExportDataPage = (): ReactElement => {
                     onClick={() => dropdownItemOnClickHandler(n)}
                     className="w-full block px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer rounded-md"
                   >
-                    {n}
+                    {capitaliseFirstLetter(n)}
                   </button>
                 ))}
               </div>
