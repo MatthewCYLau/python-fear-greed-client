@@ -70,7 +70,10 @@ const ExportDataPage = (): ReactElement => {
     }
   }
 
-  const handlePlotDataOnClick = async (): Promise<void> => {
+  const handlePlotDataOnClick = async (
+    e: React.SyntheticEvent
+  ): Promise<void> => {
+    e.preventDefault()
     dispatch({
       type: ActionType.SET_MODAL,
       payload: {
@@ -91,7 +94,7 @@ const ExportDataPage = (): ReactElement => {
           import.meta.env.VITE_API_BASE_URL
         }/api/records/generate-plot?startDate=${convertDateToValidFormet(
           fromDate
-        )}&endDate=${convertDateToValidFormet(toDate)}`
+        )}&endDate=${convertDateToValidFormet(toDate)}&chartType=${chartType}`
       )
       dispatch({
         type: ActionType.SET_MODAL,
@@ -204,7 +207,7 @@ const ExportDataPage = (): ReactElement => {
             )}
           </div>
           <button
-            onClick={() => handlePlotDataOnClick()}
+            onClick={(e) => handlePlotDataOnClick(e)}
             className="w-full px-3 py-4 text-white bg-orange-400 rounded-md focus:bg-orange-500 focus:outline-none disabled:opacity-75"
           >
             Plot Data
