@@ -59,7 +59,11 @@ export type Domain = 'event' | 'alert'
 
 export enum ChartTypeValues {
   SCATTER = 'scatter',
-  HISTOGRAM = 'histogram'
+  HISTOGRAM = 'histogram',
+  PIE = 'pie'
 }
 
-export type ChartType = ChartTypeValues.SCATTER | ChartTypeValues.HISTOGRAM
+export type ChartType =
+  | ChartTypeValues.SCATTER
+  | ChartTypeValues.HISTOGRAM
+  | ChartTypeValues.PIE

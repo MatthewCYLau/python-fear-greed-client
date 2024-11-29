@@ -13,7 +13,8 @@ import Loader from '../../components/loader'
 
 const chartTypes: ChartType[] = [
   ChartTypeValues.SCATTER,
-  ChartTypeValues.HISTOGRAM
+  ChartTypeValues.HISTOGRAM,
+  ChartTypeValues.PIE
 ]
 
 const ExportDataPage = (): ReactElement => {
