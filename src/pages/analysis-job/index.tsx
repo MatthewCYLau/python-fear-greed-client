@@ -18,6 +18,7 @@ import Layout from '../../components/layout'
 import PaginationNavButton from '../../components/pagination-nav-button'
 import AnalysisJobInfo from '../../components/analysis-job-info'
 import Pill from '../../components/pill'
+import PlotChartIcon from '../../components/icons/plot-chart-icon'
 interface CreateAnalysisJobValues {
   stock: string
   targetFearGreedIndex: number
@@ -84,6 +85,10 @@ const AnalysisJobPage = (): ReactElement => {
         onConfirm
       }
     })
+  }
+
+  const plotStockChart = (stockSymbol: string, targetPrice: number) => {
+    console.log(`Plotting ${stockSymbol} with target price ${targetPrice}`)
   }
 
   const onCreateAnalysisJobFormChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -314,6 +319,14 @@ const AnalysisJobPage = (): ReactElement => {
                             job.target_fear_greed_index || 0
                           }
                         />
+                        <button
+                          onClick={() =>
+                            plotStockChart(job.stock_symbol, job.fair_value)
+                          }
+                          className="hover:text-white"
+                        >
+                          <PlotChartIcon />
+                        </button>
                       </div>
                     </td>
                   </tr>
