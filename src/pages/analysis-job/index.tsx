@@ -19,6 +19,8 @@ import PaginationNavButton from '../../components/pagination-nav-button'
 import AnalysisJobInfo from '../../components/analysis-job-info'
 import Pill from '../../components/pill'
 import PlotChartIcon from '../../components/icons/plot-chart-icon'
+import Loader from '../../components/loader'
+
 interface CreateAnalysisJobValues {
   stock: string
   targetFearGreedIndex: number
@@ -87,8 +89,57 @@ const AnalysisJobPage = (): ReactElement => {
     })
   }
 
-  const plotStockChart = (stockSymbol: string, targetPrice: number) => {
-    console.log(`Plotting ${stockSymbol} with target price ${targetPrice}`)
+  const plotStockChart = async (stockSymbol: string, targetPrice: number) => {
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: 'Plot Data',
+        children: (
+          <div className="h-60 w-60">
+            <Loader />
+          </div>
+        ),
+        onConfirm: () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+        }
+      }
+    })
+    try {
+      const res = await api.post(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/generate-stock-plot?stock=${stockSymbol}&targetPrice=${targetPrice}`
+      )
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `${stockSymbol} Stock Plot`,
+          children: (
+            <a
+              href={res.data.image_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={res.data.image_url} alt={`${stockSymbol} Stock Plot`} />
+            </a>
+          ),
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    } catch (error: any) {
+      const errors: Error[] = error.response.data.errors
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `Something went wrong! ${errors[0].message}`,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    }
   }
 
   const onCreateAnalysisJobFormChange = (e: ChangeEvent<HTMLInputElement>) => {
