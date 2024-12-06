@@ -19,7 +19,7 @@ const chartTypes: ChartType[] = [
 
 const ExportDataPage = (): ReactElement => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false)
-  const [binSize, setBinSize] = useState<number>(5)
+  const [binSize, setBinSize] = useState<number>(4)
   const [chartType, setChartType] = useState<ChartType>(ChartTypeValues.SCATTER)
   const [fromDate, setFromDate] = useState(new Date())
   const [toDate, setToDate] = useState(new Date())
@@ -96,7 +96,9 @@ const ExportDataPage = (): ReactElement => {
           import.meta.env.VITE_API_BASE_URL
         }/api/records/generate-plot?startDate=${convertDateToValidFormet(
           fromDate
-        )}&endDate=${convertDateToValidFormet(toDate)}&chartType=${chartType}`
+        )}&endDate=${convertDateToValidFormet(
+          toDate
+        )}&chartType=${chartType}&binSize=${binSize}`
       )
       dispatch({
         type: ActionType.SET_MODAL,
@@ -229,12 +231,16 @@ const ExportDataPage = (): ReactElement => {
               <div className="flex flex-row h-10 w-full rounded-lg bg-transparent mt-1 mb-6">
                 <button
                   onClick={decrementHandler}
+                  disabled={binSize <= 3}
                   className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:bg-gray-100 h-full w-1/4 rounded-l cursor-pointer"
                 >
                   <span className="m-auto text-2xl font-bold">−</span>
                 </button>
                 <input
                   type="number"
+                  min="3"
+                  max="5"
+                  step="1"
                   name="differenceInPercentage"
                   id="differenceInPercentage"
                   className="text-center w-1/2 bg-white border-none	text-gray-700 hover:bg-gray-100 flex items-center"
@@ -243,6 +249,7 @@ const ExportDataPage = (): ReactElement => {
                 ></input>
                 <button
                   onClick={incrementHandler}
+                  disabled={binSize >= 5}
                   className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:bg-gray-100 h-full w-1/4 cursor-pointer rounded-r"
                 >
                   <span className="m-auto text-2xl font-bold">+</span>
