@@ -19,6 +19,7 @@ const chartTypes: ChartType[] = [
 
 const ExportDataPage = (): ReactElement => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false)
+  const [binSize, setBinSize] = useState<number>(5)
   const [chartType, setChartType] = useState<ChartType>(ChartTypeValues.SCATTER)
   const [fromDate, setFromDate] = useState(new Date())
   const [toDate, setToDate] = useState(new Date())
@@ -129,6 +130,16 @@ const ExportDataPage = (): ReactElement => {
     }
   }
 
+  const decrementHandler = (e: React.SyntheticEvent) => {
+    e.preventDefault()
+    setBinSize(binSize - 1)
+  }
+
+  const incrementHandler = (e: React.SyntheticEvent) => {
+    e.preventDefault()
+    setBinSize(binSize + 1)
+  }
+
   return (
     <Layout>
       <div className="m-7 w-1/2">
@@ -193,7 +204,7 @@ const ExportDataPage = (): ReactElement => {
               <div
                 ref={ref}
                 id="dropdown-menu"
-                className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1"
+                className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 z-2"
               >
                 {chartTypes.map((n) => (
                   <button
@@ -207,6 +218,38 @@ const ExportDataPage = (): ReactElement => {
               </div>
             )}
           </div>
+          {chartType == 'histogram' && (
+            <>
+              <label
+                htmlFor="index"
+                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+              >
+                Bin size
+              </label>
+              <div className="flex flex-row h-10 w-full rounded-lg bg-transparent mt-1 mb-6">
+                <button
+                  onClick={decrementHandler}
+                  className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:bg-gray-100 h-full w-1/4 rounded-l cursor-pointer"
+                >
+                  <span className="m-auto text-2xl font-bold">−</span>
+                </button>
+                <input
+                  type="number"
+                  name="differenceInPercentage"
+                  id="differenceInPercentage"
+                  className="text-center w-1/2 bg-white border-none	text-gray-700 hover:bg-gray-100 flex items-center"
+                  value={binSize}
+                  onChange={(e) => setBinSize(e.target.valueAsNumber)}
+                ></input>
+                <button
+                  onClick={incrementHandler}
+                  className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:bg-gray-100 h-full w-1/4 cursor-pointer rounded-r"
+                >
+                  <span className="m-auto text-2xl font-bold">+</span>
+                </button>
+              </div>
+            </>
+          )}
           <button
             onClick={(e) => handlePlotDataOnClick(e)}
             className="w-full px-3 py-4 text-white bg-orange-400 rounded-md focus:bg-orange-500 focus:outline-none disabled:opacity-75"
