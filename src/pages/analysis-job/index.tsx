@@ -409,7 +409,7 @@ const AnalysisJobPage = (): ReactElement => {
             </div>
           </>
         ) : (
-          <NoItemsFoundCard itemName="alert" />
+          <NoItemsFoundCard itemName="analysis job" />
         )}
       </div>
     </Layout>
