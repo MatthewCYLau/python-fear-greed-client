@@ -54,7 +54,14 @@ const ImportDataPage = (): ReactElement => {
       dispatch({
         type: ActionType.SET_MODAL,
         payload: {
-          message: `Records imported via CSV: ${res.data.count}`,
+          message: 'Records imported via CSV',
+          children: (
+            <>
+              <span className="text-white">
+                Records inserted count: {res.data.count}
+              </span>
+            </>
+          ),
           onConfirm: () => {
             dispatch({ type: ActionType.REMOVE_MODAL })
             navigate('/dashboard')
