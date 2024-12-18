@@ -57,9 +57,16 @@ const ImportDataPage = (): ReactElement => {
           message: 'Records imported via CSV',
           children: (
             <>
-              <span className="text-white">
-                Records inserted count: {res.data.count}
-              </span>
+              <p className="text-white">
+                Records imported count: {res.data.recordsImported}
+                <br />
+                Total records count: {res.data.recordsCount}
+                <br />
+                Start date: {res.data.startDate}
+                <br />
+                End date: {res.data.endDate}
+                <br />
+              </p>
             </>
           ),
           onConfirm: () => {
