@@ -14,6 +14,13 @@ interface Values {
   objectUrl: string
 }
 
+const options: Intl.DateTimeFormatOptions = {
+  weekday: 'short',
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric'
+}
+
 const ImportDataPage = (): ReactElement => {
   const navigate = useNavigate()
   const { dispatch } = useContext(Store)
@@ -62,9 +69,17 @@ const ImportDataPage = (): ReactElement => {
                 <br />
                 Total records count: {res.data.recordsCount}
                 <br />
-                Start date: {res.data.startDate}
+                Start date:{' '}
+                {new Date(Date.parse(res.data.startDate)).toLocaleDateString(
+                  'en-GB',
+                  options
+                )}
                 <br />
-                End date: {res.data.endDate}
+                End date:{' '}
+                {new Date(Date.parse(res.data.endDate)).toLocaleDateString(
+                  'en-GB',
+                  options
+                )}
                 <br />
               </p>
             </>
