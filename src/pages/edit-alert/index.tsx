@@ -31,7 +31,8 @@ const EditAlertPage = (): ReactElement => {
         `${import.meta.env.VITE_API_BASE_URL}/api/alerts/${id}`,
         {
           index: +formValues.index,
-          note: formValues.note
+          note: formValues.note,
+          have_actioned: alertActioned
         },
         {
           headers: {
@@ -51,7 +52,11 @@ const EditAlertPage = (): ReactElement => {
       const { data }: AxiosResponse<Alert> = await api.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/alerts/${id}`
       )
-      setFormValues({ index: data.index, note: data.note })
+      setFormValues({
+        index: data.index,
+        note: data.note
+      })
+      setAlertActioned(data.have_actioned)
     } catch (err) {
       console.log(err)
     } finally {

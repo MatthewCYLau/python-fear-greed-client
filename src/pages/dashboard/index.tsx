@@ -12,6 +12,7 @@ import Loader from '../../components/loader'
 import KeyStatisticsCard from '../../components/key-statistics-card'
 import LineChart from '../../components/line-chart'
 import DeleteIcon from '../../components/icons/delete-icon'
+import CheckIcon from '../../components/icons/check-icon'
 
 const DashboardPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
@@ -252,6 +253,7 @@ const DashboardPage = (): ReactElement => {
                           >
                             <DeleteIcon />
                           </button>
+                          {alert.have_actioned && <CheckIcon />}
                         </div>
                       </td>
                     </tr>

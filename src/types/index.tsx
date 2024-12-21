@@ -19,6 +19,7 @@ export interface Alert {
   created: string
   index: number
   note: string
+  have_actioned: boolean
 }
 
 export interface Event {
