@@ -25,6 +25,7 @@ export type AppState = {
         email: ''
         name: ''
         avatarImageUrl: ''
+        regularContributionAmount: 0
       }
 }
 
@@ -41,7 +42,8 @@ const initialState: AppState = {
     _id: '',
     email: '',
     name: '',
-    avatarImageUrl: ''
+    avatarImageUrl: '',
+    regularContributionAmount: 0
   }
 }
 
@@ -71,12 +73,13 @@ function reducer(state: AppState, action: Action): AppState {
         loading: false,
         user: action.payload
       }
-    case AuthActionType.USER_AVATAR_IMAGE_URL_UPDATED:
+    case AuthActionType.USER_UPDATED:
       return {
         ...state,
         user: {
           ...state.user,
-          avatarImageUrl: action.payload
+          avatarImageUrl: action.payload.avatarImageUrl,
+          regularContributionAmount: action.payload.regularContributionAmount
         }
       }
     case AuthActionType.LOGIN_SUCCESS:
@@ -92,7 +95,8 @@ function reducer(state: AppState, action: Action): AppState {
           _id: '',
           email: '',
           name: '',
-          avatarImageUrl: ''
+          avatarImageUrl: '',
+          regularContributionAmount: 0
         }
       }
     case AlertActionType.SET_ALERT:

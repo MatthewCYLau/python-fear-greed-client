@@ -11,9 +11,12 @@ interface UserLoadedAction {
   payload: User
 }
 
-interface UserAvatarImageUrlUpdatedAction {
-  type: ActionType.USER_AVATAR_IMAGE_URL_UPDATED
-  payload: string
+interface UserUpdatedAction {
+  type: ActionType.USER_UPDATED
+  payload: {
+    avatarImageUrl: string
+    regularContributionAmount: number
+  }
 }
 
 interface RegistrationSuccessAction {
@@ -26,7 +29,7 @@ interface LogoutAction {
 }
 export type Actions =
   | UserLoadedAction
-  | UserAvatarImageUrlUpdatedAction
+  | UserUpdatedAction
   | RegistrationSuccessAction
   | LoginSuccessAction
   | LogoutAction

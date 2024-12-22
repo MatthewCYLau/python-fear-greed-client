@@ -1,6 +1,6 @@
 export enum ActionType {
   USER_LOADED = 'user_loaded',
-  USER_AVATAR_IMAGE_URL_UPDATED = 'user_avatar_image_url_updated',
+  USER_UPDATED = 'user_updated',
   AUTH_ERROR = 'auth_error',
   REGISTRATION_SUCCESS = 'registration_success',
   REGISTRATION_FAILED = 'registration_failed',

@@ -6,6 +6,7 @@ export interface User {
   email: string
   name: string
   avatarImageUrl: string
+  regularContributionAmount: number
 }
 
 export interface AppAlert {

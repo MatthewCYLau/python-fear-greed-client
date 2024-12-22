@@ -12,14 +12,18 @@ import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
 interface Values {
   password: string
+  regularContributionAmount: number
 }
 
 const UpdateUserPage = (): ReactElement => {
   const navigate = useNavigate()
   const { state, dispatch } = useContext(Store)
-  const [avatarImageUrl, setAvatarImageUrl] = useState<string>('')
+  const [avatarImageUrl, setAvatarImageUrl] = useState<string>(
+    state.user.avatarImageUrl
+  )
   const [formValues, setFormValues] = useState<Values>({
-    password: ''
+    password: '',
+    regularContributionAmount: state.user.regularContributionAmount
   })
   const [file, setFile] = useState<File>()
 
@@ -49,19 +53,22 @@ const UpdateUserPage = (): ReactElement => {
     email: string
     password?: string
     avatarImageUrl: string
+    regularContributionAmount: number
   } => {
     if (formValues.password) {
       return {
         name: state.user.name,
         email: state.user.email,
         password: formValues.password,
-        avatarImageUrl: state.user.avatarImageUrl
+        avatarImageUrl: state.user.avatarImageUrl,
+        regularContributionAmount: +formValues.regularContributionAmount
       }
     } else {
       return {
         name: state.user.name,
         email: state.user.email,
-        avatarImageUrl: avatarImageUrl
+        avatarImageUrl: avatarImageUrl,
+        regularContributionAmount: +formValues.regularContributionAmount
       }
     }
   }
@@ -79,8 +86,11 @@ const UpdateUserPage = (): ReactElement => {
         }
       )
       dispatch({
-        type: AuthActionType.USER_AVATAR_IMAGE_URL_UPDATED,
-        payload: avatarImageUrl
+        type: AuthActionType.USER_UPDATED,
+        payload: {
+          avatarImageUrl,
+          regularContributionAmount: +formValues.regularContributionAmount
+        }
       })
       navigate('/dashboard')
     } catch (err) {
@@ -121,6 +131,22 @@ const UpdateUserPage = (): ReactElement => {
           </div>
           <div className="mb-6">
             <label
+              htmlFor="regularContributionAmount"
+              className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+            >
+              Regular contribution amount
+            </label>
+            <input
+              type="number"
+              name="regularContributionAmount"
+              id="regularContributionAmount"
+              className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+              value={formValues.regularContributionAmount}
+              onChange={(e) => onChange(e)}
+            />
+          </div>
+          <div className="mb-6">
+            <label
               className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
               htmlFor="file_input"
             >
@@ -133,7 +159,11 @@ const UpdateUserPage = (): ReactElement => {
               onChange={handleFileChange}
             />
             <button
-              disabled={!avatarImageUrl && !formValues.password}
+              disabled={
+                !avatarImageUrl &&
+                !formValues.password &&
+                !formValues.regularContributionAmount
+              }
               type="submit"
               className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none disabled:opacity-75"
             >
