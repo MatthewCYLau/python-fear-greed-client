@@ -55,7 +55,7 @@ const EventCard: FC<Props> = ({ id, date, index, onDeleteHandler }) => {
             </p>
             <p className="text-xs leading-4 text-white pb-3 ">
               Alert was triggered on <span className="font-bold">{date}</span>{' '}
-              when index was <span className="font-bold">{index}</span>
+              against alert index <span className="font-bold">{index}</span>
             </p>
           </div>
         )}
