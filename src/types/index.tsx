@@ -69,3 +69,9 @@ export type ChartType =
   | ChartTypeValues.SCATTER
   | ChartTypeValues.HISTOGRAM
   | ChartTypeValues.PIE
+
+export enum CurrencyValues {
+  GBP = 'GBP'
+}
+
+export type Currency = CurrencyValues.GBP

@@ -3,10 +3,13 @@ import {
   useState,
   ChangeEvent,
   useContext,
-  useEffect
+  useEffect,
+  useRef
 } from 'react'
+import cn from 'classnames'
 import { Store } from '../../store'
 import { ActionType as AuthActionType } from '../../store/auth/action-types'
+import { Currency, CurrencyValues } from '../../types'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
@@ -15,7 +18,10 @@ interface Values {
   regularContributionAmount: number
 }
 
+const currencies: Currency[] = [CurrencyValues.GBP]
+
 const UpdateUserPage = (): ReactElement => {
+  const [showDropdown, setShowDropdown] = useState<boolean>(false)
   const navigate = useNavigate()
   const { state, dispatch } = useContext(Store)
   const [avatarImageUrl, setAvatarImageUrl] = useState<string>(
@@ -26,9 +32,15 @@ const UpdateUserPage = (): ReactElement => {
     regularContributionAmount: state.user.regularContributionAmount
   })
   const [file, setFile] = useState<File>()
-
+  const ref = useRef<HTMLDivElement>(null)
+  const [currency, setCurrency] = useState<Currency>(CurrencyValues.GBP)
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
+  }
+
+  const dropdownItemOnClickHandler = (n: Currency) => {
+    setCurrency(n)
+    setShowDropdown(!showDropdown)
   }
 
   const uploadFile = async () => {
@@ -105,6 +117,18 @@ const UpdateUserPage = (): ReactElement => {
   }
 
   useEffect(() => {
+    function handleClickOutside(event: MouseEvent): void {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setShowDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  })
+
+  useEffect(() => {
     uploadFile()
   }, [file])
 
@@ -144,6 +168,53 @@ const UpdateUserPage = (): ReactElement => {
               value={formValues.regularContributionAmount}
               onChange={(e) => onChange(e)}
             />
+          </div>
+          <div className="relative group mb-6">
+            <label
+              htmlFor="regularContributionAmount"
+              className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+            >
+              Currency
+            </label>
+            <button
+              onClick={() => setShowDropdown(!showDropdown)}
+              type="button"
+              className="inline-flex justify-center w-full px-2 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-500"
+            >
+              <span className="mr-2">{currency}</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={cn('w-5 h-5 ml-2 -mr-1', {
+                  'rotate-180': showDropdown
+                })}
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+            {showDropdown && (
+              <div
+                ref={ref}
+                id="dropdown-menu"
+                className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 z-2"
+              >
+                {currencies.map((n) => (
+                  <button
+                    key={n}
+                    onClick={() => dropdownItemOnClickHandler(n)}
+                    className="w-full block px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer rounded-md"
+                  >
+                    {n}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <div className="mb-6">
             <label
