@@ -3,7 +3,7 @@ import { Actions as AuthActions } from './auth/actions'
 import { ActionType as AuthActionType } from './auth/action-types'
 import { Actions as AlertActions } from './alert/actions'
 import { ActionType as AlertActionType } from './alert/action-types'
-import { User, ActionType, AppAlert } from '../types'
+import { User, ActionType, AppAlert, CurrencyValues } from '../types'
 
 export type AppState = {
   token: string | null
@@ -26,6 +26,7 @@ export type AppState = {
         name: ''
         avatarImageUrl: ''
         regularContributionAmount: 0
+        currency: CurrencyValues.GBP
       }
 }
 
@@ -43,7 +44,8 @@ const initialState: AppState = {
     email: '',
     name: '',
     avatarImageUrl: '',
-    regularContributionAmount: 0
+    regularContributionAmount: 0,
+    currency: CurrencyValues.GBP
   }
 }
 
@@ -79,7 +81,8 @@ function reducer(state: AppState, action: Action): AppState {
         user: {
           ...state.user,
           avatarImageUrl: action.payload.avatarImageUrl,
-          regularContributionAmount: action.payload.regularContributionAmount
+          regularContributionAmount: action.payload.regularContributionAmount,
+          currency: action.payload.currency
         }
       }
     case AuthActionType.LOGIN_SUCCESS:
@@ -96,7 +99,8 @@ function reducer(state: AppState, action: Action): AppState {
           email: '',
           name: '',
           avatarImageUrl: '',
-          regularContributionAmount: 0
+          regularContributionAmount: 0,
+          currency: CurrencyValues.GBP
         }
       }
     case AlertActionType.SET_ALERT:

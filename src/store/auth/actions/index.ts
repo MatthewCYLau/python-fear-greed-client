@@ -1,5 +1,5 @@
 import { ActionType } from '../action-types'
-import { User, Token } from '../../../types'
+import { User, Token, Currency } from '../../../types'
 
 interface LoginSuccessAction {
   type: ActionType.LOGIN_SUCCESS
@@ -16,6 +16,7 @@ interface UserUpdatedAction {
   payload: {
     avatarImageUrl: string
     regularContributionAmount: number
+    currency: Currency
   }
 }
 

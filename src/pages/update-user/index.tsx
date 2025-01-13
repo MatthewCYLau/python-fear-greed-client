@@ -16,9 +16,14 @@ import Layout from '../../components/layout'
 interface Values {
   password: string
   regularContributionAmount: number
+  currency: Currency
 }
 
-const currencies: Currency[] = [CurrencyValues.GBP]
+const currencies: Currency[] = [
+  CurrencyValues.GBP,
+  CurrencyValues.EUR,
+  CurrencyValues.USD
+]
 
 const UpdateUserPage = (): ReactElement => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false)
@@ -29,17 +34,17 @@ const UpdateUserPage = (): ReactElement => {
   )
   const [formValues, setFormValues] = useState<Values>({
     password: '',
-    regularContributionAmount: state.user.regularContributionAmount
+    regularContributionAmount: state.user.regularContributionAmount,
+    currency: state.user.currency
   })
   const [file, setFile] = useState<File>()
   const ref = useRef<HTMLDivElement>(null)
-  const [currency, setCurrency] = useState<Currency>(CurrencyValues.GBP)
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
   }
 
   const dropdownItemOnClickHandler = (n: Currency) => {
-    setCurrency(n)
+    setFormValues({ ...formValues, currency: n })
     setShowDropdown(!showDropdown)
   }
 
@@ -66,6 +71,7 @@ const UpdateUserPage = (): ReactElement => {
     password?: string
     avatarImageUrl: string
     regularContributionAmount: number
+    currency: Currency
   } => {
     if (formValues.password) {
       return {
@@ -73,14 +79,16 @@ const UpdateUserPage = (): ReactElement => {
         email: state.user.email,
         password: formValues.password,
         avatarImageUrl: state.user.avatarImageUrl,
-        regularContributionAmount: +formValues.regularContributionAmount
+        regularContributionAmount: +formValues.regularContributionAmount,
+        currency: formValues.currency
       }
     } else {
       return {
         name: state.user.name,
         email: state.user.email,
         avatarImageUrl: avatarImageUrl,
-        regularContributionAmount: +formValues.regularContributionAmount
+        regularContributionAmount: +formValues.regularContributionAmount,
+        currency: formValues.currency
       }
     }
   }
@@ -101,7 +109,8 @@ const UpdateUserPage = (): ReactElement => {
         type: AuthActionType.USER_UPDATED,
         payload: {
           avatarImageUrl,
-          regularContributionAmount: +formValues.regularContributionAmount
+          regularContributionAmount: +formValues.regularContributionAmount,
+          currency: formValues.currency
         }
       })
       navigate('/dashboard')
@@ -181,7 +190,7 @@ const UpdateUserPage = (): ReactElement => {
               type="button"
               className="inline-flex justify-center w-full px-2 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-500"
             >
-              <span className="mr-2">{currency}</span>
+              <span className="mr-2">{formValues.currency}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className={cn('w-5 h-5 ml-2 -mr-1', {

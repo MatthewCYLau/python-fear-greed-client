@@ -7,6 +7,7 @@ export interface User {
   name: string
   avatarImageUrl: string
   regularContributionAmount: number
+  currency: Currency
 }
 
 export interface AppAlert {
@@ -71,7 +72,12 @@ export type ChartType =
   | ChartTypeValues.PIE
 
 export enum CurrencyValues {
-  GBP = 'GBP'
+  GBP = 'GBP',
+  EUR = 'EUR',
+  USD = 'USD'
 }
 
-export type Currency = CurrencyValues.GBP
+export type Currency =
+  | CurrencyValues.GBP
+  | CurrencyValues.EUR
+  | CurrencyValues.USD
