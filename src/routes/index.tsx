@@ -12,6 +12,7 @@ import UpdateUserPage from '../pages/update-user'
 import ExportDataPage from '../pages/export-data'
 import ImportDataPage from '../pages/import-data'
 import AnalysisJobPage from '../pages/analysis-job'
+import CumulativeReturnsPage from '../pages/cumulative-returns'
 
 type PrivateRouteProps = {
   component: React.ComponentType<any>
@@ -57,6 +58,10 @@ export const router = createBrowserRouter([
   {
     path: '/analysis-job',
     element: <PrivateRoute component={AnalysisJobPage} />
+  },
+  {
+    path: '/cumulative-returns',
+    element: <PrivateRoute component={CumulativeReturnsPage} />
   },
   {
     path: '/alerts/:id',

@@ -9,6 +9,7 @@ import CogwheelIcon from '../icons/cogwheel-icon'
 import HomeIcon from '../icons/home-icon'
 import DocumentIcon from '../icons/document-icon'
 import SideNavButton from '../side-nav-button'
+import PlotChartIcon from '../icons/plot-chart-icon'
 
 const SideNav = () => {
   const { dispatch } = useContext(Store)
@@ -51,6 +52,12 @@ const SideNav = () => {
         iconComponant={<PlusIcon />}
         copy="Analysis Job"
         description="Create, and get analysis job"
+      />
+      <SideNavButton
+        url="/cumulative-returns"
+        iconComponant={<PlotChartIcon />}
+        copy="Cumulative Returns"
+        description="Plot cumulative returns"
       />
       <button
         onClick={logout}
