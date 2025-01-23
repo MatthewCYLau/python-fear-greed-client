@@ -4,6 +4,7 @@ import { ActionType } from '../../types'
 import api from '../../utils/api'
 import Layout from '../../components/layout'
 import Loader from '../../components/loader'
+import DeleteIcon from '../../components/icons/delete-icon'
 interface Values {
   stockSymbol: string
 }
@@ -76,6 +77,10 @@ const CumulativeReturnsPage = (): ReactElement => {
     setFormValues({ ...formValues, stockSymbol: '' })
   }
 
+  const handleOnStockDelete = (item: string) => {
+    setStocksList(stocksList.filter((ele) => ele !== item))
+  }
+
   return (
     <Layout>
       <div className="m-7 w-1/2">
@@ -100,7 +105,10 @@ const CumulativeReturnsPage = (): ReactElement => {
           </div>
           <div className="mb-6">
             <button
-              disabled={stocksList.length >= 5}
+              disabled={
+                stocksList.length >= 5 ||
+                stocksList.includes(formValues.stockSymbol)
+              }
               className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
             >
               Add Stock Symbol
@@ -109,7 +117,15 @@ const CumulativeReturnsPage = (): ReactElement => {
           {!!stocksList.length && (
             <div className="mb-6">
               {stocksList.map((n) => (
-                <p>{n}</p>
+                <div key={n} className="py-2 flex justify-between">
+                  <span>{n}</span>
+                  <button
+                    onClick={() => handleOnStockDelete(n)}
+                    className="hover:text-white"
+                  >
+                    <DeleteIcon />
+                  </button>
+                </div>
               ))}
             </div>
           )}
