@@ -7,13 +7,15 @@ import Loader from '../../components/loader'
 import DeleteIcon from '../../components/icons/delete-icon'
 interface Values {
   stockSymbol: string
+  years: number
 }
 
 const CumulativeReturnsPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
   const [stocksList, setStocksList] = useState<string[]>([])
   const [formValues, setFormValues] = useState<Values>({
-    stockSymbol: ''
+    stockSymbol: '',
+    years: 1
   })
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +46,8 @@ const CumulativeReturnsPage = (): ReactElement => {
           import.meta.env.VITE_API_BASE_URL
         }/api/generate-stocks-cumulative-returns-plot`,
         {
-          stocks: stocksList.join(';')
+          stocks: stocksList.join(';'),
+          years: +formValues.years
         }
       )
       dispatch({
