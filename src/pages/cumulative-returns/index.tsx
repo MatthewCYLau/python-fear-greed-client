@@ -1,4 +1,12 @@
-import { ReactElement, useState, ChangeEvent, useContext } from 'react'
+import {
+  ReactElement,
+  useState,
+  ChangeEvent,
+  useContext,
+  useEffect,
+  useRef
+} from 'react'
+import cn from 'classnames'
 import { Store } from '../../store'
 import { ActionType } from '../../types'
 import api from '../../utils/api'
@@ -10,13 +18,17 @@ interface Values {
   years: number
 }
 
+const years: number[] = [1, 2, 3]
+
 const CumulativeReturnsPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
+  const [showDropdown, setShowDropdown] = useState<boolean>(false)
   const [stocksList, setStocksList] = useState<string[]>([])
   const [formValues, setFormValues] = useState<Values>({
     stockSymbol: '',
     years: 1
   })
+  const ref = useRef<HTMLDivElement>(null)
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
@@ -84,6 +96,23 @@ const CumulativeReturnsPage = (): ReactElement => {
     setStocksList(stocksList.filter((ele) => ele !== item))
   }
 
+  const dropdownItemOnClickHandler = (n: number) => {
+    setFormValues({ ...formValues, years: n })
+    setShowDropdown(!showDropdown)
+  }
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent): void {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setShowDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  })
+
   return (
     <Layout>
       <div className="m-7 w-1/2">
@@ -109,6 +138,7 @@ const CumulativeReturnsPage = (): ReactElement => {
           <div className="mb-6">
             <button
               disabled={
+                !formValues.stockSymbol ||
                 stocksList.length >= 5 ||
                 stocksList.includes(formValues.stockSymbol)
               }
@@ -132,7 +162,55 @@ const CumulativeReturnsPage = (): ReactElement => {
               ))}
             </div>
           )}
+          <div className="relative group mb-6">
+            <label
+              htmlFor="timeAgoYears"
+              className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+            >
+              Time ago in years
+            </label>
+            <button
+              onClick={() => setShowDropdown(!showDropdown)}
+              type="button"
+              className="inline-flex justify-center w-full px-2 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-gray-500"
+            >
+              <span className="mr-2">{formValues.years}</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={cn('w-5 h-5 ml-2 -mr-1', {
+                  'rotate-180': showDropdown
+                })}
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </button>
+            {showDropdown && (
+              <div
+                ref={ref}
+                id="dropdown-menu"
+                className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 z-2"
+              >
+                {years.map((n) => (
+                  <button
+                    key={n}
+                    onClick={() => dropdownItemOnClickHandler(n)}
+                    className="w-full block px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer rounded-md"
+                  >
+                    {n}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <button
+            disabled={stocksList.length === 0}
             onClick={(e) => handlePlotDataOnClick(e)}
             className="w-full px-3 py-4 text-white bg-orange-400 rounded-md focus:bg-orange-500 focus:outline-none disabled:opacity-75"
           >
