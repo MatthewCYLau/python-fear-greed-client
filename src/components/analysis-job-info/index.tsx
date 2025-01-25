@@ -1,5 +1,6 @@
-import { FC, useState, useEffect, useRef } from 'react'
+import { FC, useState, useRef } from 'react'
 import InfoIcon from '../../components/icons/info-icon'
+import useOutsideClick from '../../utils/hook'
 
 interface Props {
   targetPeRatio: number
@@ -14,17 +15,7 @@ const AnalysisJobInfo: FC<Props> = ({
   const ref = useRef<HTMLDivElement>(null)
 
   const handleInfoIconOnClick = () => setShowToolTip(!showToolTip)
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent): void {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setShowToolTip(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  })
+  useOutsideClick(ref, () => setShowToolTip(false))
 
   return (
     <div className="relative flex">
