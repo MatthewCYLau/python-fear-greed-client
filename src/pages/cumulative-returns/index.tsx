@@ -13,6 +13,7 @@ import api from '../../utils/api'
 import Layout from '../../components/layout'
 import Loader from '../../components/loader'
 import DeleteIcon from '../../components/icons/delete-icon'
+import DropdownButton from '../../components/dropdown-button'
 interface Values {
   stockSymbol: string
   years: number
@@ -198,13 +199,12 @@ const CumulativeReturnsPage = (): ReactElement => {
                 className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 z-2"
               >
                 {years.map((n) => (
-                  <button
-                    key={n}
-                    onClick={() => dropdownItemOnClickHandler(n)}
-                    className="w-full block px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer rounded-md"
-                  >
-                    {n}
-                  </button>
+                  <DropdownButton
+                    copy={n}
+                    dropdownItemOnClickHandler={() =>
+                      dropdownItemOnClickHandler(n)
+                    }
+                  />
                 ))}
               </div>
             )}
@@ -212,7 +212,7 @@ const CumulativeReturnsPage = (): ReactElement => {
           <button
             disabled={stocksList.length === 0}
             onClick={(e) => handlePlotDataOnClick(e)}
-            className="w-full px-3 py-4 text-white bg-orange-400 rounded-md focus:bg-orange-500 focus:outline-none disabled:opacity-75"
+            className="w-full px-3 py-4 text-white bg-orange-400 rounded-md focus:bg-orange-500 focus:outline-none"
           >
             Plot Data
           </button>
