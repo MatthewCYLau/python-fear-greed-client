@@ -13,6 +13,7 @@ import { Currency, CurrencyValues } from '../../types'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
+import DropdownButton from '../../components/dropdown-button'
 interface Values {
   password: string
   regularContributionAmount: number
@@ -214,13 +215,12 @@ const UpdateUserPage = (): ReactElement => {
                 className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 z-2"
               >
                 {currencies.map((n) => (
-                  <button
-                    key={n}
-                    onClick={() => dropdownItemOnClickHandler(n)}
-                    className="w-full block px-4 py-2 text-gray-700 hover:bg-gray-100 active:bg-blue-100 cursor-pointer rounded-md"
-                  >
-                    {n}
-                  </button>
+                  <DropdownButton
+                    copy={n}
+                    dropdownItemOnClickHandler={() =>
+                      dropdownItemOnClickHandler(n)
+                    }
+                  />
                 ))}
               </div>
             )}
