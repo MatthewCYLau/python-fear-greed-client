@@ -63,13 +63,15 @@ export type Domain = 'event' | 'alert'
 export enum ChartTypeValues {
   SCATTER = 'scatter',
   HISTOGRAM = 'histogram',
-  PIE = 'pie'
+  PIE = 'pie',
+  BAR = 'bar'
 }
 
 export type ChartType =
   | ChartTypeValues.SCATTER
   | ChartTypeValues.HISTOGRAM
   | ChartTypeValues.PIE
+  | ChartTypeValues.BAR
 
 export enum CurrencyValues {
   GBP = 'GBP',

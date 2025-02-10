@@ -15,7 +15,8 @@ import DropdownButton from '../../components/dropdown-button'
 const chartTypes: ChartType[] = [
   ChartTypeValues.SCATTER,
   ChartTypeValues.HISTOGRAM,
-  ChartTypeValues.PIE
+  ChartTypeValues.PIE,
+  ChartTypeValues.BAR
 ]
 
 const ExportDataPage = (): ReactElement => {
