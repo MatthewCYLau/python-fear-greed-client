@@ -16,7 +16,7 @@ import Layout from '../../components/layout'
 import DropdownButton from '../../components/dropdown-button'
 interface Values {
   password: string
-  regularContributionAmount: number
+  regularContributionAmount: string
   currency: Currency
 }
 
@@ -35,7 +35,7 @@ const UpdateUserPage = (): ReactElement => {
   )
   const [formValues, setFormValues] = useState<Values>({
     password: '',
-    regularContributionAmount: state.user.regularContributionAmount,
+    regularContributionAmount: state.user.regularContributionAmount.toString(),
     currency: state.user.currency
   })
   const [file, setFile] = useState<File>()
@@ -47,6 +47,15 @@ const UpdateUserPage = (): ReactElement => {
   const dropdownItemOnClickHandler = (n: Currency) => {
     setFormValues({ ...formValues, currency: n })
     setShowDropdown(!showDropdown)
+  }
+
+  const handleOnBlur = () => {
+    setFormValues({
+      ...formValues,
+      regularContributionAmount: parseFloat(
+        formValues.regularContributionAmount
+      ).toFixed(2)
+    })
   }
 
   const uploadFile = async () => {
@@ -176,6 +185,7 @@ const UpdateUserPage = (): ReactElement => {
               id="regularContributionAmount"
               className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
               value={formValues.regularContributionAmount}
+              onBlur={() => handleOnBlur()}
               onChange={(e) => onChange(e)}
             />
           </div>
