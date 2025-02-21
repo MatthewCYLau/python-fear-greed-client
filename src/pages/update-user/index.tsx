@@ -11,6 +11,7 @@ import { Store } from '../../store'
 import { ActionType as AuthActionType } from '../../store/auth/action-types'
 import { Currency, CurrencyValues } from '../../types'
 import api from '../../utils/api'
+import { formatAmountTwoDecimals } from '../../utils/string'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
 import DropdownButton from '../../components/dropdown-button'
@@ -52,9 +53,9 @@ const UpdateUserPage = (): ReactElement => {
   const handleOnBlur = () => {
     setFormValues({
       ...formValues,
-      regularContributionAmount: parseFloat(
+      regularContributionAmount: formatAmountTwoDecimals(
         formValues.regularContributionAmount
-      ).toFixed(2)
+      )
     })
   }
 
