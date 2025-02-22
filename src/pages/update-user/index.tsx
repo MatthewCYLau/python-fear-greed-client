@@ -36,7 +36,9 @@ const UpdateUserPage = (): ReactElement => {
   )
   const [formValues, setFormValues] = useState<Values>({
     password: '',
-    regularContributionAmount: state.user.regularContributionAmount.toString(),
+    regularContributionAmount: formatAmountTwoDecimals(
+      state.user.regularContributionAmount.toString()
+    ),
     currency: state.user.currency
   })
   const [file, setFile] = useState<File>()
