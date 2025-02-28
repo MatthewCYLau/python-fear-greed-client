@@ -20,16 +20,20 @@ interface Values {
 }
 
 const years: number[] = [1, 2, 3]
+const commonStockSymboles: string[] = ['AAPL', 'TSLA', 'META', 'JPM', 'GOOG']
 
 const CumulativeReturnsPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
   const [showDropdown, setShowDropdown] = useState<boolean>(false)
+  const [showStockSymbolsDropdown, setShowStockSymbolsDropdown] =
+    useState<boolean>(false)
   const [stocksList, setStocksList] = useState<string[]>([])
   const [formValues, setFormValues] = useState<Values>({
     stockSymbol: '',
     years: 1
   })
-  const ref = useRef<HTMLDivElement>(null)
+  const yearsDropdownRef = useRef<HTMLDivElement>(null)
+  const stockSymbolDropdownRef = useRef<HTMLDivElement>(null)
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
@@ -87,8 +91,7 @@ const CumulativeReturnsPage = (): ReactElement => {
     }
   }
 
-  const submitHandler = async (e: React.SyntheticEvent) => {
-    e.preventDefault()
+  const handleOnAddStockSymbol = () => {
     setStocksList([...stocksList, formValues.stockSymbol])
     setFormValues({ ...formValues, stockSymbol: '' })
   }
@@ -104,8 +107,17 @@ const CumulativeReturnsPage = (): ReactElement => {
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent): void {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
+      if (
+        yearsDropdownRef.current &&
+        !yearsDropdownRef.current.contains(event.target as Node)
+      ) {
         setShowDropdown(false)
+      }
+      if (
+        stockSymbolDropdownRef.current &&
+        !stockSymbolDropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowStockSymbolsDropdown(false)
       }
     }
     document.addEventListener('mousedown', handleClickOutside)
@@ -118,8 +130,8 @@ const CumulativeReturnsPage = (): ReactElement => {
     <Layout>
       <div className="m-7 w-1/2">
         <h1 className="font-bold py-4 uppercase">Plot Cumulative Returns</h1>
-        <form onSubmit={submitHandler}>
-          <div className="mb-6">
+        <div>
+          <div className="relative mb-6">
             <label
               htmlFor="stockSymbol"
               className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
@@ -134,6 +146,7 @@ const CumulativeReturnsPage = (): ReactElement => {
               className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
               value={formValues.stockSymbol}
               onChange={(e) => onChange(e)}
+              onFocus={() => setShowStockSymbolsDropdown(true)}
               onBlur={() =>
                 setFormValues({
                   ...formValues,
@@ -141,9 +154,25 @@ const CumulativeReturnsPage = (): ReactElement => {
                 })
               }
             />
+            {showStockSymbolsDropdown && (
+              <div
+                ref={stockSymbolDropdownRef}
+                id="dropdown-menu"
+                className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 z-4 overflow-y-scroll h-24"
+              >
+                {commonStockSymboles.map((n) => (
+                  <DropdownButton
+                    key={n}
+                    copy={n}
+                    dropdownItemOnClickHandler={() => console.log(n)}
+                  />
+                ))}
+              </div>
+            )}
           </div>
           <div className="mb-6">
             <button
+              onClick={() => handleOnAddStockSymbol()}
               disabled={
                 !formValues.stockSymbol ||
                 stocksList.length >= 5 ||
@@ -200,7 +229,7 @@ const CumulativeReturnsPage = (): ReactElement => {
             </button>
             {showDropdown && (
               <div
-                ref={ref}
+                ref={yearsDropdownRef}
                 id="dropdown-menu"
                 className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 z-2"
               >
@@ -222,7 +251,7 @@ const CumulativeReturnsPage = (): ReactElement => {
           >
             Plot Data
           </button>
-        </form>
+        </div>
       </div>
     </Layout>
   )
