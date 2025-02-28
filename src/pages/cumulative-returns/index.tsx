@@ -20,7 +20,7 @@ interface Values {
 }
 
 const years: number[] = [1, 2, 3]
-const commonStockSymboles: string[] = ['AAPL', 'TSLA', 'META', 'JPM', 'GOOG']
+const commonStockSymbols: string[] = ['AAPL', 'TSLA', 'META', 'JPM', 'GOOG']
 
 const CumulativeReturnsPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
@@ -96,6 +96,12 @@ const CumulativeReturnsPage = (): ReactElement => {
     setFormValues({ ...formValues, stockSymbol: '' })
   }
 
+  const stockSymbolDropdownItemOnClickHandler = (item: string) => {
+    setStocksList([...stocksList, item])
+    setFormValues({ ...formValues, stockSymbol: '' })
+    setShowStockSymbolsDropdown(false)
+  }
+
   const handleOnStockDelete = (item: string) => {
     setStocksList(stocksList.filter((ele) => ele !== item))
   }
@@ -160,11 +166,13 @@ const CumulativeReturnsPage = (): ReactElement => {
                 id="dropdown-menu"
                 className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 z-4 overflow-y-scroll h-24"
               >
-                {commonStockSymboles.map((n) => (
+                {commonStockSymbols.map((n) => (
                   <DropdownButton
                     key={n}
                     copy={n}
-                    dropdownItemOnClickHandler={() => console.log(n)}
+                    dropdownItemOnClickHandler={() =>
+                      stockSymbolDropdownItemOnClickHandler(n)
+                    }
                   />
                 ))}
               </div>
