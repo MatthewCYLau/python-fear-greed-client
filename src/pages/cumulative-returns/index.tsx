@@ -20,7 +20,14 @@ interface Values {
 }
 
 const years: number[] = [1, 2, 3]
-const commonStockSymbols: string[] = ['AAPL', 'TSLA', 'META', 'JPM', 'GOOG']
+const commonStockSymbols: string[] = [
+  'AAPL',
+  'TSLA',
+  'META',
+  'JPM',
+  'GOOG',
+  'AMZN'
+].sort((a, b) => a.localeCompare(b))
 
 const CumulativeReturnsPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
