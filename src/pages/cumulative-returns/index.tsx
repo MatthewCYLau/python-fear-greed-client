@@ -35,6 +35,8 @@ const CumulativeReturnsPage = (): ReactElement => {
   const [showStockSymbolsDropdown, setShowStockSymbolsDropdown] =
     useState<boolean>(false)
   const [stocksList, setStocksList] = useState<string[]>([])
+  const [stockSymbolsDropdownList, setstockSymbolsDropdownList] =
+    useState<string[]>(commonStockSymbols)
   const [formValues, setFormValues] = useState<Values>({
     stockSymbol: '',
     years: 1
@@ -139,6 +141,14 @@ const CumulativeReturnsPage = (): ReactElement => {
     }
   })
 
+  useEffect(() => {
+    setstockSymbolsDropdownList(
+      commonStockSymbols.filter((n) =>
+        n.toLowerCase().includes(formValues.stockSymbol.toLocaleLowerCase())
+      )
+    )
+  }, [formValues.stockSymbol])
+
   return (
     <Layout>
       <div className="m-7 w-1/2">
@@ -152,6 +162,7 @@ const CumulativeReturnsPage = (): ReactElement => {
               Stock Symbol
             </label>
             <input
+              autoComplete="off"
               type="text"
               name="stockSymbol"
               id="stockSymbol"
@@ -171,9 +182,14 @@ const CumulativeReturnsPage = (): ReactElement => {
               <div
                 ref={stockSymbolDropdownRef}
                 id="dropdown-menu"
-                className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 z-4 overflow-y-scroll h-24"
+                className={cn(
+                  'absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 z-4 overflow-y-scroll max-h-24',
+                  {
+                    'visibility: hidden': stockSymbolsDropdownList.length == 0
+                  }
+                )}
               >
-                {commonStockSymbols.map((n) => (
+                {stockSymbolsDropdownList.map((n) => (
                   <DropdownButton
                     key={n}
                     copy={n}
