@@ -17,6 +17,7 @@ import CheckIcon from '../../components/icons/check-icon'
 const DashboardPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
   const [currentIndex, setCurrentIndex] = useState<number>(0)
+  const [spyOpen, setSpyOpen] = useState<number>(0)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentUserAlerts, setCurrentUserAlerts] = useState<Alert[]>([])
   const [currentUserEvents, setCurrentUserEvents] = useState<Event[]>([])
@@ -28,6 +29,16 @@ const DashboardPage = (): ReactElement => {
         `${import.meta.env.VITE_API_BASE_URL}/api/records`
       )
       setCurrentIndex(data[0].index)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  const getSpyOpen = async () => {
+    try {
+      const { data }: AxiosResponse<any> = await api.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/analysis?index=SPY`
+      )
+      setSpyOpen(data.open)
     } catch (err) {
       console.log(err)
     }
@@ -110,6 +121,7 @@ const DashboardPage = (): ReactElement => {
 
   useEffect(() => {
     getCurrentIndex()
+    getSpyOpen()
     getCurrentUserAlerts()
     getCurrentUserEvents()
   }, [])
@@ -179,6 +191,7 @@ const DashboardPage = (): ReactElement => {
                   </div>
                 </div>
               )}
+              <KeyStatisticsCard subject="S&P 500" index={spyOpen} />
             </div>
           </div>
           <div id="chart">
