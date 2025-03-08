@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState, useContext } from 'react'
 import { Store } from '../../store'
-import { ActionType, Domain } from '../../types'
+import { ActionType, Domain, IndexAnalysisResponse } from '../../types'
 import { AxiosResponse } from 'axios'
 import { Link } from 'react-router-dom'
 import api from '../../utils/api'
@@ -18,7 +18,10 @@ import MoneyIcon from '../../components/icons/money-icon'
 const DashboardPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
   const [currentIndex, setCurrentIndex] = useState<number>(0)
-  const [spyOpen, setSpyOpen] = useState<number>(0)
+  const [spyAnalysis, setSpyAnalysis] = useState<IndexAnalysisResponse>({
+    open: 0,
+    previousClose: 0
+  })
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentUserAlerts, setCurrentUserAlerts] = useState<Alert[]>([])
   const [currentUserEvents, setCurrentUserEvents] = useState<Event[]>([])
@@ -39,7 +42,7 @@ const DashboardPage = (): ReactElement => {
       const { data }: AxiosResponse<any> = await api.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/analysis?index=SPY`
       )
-      setSpyOpen(data.open)
+      setSpyAnalysis(data)
     } catch (err) {
       console.log(err)
     }
@@ -179,7 +182,7 @@ const DashboardPage = (): ReactElement => {
                   </div>
                 </div>
               )}
-              <KeyStatisticsCard subject="S&P 500" index={spyOpen} />
+              <KeyStatisticsCard subject="S&P 500" index={spyAnalysis.open} />
             </div>
           </div>
           <div id="chart">

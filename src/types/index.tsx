@@ -83,3 +83,8 @@ export type Currency =
   | CurrencyValues.GBP
   | CurrencyValues.EUR
   | CurrencyValues.USD
+
+export interface IndexAnalysisResponse {
+  open: number
+  previousClose: number
+}
