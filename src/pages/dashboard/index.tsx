@@ -163,14 +163,18 @@ const DashboardPage = (): ReactElement => {
                       <p className="text-white font-bold text-2xl inline-flex items-center space-x-2">
                         <span>{currentUserMostRecentAlert}</span>
                         <span>
-                          <ChartIcon />
+                          <ChartIcon positiveTrend={true} />
                         </span>
                       </p>
                     </div>
                   </div>
                 </div>
               )}
-              <KeyStatisticsCard subject="S&P 500" index={spyAnalysis.open} />
+              <KeyStatisticsCard
+                subject="S&P 500"
+                index={spyAnalysis.open}
+                previousIndex={spyAnalysis.previousClose}
+              />
             </div>
           </div>
           <div id="chart">
