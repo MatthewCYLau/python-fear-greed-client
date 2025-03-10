@@ -157,7 +157,7 @@ const DashboardPage = (): ReactElement => {
                       <MoneyIcon />
                     </div>
                     <div>
-                      <p className="text-teal-300 text-sm font-medium uppercase leading-4">
+                      <p className="text-indigo-300 text-sm font-medium uppercase leading-4">
                         Latest Alert
                       </p>
                       <p className="text-white font-bold text-2xl inline-flex items-center space-x-2">

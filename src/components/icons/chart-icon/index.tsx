@@ -14,7 +14,8 @@ const ChartIcon: FC<Props> = ({ positiveTrend = true }) => {
       strokeWidth="1.5"
       stroke="currentColor"
       className={cn('w-6 h-6 ', {
-        'rotate-180 scale-x-[-1]': !positiveTrend
+        'stroke-green-400': positiveTrend,
+        'rotate-180 scale-x-[-1] stroke-red-400': !positiveTrend
       })}
     >
       <path
