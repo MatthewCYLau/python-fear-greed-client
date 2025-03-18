@@ -16,9 +16,17 @@ import CheckIcon from '../../components/icons/check-icon'
 import ChartIcon from '../../components/icons/chart-icon'
 import MoneyIcon from '../../components/icons/money-icon'
 
+interface IndexValues {
+  currentIndex: number
+  previousIndex: string
+}
+
 const DashboardPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
-  const [currentIndex, setCurrentIndex] = useState<number>(0)
+  const [indexValues, setIndexValues] = useState<IndexValues>({
+    currentIndex: 0,
+    previousIndex: ''
+  })
   const [spyAnalysis, setSpyAnalysis] = useState<IndexAnalysisResponse>({
     open: 0,
     previousClose: 0
@@ -31,9 +39,12 @@ const DashboardPage = (): ReactElement => {
   const getCurrentIndex = async () => {
     try {
       const { data }: AxiosResponse<any> = await api.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/records`
+        `${import.meta.env.VITE_API_BASE_URL}/api/records?count=2&order=desc`
       )
-      setCurrentIndex(data[0].index)
+      setIndexValues({
+        currentIndex: data[0].index,
+        previousIndex: data[1].index
+      })
     } catch (err) {
       console.log(err)
     }
@@ -149,7 +160,10 @@ const DashboardPage = (): ReactElement => {
               id="stats"
               className="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              <KeyStatisticsCard subject="Current Index" index={currentIndex} />
+              <KeyStatisticsCard
+                subject="Current Index"
+                index={indexValues.currentIndex}
+              />
               {!!currentUserAlerts.length && (
                 <div className="bg-black/60 p-6 rounded-lg">
                   <div className="flex flex-row space-x-4 items-center">
