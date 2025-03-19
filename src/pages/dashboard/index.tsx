@@ -18,14 +18,14 @@ import MoneyIcon from '../../components/icons/money-icon'
 
 interface IndexValues {
   currentIndex: number
-  previousIndex: string
+  previousIndex: number
 }
 
 const DashboardPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
   const [indexValues, setIndexValues] = useState<IndexValues>({
     currentIndex: 0,
-    previousIndex: ''
+    previousIndex: 0
   })
   const [spyAnalysis, setSpyAnalysis] = useState<IndexAnalysisResponse>({
     open: 0,
@@ -163,6 +163,7 @@ const DashboardPage = (): ReactElement => {
               <KeyStatisticsCard
                 subject="Current Index"
                 index={indexValues.currentIndex}
+                previousIndex={indexValues.previousIndex}
               />
               {!!currentUserAlerts.length && (
                 <div className="bg-black/60 p-6 rounded-lg">
@@ -176,9 +177,6 @@ const DashboardPage = (): ReactElement => {
                       </p>
                       <p className="text-white font-bold text-2xl inline-flex items-center space-x-2">
                         <span>{currentUserMostRecentAlert}</span>
-                        <span>
-                          <ChartIcon positiveTrend={true} />
-                        </span>
                       </p>
                     </div>
                   </div>

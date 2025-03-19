@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import PeopleIcon from '../icons/people-icon'
+import MoneyIcon from '../icons/money-icon'
 import ChartIcon from '../icons/chart-icon'
 
 interface Props {
@@ -13,7 +13,7 @@ const KeyStatisticsCard: FC<Props> = ({ subject, index, previousIndex }) => {
     <div className="bg-black/60 to-white/5 p-6 rounded-lg">
       <div className="flex flex-row space-x-4 items-center">
         <div id="stats-1">
-          <PeopleIcon />
+          <MoneyIcon />
         </div>
         <div>
           <p className="text-indigo-300 text-sm font-medium uppercase leading-4">
