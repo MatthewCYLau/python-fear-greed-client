@@ -164,6 +164,7 @@ const DashboardPage = (): ReactElement => {
                 subject="Current Index"
                 index={indexValues.currentIndex}
                 previousIndex={indexValues.previousIndex}
+                icon="plotChart"
               />
               {!!currentUserAlerts.length && (
                 <div className="bg-black/60 p-6 rounded-lg">
@@ -186,6 +187,7 @@ const DashboardPage = (): ReactElement => {
                 subject="S&P 500"
                 index={spyAnalysis.open}
                 previousIndex={spyAnalysis.previousClose}
+                icon="money"
               />
             </div>
           </div>
