@@ -60,6 +60,11 @@ const LoginPage = (): ReactElement => {
     }
   }
 
+  const handleForgotPassword = (e: React.SyntheticEvent) => {
+    e.preventDefault()
+    console.log('Handle forgot password.')
+  }
+
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault()
     try {
@@ -126,12 +131,12 @@ const LoginPage = (): ReactElement => {
                   >
                     Password
                   </label>
-                  <a
-                    href="#!"
+                  <button
+                    onClick={handleForgotPassword}
                     className="text-sm text-gray-400 focus:outline-none focus:text-indigo-500 hover:text-indigo-500 dark:hover:text-indigo-300"
                   >
                     Forgot password?
-                  </a>
+                  </button>
                 </div>
                 <input
                   type="password"
