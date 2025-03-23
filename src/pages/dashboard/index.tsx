@@ -105,6 +105,58 @@ const DashboardPage = (): ReactElement => {
       console.log(err)
     }
   }
+  const plotSpyStockChart = async () => {
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: 'Plot Data',
+        children: (
+          <div className="h-60 w-60">
+            <Loader />
+          </div>
+        ),
+        onConfirm: () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+        }
+      }
+    })
+    try {
+      const res = await api.post(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/generate-stock-plot?stock=SPY&rollingAverageDays=50`
+      )
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: 'SPY Stock Plot',
+          children: (
+            <a
+              href={res.data.image_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={res.data.image_url} alt="SPY Stock Plot" />
+            </a>
+          ),
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    } catch (error: any) {
+      const errors: Error[] = error.response.data.errors
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `Something went wrong! ${errors[0].message}`,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    }
+  }
 
   const handleOnDelete = (id: string, domain: Domain) => {
     let onConfirm = (): void => {}
@@ -182,12 +234,14 @@ const DashboardPage = (): ReactElement => {
                   </div>
                 </div>
               )}
-              <KeyStatisticsCard
-                subject="S&P 500"
-                index={spyAnalysis.open}
-                previousIndex={spyAnalysis.previousClose}
-                icon="money"
-              />
+              <button onClick={plotSpyStockChart}>
+                <KeyStatisticsCard
+                  subject="S&P 500"
+                  index={spyAnalysis.open}
+                  previousIndex={spyAnalysis.previousClose}
+                  icon="money"
+                />
+              </button>
             </div>
           </div>
           <div id="chart">
