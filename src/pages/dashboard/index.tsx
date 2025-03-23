@@ -13,8 +13,7 @@ import KeyStatisticsCard from '../../components/key-statistics-card'
 import LineChart from '../../components/line-chart'
 import DeleteIcon from '../../components/icons/delete-icon'
 import CheckIcon from '../../components/icons/check-icon'
-import ChartIcon from '../../components/icons/chart-icon'
-import MoneyIcon from '../../components/icons/money-icon'
+import AlertIcon from '../../components/icons/alert-icon'
 
 interface IndexValues {
   currentIndex: number
@@ -169,8 +168,8 @@ const DashboardPage = (): ReactElement => {
               {!!currentUserAlerts.length && (
                 <div className="bg-black/60 p-6 rounded-lg">
                   <div className="flex flex-row space-x-4 items-center">
-                    <div id="stats-1">
-                      <MoneyIcon />
+                    <div>
+                      <AlertIcon />
                     </div>
                     <div>
                       <p className="text-indigo-300 text-sm font-medium uppercase leading-4">
