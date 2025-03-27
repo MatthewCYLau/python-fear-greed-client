@@ -10,6 +10,7 @@ import HomeIcon from '../icons/home-icon'
 import DocumentIcon from '../icons/document-icon'
 import SideNavButton from '../side-nav-button'
 import PlotChartIcon from '../icons/plot-chart-icon'
+import InfoIcon from '../icons/info-icon'
 
 const SideNav = () => {
   const { dispatch } = useContext(Store)
@@ -46,6 +47,12 @@ const SideNav = () => {
         iconComponant={<CogwheelIcon />}
         copy="Settings"
         description="Edit settings"
+      />
+      <SideNavButton
+        url="/analyse-stock"
+        iconComponant={<InfoIcon />}
+        copy="Analyse Stock"
+        description="Analyse individual stock"
       />
       <SideNavButton
         url="/analysis-job"
