@@ -88,3 +88,8 @@ export interface IndexAnalysisResponse {
   open: number
   previousClose: number
 }
+
+export interface StockData {
+  close: number
+  date: string
+}
