@@ -6,6 +6,7 @@ import api from '../../utils/api'
 import { StockData } from '../../types'
 import NoItemsFoundCard from '../../components/no-item-found-card'
 import { formatAmountTwoDecimals } from '../../utils/string'
+import KeyStatisticsCard from '../../components/key-statistics-card'
 
 interface Values {
   stockSymbol: string
@@ -107,6 +108,20 @@ const AnalyseStockPage = (): ReactElement => {
           >
             Analyse Stock
           </button>
+        </div>
+      </div>
+      <div className="m-7" id="key-statistics">
+        <h1 className="font-bold py-4 uppercase">Key Statistics</h1>
+        <div
+          id="stats"
+          className="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <KeyStatisticsCard
+            subject={`${stockAnalysisResult.stock}`}
+            index={stockAnalysisResult.close}
+            previousIndex={stockAnalysisResult.data[1].close}
+            icon="plotChart"
+          />
         </div>
       </div>
       <div className="m-7" id="alerts">
