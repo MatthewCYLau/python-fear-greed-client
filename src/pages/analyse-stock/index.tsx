@@ -110,24 +110,24 @@ const AnalyseStockPage = (): ReactElement => {
           </button>
         </div>
       </div>
-      <div className="m-7" id="key-statistics">
-        <h1 className="font-bold py-4 uppercase">Key Statistics</h1>
-        <div
-          id="stats"
-          className="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          <KeyStatisticsCard
-            subject={`${stockAnalysisResult.stock}`}
-            index={stockAnalysisResult.close}
-            previousIndex={stockAnalysisResult.data[1].close}
-            icon="plotChart"
-          />
-        </div>
-      </div>
-      <div className="m-7" id="alerts">
-        <h1 className="font-bold py-4 uppercase">Stock Analysis</h1>
-        {!!stockAnalysisResult.data.length ? (
-          <>
+      {!!stockAnalysisResult.data.length && (
+        <>
+          <div className="m-7" id="key-statistics">
+            <h1 className="font-bold py-4 uppercase">Key Statistics</h1>
+            <div
+              id="stats"
+              className="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+              <KeyStatisticsCard
+                subject={`${stockAnalysisResult.stock}`}
+                index={stockAnalysisResult.close}
+                previousIndex={stockAnalysisResult.data[1].close}
+                icon="plotChart"
+              />
+            </div>
+          </div>
+          <div className="m-7" id="alerts">
+            <h1 className="font-bold py-4 uppercase">Historial Prices</h1>
             <table className="w-full whitespace-nowrap">
               <thead className="bg-black/60">
                 <tr>
@@ -148,11 +148,9 @@ const AnalyseStockPage = (): ReactElement => {
                 </tbody>
               ))}
             </table>
-          </>
-        ) : (
-          <NoItemsFoundCard itemName="analysis job" />
-        )}
-      </div>
+          </div>
+        </>
+      )}
     </Layout>
   )
 }
