@@ -9,6 +9,7 @@ import {
 import cn from 'classnames'
 import { Store } from '../../store'
 import { ActionType } from '../../types'
+import { commonStockSymbols, years } from '../../constants'
 import api from '../../utils/api'
 import Layout from '../../components/layout'
 import Loader from '../../components/loader'
@@ -18,16 +19,6 @@ interface Values {
   stockSymbol: string
   years: number
 }
-
-const years: number[] = [1, 2, 3]
-const commonStockSymbols: string[] = [
-  'AAPL',
-  'TSLA',
-  'META',
-  'JPM',
-  'GOOG',
-  'AMZN'
-].sort((a, b) => a.localeCompare(b))
 
 const CumulativeReturnsPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
