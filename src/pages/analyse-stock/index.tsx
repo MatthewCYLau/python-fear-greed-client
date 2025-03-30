@@ -1,12 +1,14 @@
-import { ReactElement, useState, ChangeEvent } from 'react'
+import { ReactElement, useState, ChangeEvent, useContext } from 'react'
 import Layout from '../../components/layout'
 import { AxiosResponse } from 'axios'
 import api from '../../utils/api'
-import { StockData } from '../../types'
+import { ActionType, StockData } from '../../types'
 import { formatAmountTwoDecimals } from '../../utils/string'
 import KeyStatisticsCard from '../../components/key-statistics-card'
 import StockPicker from '../../components/stock-picker'
 import { commonStockSymbols } from '../../constants'
+import Loader from '../../components/loader'
+import { Store } from '../../store'
 
 interface Values {
   stockSymbol: string
@@ -26,6 +28,7 @@ interface stockAnalysisResult {
 }
 
 const AnalyseStockPage = (): ReactElement => {
+  const { dispatch } = useContext(Store)
   const [formValues, setFormValues] = useState<Values>({
     stockSymbol: ''
   })
@@ -44,6 +47,62 @@ const AnalyseStockPage = (): ReactElement => {
     })
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value })
+  }
+
+  const plotStockChart = async (stockSymbol: string) => {
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: 'Plot Data',
+        children: (
+          <div className="h-60 w-60">
+            <Loader />
+          </div>
+        ),
+        onConfirm: () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+        }
+      }
+    })
+    try {
+      const res = await api.post(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/generate-stock-plot?stock=${stockSymbol}&rollingAverageDays=50`
+      )
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `${stockSymbol} Stock Plot`,
+          children: (
+            <a
+              href={res.data.image_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={res.data.image_url}
+                alt={`${formValues.stockSymbol} Stock Plot`}
+              />
+            </a>
+          ),
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    } catch (error: any) {
+      const errors: Error[] = error.response.data.errors
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `Something went wrong! ${errors[0].message}`,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    }
   }
 
   const handleAnalyseStock = async () => {
@@ -108,12 +167,14 @@ const AnalyseStockPage = (): ReactElement => {
               id="stats"
               className="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              <KeyStatisticsCard
-                subject={`${stockAnalysisResult.stock}`}
-                index={stockAnalysisResult.close}
-                previousIndex={stockAnalysisResult.data[1].close}
-                icon="plotChart"
-              />
+              <button onClick={() => plotStockChart(formValues.stockSymbol)}>
+                <KeyStatisticsCard
+                  subject={`${stockAnalysisResult.stock}`}
+                  index={stockAnalysisResult.close}
+                  previousIndex={stockAnalysisResult.data[1].close}
+                  icon="plotChart"
+                />
+              </button>
             </div>
           </div>
           <div className="m-7" id="alerts">
