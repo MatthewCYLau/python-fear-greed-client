@@ -43,12 +43,6 @@ const SideNav = () => {
         description="Import data from CSV"
       />
       <SideNavButton
-        url="/update-user"
-        iconComponant={<CogwheelIcon />}
-        copy="Settings"
-        description="Edit settings"
-      />
-      <SideNavButton
         url="/analyse-stock"
         iconComponant={<InfoIcon />}
         copy="Analyse Stock"
@@ -65,6 +59,12 @@ const SideNav = () => {
         iconComponant={<PlotChartIcon />}
         copy="Cumulative Returns"
         description="Plot cumulative returns"
+      />
+      <SideNavButton
+        url="/update-user"
+        iconComponant={<CogwheelIcon />}
+        copy="Settings"
+        description="Edit settings"
       />
       <button
         onClick={logout}
