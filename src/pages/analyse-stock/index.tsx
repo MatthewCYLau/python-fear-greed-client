@@ -2,6 +2,8 @@ import { ReactElement, useState, ChangeEvent, useContext } from 'react'
 import Layout from '../../components/layout'
 import { AxiosResponse } from 'axios'
 import api from '../../utils/api'
+import { v4 as uuid } from 'uuid'
+import { ActionType as AlertActionType } from '../../store/alert/action-types'
 import { ActionType, StockData } from '../../types'
 import { formatAmountTwoDecimals } from '../../utils/string'
 import KeyStatisticsCard from '../../components/key-statistics-card'
@@ -127,8 +129,12 @@ const AnalyseStockPage = (): ReactElement => {
           date: val.Date
         }))
       })
-    } catch (err) {
-      console.log(err)
+    } catch (err: any) {
+      const errorMessage = err.response.data.message
+      dispatch({
+        type: AlertActionType.SET_ALERT,
+        payload: { id: uuid(), message: errorMessage, severity: 'error' }
+      })
     }
   }
 

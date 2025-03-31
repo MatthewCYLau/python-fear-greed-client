@@ -18,6 +18,7 @@ const Alert = () => {
         state.alerts.length > 0 &&
         state.alerts.map((alert) => (
           <div
+            key={alert.id}
             className="font-regular absolute block w-full rounded-lg bg-pink-500 p-4 text-base leading-5 text-white opacity-100"
             data-dismissible="alert"
           >
