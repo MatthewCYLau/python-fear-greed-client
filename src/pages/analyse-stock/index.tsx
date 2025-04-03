@@ -191,16 +191,47 @@ const AnalyseStockPage = (): ReactElement => {
               </div>
             </div>
             <div className="m-7" id="alerts">
+              <h1 className="font-bold py-4 uppercase">Rolling Averages</h1>
+              <table className="w-full whitespace-nowrap table-fixed">
+                <thead className="bg-black/60">
+                  <tr>
+                    <th className="text-left py-3 px-2 rounded-l-lg">Days</th>
+                    <th className="text-left py-3 px-2">Rolling Average</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr key="50" className="border-b border-gray-700">
+                    <td className="py-3 px-2 font-bold">50</td>
+                    <td className="py-3 px-2">
+                      {stockAnalysisResult.rollingAverages[50]}
+                    </td>
+                  </tr>
+                  <tr key="100" className="border-b border-gray-700">
+                    <td className="py-3 px-2 font-bold">100</td>
+                    <td className="py-3 px-2">
+                      {stockAnalysisResult.rollingAverages[100]}
+                    </td>
+                  </tr>
+                  <tr key="200" className="border-b border-gray-700">
+                    <td className="py-3 px-2 font-bold">200</td>
+                    <td className="py-3 px-2">
+                      {stockAnalysisResult.rollingAverages[200]}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="m-7" id="alerts">
               <h1 className="font-bold py-4 uppercase">Historial Prices</h1>
-              <table className="w-full whitespace-nowrap">
+              <table className="w-full whitespace-nowrap table-fixed">
                 <thead className="bg-black/60">
                   <tr>
                     <th className="text-left py-3 px-2 rounded-l-lg">Date</th>
                     <th className="text-left py-3 px-2">Close</th>
                   </tr>
                 </thead>
-                {stockAnalysisResult.data.map((n) => (
-                  <tbody>
+                <tbody>
+                  {stockAnalysisResult.data.map((n) => (
                     <tr key={n.date} className="border-b border-gray-700">
                       <td className="py-3 px-2 font-bold">
                         {new Date(Date.parse(n.date)).toLocaleDateString()}
@@ -209,8 +240,8 @@ const AnalyseStockPage = (): ReactElement => {
                         {formatAmountTwoDecimals(n.close.toString())}
                       </td>
                     </tr>
-                  </tbody>
-                ))}
+                  ))}
+                </tbody>
               </table>
             </div>
           </>
