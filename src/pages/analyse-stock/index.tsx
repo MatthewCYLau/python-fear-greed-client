@@ -190,7 +190,7 @@ const AnalyseStockPage = (): ReactElement => {
                 </button>
               </div>
             </div>
-            <div className="m-7" id="alerts">
+            <div className="m-7" id="rolling-averages">
               <h1 className="font-bold py-4 uppercase">Rolling Averages</h1>
               <table className="w-full whitespace-nowrap table-fixed">
                 <thead className="bg-black/60">
@@ -221,8 +221,8 @@ const AnalyseStockPage = (): ReactElement => {
                 </tbody>
               </table>
             </div>
-            <div className="m-7" id="alerts">
-              <h1 className="font-bold py-4 uppercase">Historial Prices</h1>
+            <div className="m-7" id="historical-prices">
+              <h1 className="font-bold py-4 uppercase">Historical Prices</h1>
               <table className="w-full whitespace-nowrap table-fixed">
                 <thead className="bg-black/60">
                   <tr>
