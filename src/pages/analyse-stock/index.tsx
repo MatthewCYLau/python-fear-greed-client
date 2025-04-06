@@ -114,7 +114,7 @@ const AnalyseStockPage = (): ReactElement => {
       const { data }: AxiosResponse<any> = await api.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/analysis?stock=${
           formValues.stockSymbol
-        }&targetFearGreedIndex=50&targetPeRatio=25`
+        }`
       )
       setStockAnalysisResult({
         stock: data.stock,
