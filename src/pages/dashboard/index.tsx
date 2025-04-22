@@ -1,6 +1,11 @@
 import { ReactElement, useEffect, useState, useContext } from 'react'
 import { Store } from '../../store'
-import { ActionType, Domain, IndexAnalysisResponse } from '../../types'
+import {
+  ActionType,
+  ChartTypeValues,
+  Domain,
+  IndexAnalysisResponse
+} from '../../types'
 import { AxiosResponse } from 'axios'
 import { Link } from 'react-router-dom'
 import api from '../../utils/api'
@@ -14,6 +19,7 @@ import LineChart from '../../components/line-chart'
 import DeleteIcon from '../../components/icons/delete-icon'
 import CheckIcon from '../../components/icons/check-icon'
 import AlertIcon from '../../components/icons/alert-icon'
+import { convertDateToValidFormet, getDateOneYearAgo } from '../../utils/date'
 
 interface IndexValues {
   currentIndex: number
@@ -103,6 +109,65 @@ const DashboardPage = (): ReactElement => {
       getCurrentUserEvents()
     } catch (err) {
       console.log(err)
+    }
+  }
+
+  const plotIndexOneYearChart = async () => {
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: 'Plot Data',
+        children: (
+          <div className="h-60 w-60">
+            <Loader />
+          </div>
+        ),
+        onConfirm: () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+        }
+      }
+    })
+    try {
+      const toDate = new Date()
+      const fromDate = getDateOneYearAgo()
+      const res = await api.post(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/records/generate-plot?startDate=${convertDateToValidFormet(
+          fromDate
+        )}&endDate=${convertDateToValidFormet(toDate)}&chartType=${
+          ChartTypeValues.SCATTER
+        }&binSize=3`
+      )
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: 'Plot Data',
+          children: (
+            <a
+              href={res.data.image_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src={res.data.image_url} alt="Plot data" />
+            </a>
+          ),
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    } catch (error: any) {
+      const errors: Error[] = error.response.data.errors
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `Something went wrong! ${errors[0].message}`,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
     }
   }
   const plotSpyStockChart = async () => {
@@ -211,12 +276,14 @@ const DashboardPage = (): ReactElement => {
               id="stats"
               className="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              <KeyStatisticsCard
-                subject="Current Index"
-                index={indexValues.currentIndex}
-                previousIndex={indexValues.previousIndex}
-                icon="plotChart"
-              />
+              <button onClick={plotIndexOneYearChart}>
+                <KeyStatisticsCard
+                  subject="Current Index"
+                  index={indexValues.currentIndex}
+                  previousIndex={indexValues.previousIndex}
+                  icon="plotChart"
+                />
+              </button>
               {!!currentUserAlerts.length && (
                 <div className="bg-black/60 p-6 rounded-lg">
                   <div className="flex flex-row space-x-4 items-center">

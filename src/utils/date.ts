@@ -6,3 +6,10 @@ export const convertDateToValidFormet = (date: Date): string => {
       : date.getMonth() + 1
   return `${dateString}-${monthString}-${date.getFullYear()}`
 }
+
+export const getDateOneYearAgo = () => {
+  const today = new Date()
+  const oneYearAgo = new Date(today)
+  oneYearAgo.setFullYear(today.getFullYear() - 1)
+  return oneYearAgo
+}
