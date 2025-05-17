@@ -21,6 +21,7 @@ interface stockAnalysisResult {
   close: number
   delta: number
   fairValue: number
+  peRatio: number
   rollingAverages: {
     50: number
     100: number
@@ -41,6 +42,7 @@ const AnalyseStockPage = (): ReactElement => {
       close: 0,
       delta: 0,
       fairValue: 0,
+      peRatio: 0,
       rollingAverages: {
         50: 0,
         100: 0,
@@ -121,6 +123,7 @@ const AnalyseStockPage = (): ReactElement => {
         close: data.close,
         delta: data.delta,
         fairValue: data.fairValue,
+        peRatio: data.peRatio,
         rollingAverages: {
           50: data.rolling_averages['50'],
           100: data.rolling_averages['100'],
@@ -188,6 +191,11 @@ const AnalyseStockPage = (): ReactElement => {
                     icon="plotChart"
                   />
                 </button>
+                <KeyStatisticsCard
+                  subject={'PE ratio'}
+                  index={stockAnalysisResult.peRatio}
+                  icon="money"
+                />
               </div>
             </div>
             <div className="m-7" id="rolling-averages">

@@ -42,11 +42,13 @@ const KeyStatisticsCard: FC<Props> = ({
           </p>
           <p className="text-white font-bold text-2xl inline-flex items-center space-x-2">
             <span>{index}</span>
-            <span>
-              <ChartIcon
-                positiveTrend={previousIndex ? index > previousIndex : true}
-              />
-            </span>
+            {previousIndex && (
+              <span>
+                <ChartIcon
+                  positiveTrend={previousIndex ? index > previousIndex : true}
+                />
+              </span>
+            )}
           </p>
         </div>
       </div>
