@@ -63,7 +63,7 @@ const CumulativeReturnsPage = (): ReactElement => {
           import.meta.env.VITE_API_BASE_URL
         }/api/generate-stocks-cumulative-returns-plot`,
         {
-          stocks: stocksList.join(';'),
+          stocks: stocksList.join(','),
           years: +formValues.years
         }
       )
