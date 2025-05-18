@@ -189,7 +189,7 @@ const DashboardPage = (): ReactElement => {
       const res = await api.post(
         `${
           import.meta.env.VITE_API_BASE_URL
-        }/api/generate-stock-plot?stock=SPY&rollingAverageDays=50`
+        }/api/generate-stock-plot?stocks=SPY&rollingAverageDays=50`
       )
       dispatch({
         type: ActionType.SET_MODAL,

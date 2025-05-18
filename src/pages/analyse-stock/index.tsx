@@ -73,7 +73,7 @@ const AnalyseStockPage = (): ReactElement => {
       const res = await api.post(
         `${
           import.meta.env.VITE_API_BASE_URL
-        }/api/generate-stock-plot?stock=${stockSymbol}&rollingAverageDays=50`
+        }/api/generate-stock-plot?stocks=${stockSymbol}&rollingAverageDays=50`
       )
       dispatch({
         type: ActionType.SET_MODAL,

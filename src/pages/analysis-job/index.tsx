@@ -108,7 +108,7 @@ const AnalysisJobPage = (): ReactElement => {
       const res = await api.post(
         `${
           import.meta.env.VITE_API_BASE_URL
-        }/api/generate-stock-plot?stock=${stockSymbol}&targetPrice=${targetPrice}`
+        }/api/generate-stock-plot?stocks=${stockSymbol}&targetPrice=${targetPrice}`
       )
       dispatch({
         type: ActionType.SET_MODAL,
