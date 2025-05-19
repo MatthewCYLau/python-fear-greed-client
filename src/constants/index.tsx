@@ -11,6 +11,6 @@ const commonStockSymbolsList: string[] = [
 ]
 
 export const commonStockSymbols: string[] = [
-  ...data.stocks,
+  ...data.indices,
   ...commonStockSymbolsList
 ].sort((a, b) => a.localeCompare(b))
