@@ -11,6 +11,7 @@ import DocumentIcon from '../icons/document-icon'
 import SideNavButton from '../side-nav-button'
 import PlotChartIcon from '../icons/plot-chart-icon'
 import InfoIcon from '../icons/info-icon'
+import CheckIcon from '../icons/check-icon'
 
 const SideNav = () => {
   const { dispatch } = useContext(Store)
@@ -56,7 +57,7 @@ const SideNav = () => {
       />
       <SideNavButton
         url="/closing-prices"
-        iconComponant={<PlotChartIcon />}
+        iconComponant={<CheckIcon />}
         copy="Closing Prices"
         description="Plot closing prices"
       />

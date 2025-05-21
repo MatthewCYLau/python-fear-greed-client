@@ -383,7 +383,7 @@ const DashboardPage = (): ReactElement => {
                           >
                             <DeleteIcon />
                           </button>
-                          {alert.have_actioned && <CheckIcon />}
+                          {alert.have_actioned && <CheckIcon colour="green" />}
                         </div>
                       </td>
                     </tr>
