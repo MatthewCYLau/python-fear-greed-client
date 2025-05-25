@@ -1,16 +1,16 @@
 import data from '../resource/data.json'
 
 export const years: number[] = [1, 2, 3]
-const commonStockSymbolsList: string[] = [
+export const commonStockSymbols: string[] = [
   'AAPL',
   'TSLA',
   'META',
   'JPM',
   'GOOG',
   'AMZN'
-]
+].sort((a, b) => a.localeCompare(b))
 
-export const commonStockSymbols: string[] = [
+export const commonStockSymbolsAndIndices: string[] = [
   ...data.indices,
-  ...commonStockSymbolsList
+  ...commonStockSymbols
 ].sort((a, b) => a.localeCompare(b))

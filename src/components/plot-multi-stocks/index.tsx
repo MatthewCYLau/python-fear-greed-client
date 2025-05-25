@@ -10,7 +10,7 @@ import {
 import cn from 'classnames'
 import { Store } from '../../store'
 import { ActionType } from '../../types'
-import { commonStockSymbols, years } from '../../constants'
+import { commonStockSymbolsAndIndices, years } from '../../constants'
 import api from '../../utils/api'
 import Loader from '../../components/loader'
 import DeleteIcon from '../../components/icons/delete-icon'
@@ -31,8 +31,9 @@ const PlotMultiStocks: FC<Props> = ({ header, plotData }): ReactElement => {
   const [showStockSymbolsDropdown, setShowStockSymbolsDropdown] =
     useState<boolean>(false)
   const [stocksList, setStocksList] = useState<string[]>([])
-  const [stockSymbolsDropdownList, setstockSymbolsDropdownList] =
-    useState<string[]>(commonStockSymbols)
+  const [stockSymbolsDropdownList, setstockSymbolsDropdownList] = useState<
+    string[]
+  >(commonStockSymbolsAndIndices)
   const [formValues, setFormValues] = useState<Values>({
     stockSymbol: '',
     years: 1
@@ -154,7 +155,7 @@ const PlotMultiStocks: FC<Props> = ({ header, plotData }): ReactElement => {
 
   useEffect(() => {
     setstockSymbolsDropdownList(
-      commonStockSymbols.filter((n) =>
+      commonStockSymbolsAndIndices.filter((n) =>
         n.toLowerCase().includes(formValues.stockSymbol.toLocaleLowerCase())
       )
     )
