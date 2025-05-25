@@ -166,6 +166,7 @@ const AnalyseStockPage = (): ReactElement => {
           />
           <button
             onClick={handleAnalyseStock}
+            disabled={!formValues.stockSymbol}
             className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
           >
             Analyse Stock
