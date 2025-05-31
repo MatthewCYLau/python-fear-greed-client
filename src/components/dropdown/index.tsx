@@ -6,9 +6,9 @@ import { Currency } from '../../types'
 
 interface Props {
   header: string
-  value: string
-  dropdownItems: string[] | Currency[]
-  selectDropdownItem: (n: Currency) => void
+  value: string | number
+  dropdownItems: string[] | Currency[] | number[]
+  selectDropdownItem: (n: any) => void
 }
 
 const Dropdown: FC<Props> = ({
