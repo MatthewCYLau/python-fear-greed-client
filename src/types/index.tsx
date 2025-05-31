@@ -45,6 +45,7 @@ export interface AnalysisJob {
   target_fear_greed_index?: number
   target_pe_ratio?: number
   stock_symbol: string
+  price_prediction: number
 }
 
 export interface PaginationMeta {

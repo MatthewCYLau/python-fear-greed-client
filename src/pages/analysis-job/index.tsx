@@ -350,6 +350,7 @@ const AnalysisJobPage = (): ReactElement => {
                   <th className="text-left py-3 px-2">Stock Symbol</th>
                   <th className="text-left py-3 px-2">Fair Value</th>
                   <th className="text-left py-3 px-2">Delta</th>
+                  <th className="text-left py-3 px-2">Price Prediction</th>
                   <th className="text-left py-3 px-2 rounded-r-lg">Actions</th>
                 </tr>
               </thead>
@@ -364,6 +365,7 @@ const AnalysisJobPage = (): ReactElement => {
                     <td className="py-3 px-2">
                       <Pill delta={job.delta} />
                     </td>
+                    <td className="py-3 px-2">{job.price_prediction}</td>
                     <td className="py-3 px-2">
                       <div className="inline-flex items-center space-x-3">
                         <button
