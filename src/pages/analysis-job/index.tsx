@@ -210,7 +210,7 @@ const AnalysisJobPage = (): ReactElement => {
       dispatch({
         type: ActionType.SET_MODAL,
         payload: {
-          message: `Fair value for stock ${res.data.stock_symbol} is: ${res.data.fair_value}`,
+          message: `Fair value for stock ${res.data.stock_symbol} is: ${res.data.fair_value}; one-year price prediction is ${res.data.price_prediction}`,
           onConfirm: () => {
             dispatch({ type: ActionType.REMOVE_MODAL })
             setGetAnalysisJobformValues({ analysisJobId: '' })
