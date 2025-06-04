@@ -21,7 +21,7 @@ import AnalysisJobInfo from '../../components/analysis-job-info'
 import Pill from '../../components/pill'
 import PlotChartIcon from '../../components/icons/plot-chart-icon'
 import Loader from '../../components/loader'
-import StockPicker from '../../components/stock-picker'
+import StockPicker from '../../components/search-dropdown'
 
 interface CreateAnalysisJobValues {
   stock: string
@@ -249,6 +249,7 @@ const AnalysisJobPage = (): ReactElement => {
         <h1 className="font-bold py-4 uppercase">Create Analysis Job</h1>
         <form onSubmit={createAnalysisJobSubmitHandler}>
           <StockPicker
+            header="Stock Symbol"
             onBlurHandler={() =>
               setCreateAnalysisJobformValues({
                 ...createAnalysisJobformValues,

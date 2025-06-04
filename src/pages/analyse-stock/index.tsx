@@ -7,7 +7,7 @@ import { ActionType as AlertActionType } from '../../store/alert/action-types'
 import { ActionType, StockData } from '../../types'
 import { formatAmountTwoDecimals } from '../../utils/string'
 import KeyStatisticsCard from '../../components/key-statistics-card'
-import StockPicker from '../../components/stock-picker'
+import SearchDropdown from '../../components/search-dropdown'
 import { commonStockSymbols } from '../../constants'
 import Loader from '../../components/loader'
 import { Store } from '../../store'
@@ -50,9 +50,6 @@ const AnalyseStockPage = (): ReactElement => {
       },
       data: []
     })
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value })
-  }
 
   const plotStockChart = async (stockSymbol: string) => {
     dispatch({
@@ -150,7 +147,7 @@ const AnalyseStockPage = (): ReactElement => {
       <div className="m-7 w-1/2">
         <h1 className="font-bold py-4 uppercase">Analyse Stock</h1>
         <div>
-          <StockPicker
+          <SearchDropdown
             onBlurHandler={() =>
               setFormValues({
                 ...formValues,
@@ -158,11 +155,14 @@ const AnalyseStockPage = (): ReactElement => {
               })
             }
             value={formValues.stockSymbol}
-            onChangeHandler={(e) => onChange(e)}
+            onChangeHandler={(e) =>
+              setFormValues({ ...formValues, stockSymbol: e.target.value })
+            }
             dropdownItems={commonStockSymbols}
             selectDropdownItem={(n: string) =>
               setFormValues({ ...formValues, stockSymbol: n })
             }
+            header="Stock Symbol"
           />
           <button
             onClick={handleAnalyseStock}

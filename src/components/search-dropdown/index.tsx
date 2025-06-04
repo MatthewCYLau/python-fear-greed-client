@@ -9,14 +9,16 @@ interface Props {
   onChangeHandler: (e: ChangeEvent<HTMLInputElement>) => void
   dropdownItems: string[]
   selectDropdownItem: (n: string) => void
+  header: string
 }
 
-const StockPicker: FC<Props> = ({
+const SearchDropdown: FC<Props> = ({
   onBlurHandler,
   value,
   onChangeHandler,
   dropdownItems,
-  selectDropdownItem
+  selectDropdownItem,
+  header
 }) => {
   const [showStockSymbolsDropdown, setShowStockSymbolsDropdown] =
     useState<boolean>(false)
@@ -42,7 +44,7 @@ const StockPicker: FC<Props> = ({
         htmlFor="stockSymbol"
         className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
       >
-        Stock Symbol
+        {header}
       </label>
       <input
         autoComplete="off"
@@ -56,7 +58,7 @@ const StockPicker: FC<Props> = ({
         onFocus={() => setShowStockSymbolsDropdown(true)}
         onBlur={onBlurHandler}
       />
-      {showStockSymbolsDropdown && (
+      {showStockSymbolsDropdown && !!filteredDropdownItems.length && (
         <div
           ref={stockSymbolDropdownRef}
           id="dropdown-menu"
@@ -83,4 +85,4 @@ const StockPicker: FC<Props> = ({
   )
 }
 
-export default StockPicker
+export default SearchDropdown
