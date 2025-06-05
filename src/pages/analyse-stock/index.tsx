@@ -29,6 +29,8 @@ interface stockAnalysisResult {
     200: number
   }
   data: StockData[]
+  correlation: number
+  correlationStock: string
 }
 
 const AnalyseStockPage = (): ReactElement => {
@@ -50,7 +52,9 @@ const AnalyseStockPage = (): ReactElement => {
         100: 0,
         200: 0
       },
-      data: []
+      data: [],
+      correlation: 0,
+      correlationStock: ''
     })
 
   const plotStockChart = async (stockSymbol: string) => {
@@ -131,7 +135,9 @@ const AnalyseStockPage = (): ReactElement => {
         data: data.data.map((val: { Close: number; Date: string }) => ({
           close: val.Close,
           date: val.Date
-        }))
+        })),
+        correlation: data.correlation,
+        correlationStock: data.correlationStock
       })
     } catch (err: any) {
       const errorMessage = err.response.data.message
@@ -220,6 +226,13 @@ const AnalyseStockPage = (): ReactElement => {
                   index={stockAnalysisResult.peRatio}
                   icon="money"
                 />
+                {stockAnalysisResult.correlation && (
+                  <KeyStatisticsCard
+                    subject={`Correlation ${stockAnalysisResult.correlationStock}`}
+                    index={stockAnalysisResult.correlation}
+                    icon="people"
+                  />
+                )}
               </div>
             </div>
             <div className="m-7" id="rolling-averages">
