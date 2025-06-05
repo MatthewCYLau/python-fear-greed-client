@@ -14,6 +14,7 @@ import { Store } from '../../store'
 
 interface Values {
   stockSymbol: string
+  correlationStockSymbol: string
 }
 
 interface stockAnalysisResult {
@@ -34,7 +35,8 @@ const AnalyseStockPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [formValues, setFormValues] = useState<Values>({
-    stockSymbol: ''
+    stockSymbol: '',
+    correlationStockSymbol: ''
   })
   const [stockAnalysisResult, setStockAnalysisResult] =
     useState<stockAnalysisResult>({
@@ -113,7 +115,7 @@ const AnalyseStockPage = (): ReactElement => {
       const { data }: AxiosResponse<any> = await api.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/analysis?stock=${
           formValues.stockSymbol
-        }`
+        }&correlationStock=${formValues.correlationStockSymbol}`
       )
       setStockAnalysisResult({
         stock: data.stock,
@@ -163,6 +165,27 @@ const AnalyseStockPage = (): ReactElement => {
               setFormValues({ ...formValues, stockSymbol: n })
             }
             header="Stock Symbol"
+          />
+          <SearchDropdown
+            onBlurHandler={() =>
+              setFormValues({
+                ...formValues,
+                correlationStockSymbol:
+                  formValues.correlationStockSymbol.toUpperCase()
+              })
+            }
+            value={formValues.correlationStockSymbol}
+            onChangeHandler={(e) =>
+              setFormValues({
+                ...formValues,
+                correlationStockSymbol: e.target.value
+              })
+            }
+            dropdownItems={commonStockSymbols}
+            selectDropdownItem={(n: string) =>
+              setFormValues({ ...formValues, correlationStockSymbol: n })
+            }
+            header="Correlation Stock Symbol"
           />
           <button
             onClick={handleAnalyseStock}

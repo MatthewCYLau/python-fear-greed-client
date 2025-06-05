@@ -63,7 +63,7 @@ const SearchDropdown: FC<Props> = ({
           ref={stockSymbolDropdownRef}
           id="dropdown-menu"
           className={cn(
-            'absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 z-4 overflow-y-scroll max-h-24',
+            'absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 z-10 overflow-y-scroll max-h-24',
             {
               'visibility: hidden': dropdownItems.length == 0
             }
