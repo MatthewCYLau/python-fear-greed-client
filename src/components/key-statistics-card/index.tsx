@@ -3,8 +3,9 @@ import MoneyIcon from '../icons/money-icon'
 import ChartIcon from '../icons/chart-icon'
 import PlotChartIcon from '../icons/plot-chart-icon'
 import PeopleIcon from '../icons/people-icon'
+import InfoIcon from '../icons/info-icon'
 
-type IconName = 'money' | 'plotChart' | 'people'
+type IconName = 'money' | 'plotChart' | 'people' | 'info'
 
 interface Props {
   subject: string
@@ -21,6 +22,8 @@ const returnIcon = (iconName: IconName): ReactNode => {
       return <PlotChartIcon />
     case 'people':
       return <PeopleIcon />
+    case 'info':
+      return <InfoIcon />
     default:
       break
   }

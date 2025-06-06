@@ -226,11 +226,11 @@ const AnalyseStockPage = (): ReactElement => {
                   index={stockAnalysisResult.peRatio}
                   icon="money"
                 />
-                {stockAnalysisResult.correlation && (
+                {stockAnalysisResult.correlationStock && (
                   <KeyStatisticsCard
                     subject={`Correlation ${stockAnalysisResult.correlationStock}`}
                     index={stockAnalysisResult.correlation}
-                    icon="people"
+                    icon="info"
                   />
                 )}
               </div>
