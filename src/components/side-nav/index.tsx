@@ -12,6 +12,7 @@ import SideNavButton from '../side-nav-button'
 import PlotChartIcon from '../icons/plot-chart-icon'
 import InfoIcon from '../icons/info-icon'
 import CheckIcon from '../icons/check-icon'
+import WorldIcon from '../icons/world-icon'
 
 const SideNav = () => {
   const { dispatch } = useContext(Store)
@@ -66,6 +67,12 @@ const SideNav = () => {
         iconComponant={<PlotChartIcon />}
         copy="Cumulative Returns"
         description="Plot cumulative returns"
+      />
+      <SideNavButton
+        url="/forex"
+        iconComponant={<WorldIcon />}
+        copy="Forex Data"
+        description="Foreign exchange data"
       />
       <SideNavButton
         url="/update-user"
