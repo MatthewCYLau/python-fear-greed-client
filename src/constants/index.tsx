@@ -14,3 +14,13 @@ export const commonStockSymbolsAndIndices: string[] = [
   ...data.indices,
   ...commonStockSymbols
 ].sort((a, b) => a.localeCompare(b))
+
+export const commonCurrencySymbols: string[] = [
+  'GBP',
+  'USD',
+  'HKD',
+  'EUR',
+  'CAD',
+  'JPY',
+  'AUD'
+].sort((a, b) => a.localeCompare(b))

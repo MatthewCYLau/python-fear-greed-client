@@ -171,6 +171,7 @@ const AnalyseStockPage = (): ReactElement => {
               setFormValues({ ...formValues, stockSymbol: n })
             }
             header="Stock Symbol"
+            placeholder="AAPL"
           />
           <SearchDropdown
             onBlurHandler={() =>
@@ -192,6 +193,7 @@ const AnalyseStockPage = (): ReactElement => {
               setFormValues({ ...formValues, correlationStockSymbol: n })
             }
             header="Correlation Stock Symbol"
+            placeholder="TSLA"
           />
           <button
             onClick={handleAnalyseStock}
