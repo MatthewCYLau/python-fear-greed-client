@@ -270,6 +270,7 @@ const AnalysisJobPage = (): ReactElement => {
                 stock: n
               })
             }
+            placeholder="AAPL"
           />
           <div className="mb-6">
             <label
