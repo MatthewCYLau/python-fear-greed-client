@@ -150,6 +150,35 @@ const AnalyseStockPage = (): ReactElement => {
     }
   }
 
+  const handleExportStockData = async (e: React.SyntheticEvent) => {
+    e.preventDefault()
+    try {
+      await api
+        .post(
+          `${import.meta.env.VITE_API_BASE_URL}/api/analysis/export-csv?stock=${
+            formValues.stockSymbol
+          }`,
+          {
+            responseType: 'blob'
+          }
+        )
+        .then((response) => {
+          const url = window.URL.createObjectURL(new Blob([response.data]))
+          const link = document.createElement('a')
+          link.href = url
+          const fileName = `${new Date().toLocaleDateString()}-${
+            formValues.stockSymbol
+          }.csv`
+          link.setAttribute('download', fileName)
+          document.body.appendChild(link)
+          link.click()
+          link.remove()
+        })
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <Layout>
       <div className="m-7 w-1/2">
@@ -290,6 +319,14 @@ const AnalyseStockPage = (): ReactElement => {
                   ))}
                 </tbody>
               </table>
+            </div>
+            <div className="m-7 w-1/2">
+              <button
+                onClick={handleExportStockData}
+                className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
+              >
+                Export Stock Data
+              </button>
             </div>
           </>
         )
