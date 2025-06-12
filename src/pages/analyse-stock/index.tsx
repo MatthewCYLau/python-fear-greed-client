@@ -11,6 +11,7 @@ import SearchDropdown from '../../components/search-dropdown'
 import { commonStockSymbols } from '../../constants'
 import Loader from '../../components/loader'
 import { Store } from '../../store'
+import ChartIcon from '../../components/icons/chart-icon'
 
 interface Values {
   stockSymbol: string
@@ -31,6 +32,9 @@ interface stockAnalysisResult {
   data: StockData[]
   correlation: number
   correlationStock: string
+  periodLow: number
+  periodHigh: number
+  periodChange: number
 }
 
 const AnalyseStockPage = (): ReactElement => {
@@ -54,7 +58,10 @@ const AnalyseStockPage = (): ReactElement => {
       },
       data: [],
       correlation: 0,
-      correlationStock: ''
+      correlationStock: '',
+      periodLow: 0,
+      periodHigh: 0,
+      periodChange: 0
     })
 
   const plotStockChart = async (stockSymbol: string) => {
@@ -137,7 +144,10 @@ const AnalyseStockPage = (): ReactElement => {
           date: val.Date
         })),
         correlation: data.correlation,
-        correlationStock: data.correlationStock
+        correlationStock: data.correlationStock,
+        periodLow: data.periodLow,
+        periodHigh: data.periodHigh,
+        periodChange: data.periodChange
       })
     } catch (err: any) {
       const errorMessage = err.response.data.message
@@ -292,6 +302,34 @@ const AnalyseStockPage = (): ReactElement => {
                     <td className="py-3 px-2 font-bold">200</td>
                     <td className="py-3 px-2">
                       {stockAnalysisResult.rollingAverages[200]}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="m-7" id="period-data-averages">
+              <h1 className="font-bold py-4 uppercase">Period Data</h1>
+              <table className="w-full whitespace-nowrap table-fixed">
+                <tbody>
+                  <tr key="50" className="border-b border-gray-700">
+                    <td className="py-3 px-2 font-bold">Period Low</td>
+                    <td className="py-3 px-2">
+                      {stockAnalysisResult.periodLow}
+                    </td>
+                  </tr>
+                  <tr key="50" className="border-b border-gray-700">
+                    <td className="py-3 px-2 font-bold">Period High</td>
+                    <td className="py-3 px-2">
+                      {stockAnalysisResult.periodHigh}
+                    </td>
+                  </tr>
+                  <tr key="50" className="border-b border-gray-700">
+                    <td className="py-3 px-2 font-bold">Period Change</td>
+                    <td className="py-3 px-2">
+                      {stockAnalysisResult.periodChange}
+                      <ChartIcon
+                        positiveTrend={stockAnalysisResult.periodChange > 0}
+                      />
                     </td>
                   </tr>
                 </tbody>
