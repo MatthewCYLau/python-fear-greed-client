@@ -310,6 +310,12 @@ const AnalyseStockPage = (): ReactElement => {
             <div className="m-7" id="period-data-averages">
               <h1 className="font-bold py-4 uppercase">Period Data</h1>
               <table className="w-full whitespace-nowrap table-fixed">
+                <thead className="bg-black/60">
+                  <tr>
+                    <th className="text-left py-3 px-2 rounded-l-lg">Data</th>
+                    <th className="text-left py-3 px-2">Value</th>
+                  </tr>
+                </thead>
                 <tbody>
                   <tr key="50" className="border-b border-gray-700">
                     <td className="py-3 px-2 font-bold">Period Low</td>
@@ -325,8 +331,10 @@ const AnalyseStockPage = (): ReactElement => {
                   </tr>
                   <tr key="50" className="border-b border-gray-700">
                     <td className="py-3 px-2 font-bold">Period Change</td>
-                    <td className="py-3 px-2">
-                      {stockAnalysisResult.periodChange}
+                    <td className="py-3 px-2 flex">
+                      <span className="mr-4">
+                        {stockAnalysisResult.periodChange}
+                      </span>
                       <ChartIcon
                         positiveTrend={stockAnalysisResult.periodChange > 0}
                       />
