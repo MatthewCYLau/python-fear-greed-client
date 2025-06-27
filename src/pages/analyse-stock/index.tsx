@@ -1,4 +1,4 @@
-import { ReactElement, useState, ChangeEvent, useContext } from 'react'
+import { ReactElement, useState, useRef, useContext, useEffect } from 'react'
 import Layout from '../../components/layout'
 import { AxiosResponse } from 'axios'
 import api from '../../utils/api'
@@ -8,14 +8,16 @@ import { ActionType, StockData } from '../../types'
 import { formatAmountTwoDecimals } from '../../utils/string'
 import KeyStatisticsCard from '../../components/key-statistics-card'
 import SearchDropdown from '../../components/search-dropdown'
-import { commonStockSymbols } from '../../constants'
+import { commonStockSymbols, years } from '../../constants'
 import Loader from '../../components/loader'
 import { Store } from '../../store'
 import ChartIcon from '../../components/icons/chart-icon'
+import Dropdown from '../../components/dropdown'
 
 interface Values {
   stockSymbol: string
   correlationStockSymbol: string
+  years: number
 }
 
 interface stockAnalysisResult {
@@ -40,9 +42,13 @@ interface stockAnalysisResult {
 const AnalyseStockPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const yearsDropdownRef = useRef<HTMLDivElement>(null)
+  const [showDropdown, setShowDropdown] = useState<boolean>(false)
+
   const [formValues, setFormValues] = useState<Values>({
     stockSymbol: '',
-    correlationStockSymbol: ''
+    correlationStockSymbol: '',
+    years: 1
   })
   const [stockAnalysisResult, setStockAnalysisResult] =
     useState<stockAnalysisResult>({
@@ -126,7 +132,9 @@ const AnalyseStockPage = (): ReactElement => {
       const { data }: AxiosResponse<any> = await api.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/analysis?stock=${
           formValues.stockSymbol
-        }&correlationStock=${formValues.correlationStockSymbol}`
+        }&correlationStock=${
+          formValues.correlationStockSymbol
+        }&years=${+formValues.years}`
       )
       setStockAnalysisResult({
         stock: data.stock,
@@ -189,6 +197,26 @@ const AnalyseStockPage = (): ReactElement => {
     }
   }
 
+  const dropdownItemOnClickHandler = (n: number) => {
+    setFormValues({ ...formValues, years: n })
+    setShowDropdown(!showDropdown)
+  }
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent): void {
+      if (
+        yearsDropdownRef.current &&
+        !yearsDropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  })
+
   return (
     <Layout>
       <div className="m-7 w-1/2">
@@ -233,6 +261,12 @@ const AnalyseStockPage = (): ReactElement => {
             }
             header="Correlation Stock Symbol"
             placeholder="TSLA"
+          />
+          <Dropdown
+            header="Time ago in years"
+            dropdownItems={years}
+            value={formValues.years}
+            selectDropdownItem={dropdownItemOnClickHandler}
           />
           <button
             onClick={handleAnalyseStock}
