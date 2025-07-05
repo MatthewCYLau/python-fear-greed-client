@@ -94,3 +94,8 @@ export interface StockData {
   close: number
   date: string
 }
+
+export interface MonthlyAverageClose {
+  date: string
+  'Monthly Average': string
+}

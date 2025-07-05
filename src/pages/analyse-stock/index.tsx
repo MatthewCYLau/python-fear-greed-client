@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios'
 import api from '../../utils/api'
 import { v4 as uuid } from 'uuid'
 import { ActionType as AlertActionType } from '../../store/alert/action-types'
-import { ActionType, StockData } from '../../types'
+import { ActionType, MonthlyAverageClose, StockData } from '../../types'
 import { formatAmountTwoDecimals } from '../../utils/string'
 import KeyStatisticsCard from '../../components/key-statistics-card'
 import SearchDropdown from '../../components/search-dropdown'
@@ -37,6 +37,7 @@ interface stockAnalysisResult {
   periodLow: number
   periodHigh: number
   periodChange: number
+  monthlyAverageClose: MonthlyAverageClose[]
 }
 
 const AnalyseStockPage = (): ReactElement => {
@@ -67,7 +68,8 @@ const AnalyseStockPage = (): ReactElement => {
       correlationStock: '',
       periodLow: 0,
       periodHigh: 0,
-      periodChange: 0
+      periodChange: 0,
+      monthlyAverageClose: []
     })
 
   const plotStockChart = async (stockSymbol: string) => {
@@ -151,6 +153,12 @@ const AnalyseStockPage = (): ReactElement => {
           close: val.Close,
           date: val.Date
         })),
+        monthlyAverageClose: data.closeMonthlyAverage.map(
+          (val: { Date: string; 'Monthly Average': string }) => ({
+            date: val.Date,
+            'Monthly Average': val['Monthly Average']
+          })
+        ),
         correlation: data.correlation,
         correlationStock: data.correlationStock,
         periodLow: data.periodLow,
@@ -338,6 +346,29 @@ const AnalyseStockPage = (): ReactElement => {
                       {stockAnalysisResult.rollingAverages[200]}
                     </td>
                   </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="m-7" id="rolling-averages">
+              <h1 className="font-bold py-4 uppercase">
+                Monthly Averages Close
+              </h1>
+              <table className="w-full whitespace-nowrap table-fixed">
+                <thead className="bg-black/60">
+                  <tr>
+                    <th className="text-left py-3 px-2 rounded-l-lg">Month</th>
+                    <th className="text-left py-3 px-2">Average Close</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {stockAnalysisResult.monthlyAverageClose
+                    .slice(0, 6)
+                    .map((n) => (
+                      <tr key={n.date} className="border-b border-gray-700">
+                        <td className="py-3 px-2 font-bold">{n.date}</td>
+                        <td className="py-3 px-2">{n['Monthly Average']}</td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
