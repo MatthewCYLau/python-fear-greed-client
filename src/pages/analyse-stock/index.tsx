@@ -13,6 +13,7 @@ import Loader from '../../components/loader'
 import { Store } from '../../store'
 import ChartIcon from '../../components/icons/chart-icon'
 import Dropdown from '../../components/dropdown'
+import PlotChartIcon from '../../components/icons/plot-chart-icon'
 
 interface Values {
   stockSymbol: string
@@ -210,6 +211,66 @@ const AnalyseStockPage = (): ReactElement => {
     setShowDropdown(!showDropdown)
   }
 
+  const plotMeanCloseStockChart = async (stockSymbol: string) => {
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: 'Plot Data',
+        children: (
+          <div className="h-60 w-60">
+            <Loader />
+          </div>
+        ),
+        onConfirm: () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+        }
+      }
+    })
+    try {
+      const res = await api.post(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/generate-stock-mean-close-plot`,
+        {
+          stock: formValues.stockSymbol,
+          years: +formValues.years
+        }
+      )
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `${stockSymbol} Mean Close Plot`,
+          children: (
+            <a
+              href={res.data.image_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={res.data.image_url}
+                alt={`${stockSymbol} Mean Close Plot`}
+              />
+            </a>
+          ),
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    } catch (error: any) {
+      const errors: Error[] = error.response.data.errors
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `Something went wrong! ${errors[0].message}`,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    }
+  }
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent): void {
       if (
@@ -350,9 +411,20 @@ const AnalyseStockPage = (): ReactElement => {
               </table>
             </div>
             <div className="m-7" id="rolling-averages">
-              <h1 className="font-bold py-4 uppercase">
-                Monthly Averages Close
-              </h1>
+              <div className="flex">
+                <h1 className="font-bold py-4 uppercase mr-2">
+                  Monthly Averages Close
+                </h1>
+                <button
+                  onClick={async () =>
+                    await plotMeanCloseStockChart(formValues.stockSymbol)
+                  }
+                  className="hover:text-white"
+                >
+                  <PlotChartIcon />
+                </button>
+              </div>
+
               <table className="w-full whitespace-nowrap table-fixed">
                 <thead className="bg-black/60">
                   <tr>
