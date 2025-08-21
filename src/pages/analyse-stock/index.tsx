@@ -150,10 +150,17 @@ const AnalyseStockPage = (): ReactElement => {
           100: data.rolling_averages['100'],
           200: data.rolling_averages['200']
         },
-        data: data.data.map((val: { Close: number; Date: string }) => ({
-          close: val.Close,
-          date: val.Date
-        })),
+        data: data.data.map(
+          (val: {
+            Close: number
+            Date: string
+            'Daily change percentage': number
+          }) => ({
+            close: val.Close,
+            date: val.Date,
+            'Daily change percentage': val['Daily change percentage']
+          })
+        ),
         monthlyAverageClose: data.closeMonthlyAverage.map(
           (val: { Date: string; 'Monthly Average': string }) => ({
             date: val.Date,
@@ -487,6 +494,9 @@ const AnalyseStockPage = (): ReactElement => {
                   <tr>
                     <th className="text-left py-3 px-2 rounded-l-lg">Date</th>
                     <th className="text-left py-3 px-2">Close</th>
+                    <th className="text-left py-3 px-2">
+                      Daily change percentage
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -497,6 +507,14 @@ const AnalyseStockPage = (): ReactElement => {
                       </td>
                       <td className="py-3 px-2">
                         {formatAmountTwoDecimals(n.close.toString())}
+                      </td>
+                      <td className="py-3 px-2 flex">
+                        <span className="mr-4">
+                          {n['Daily change percentage']}
+                        </span>
+                        <ChartIcon
+                          positiveTrend={n['Daily change percentage'] > 0}
+                        />
                       </td>
                     </tr>
                   ))}

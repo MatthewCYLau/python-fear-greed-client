@@ -93,6 +93,7 @@ export interface IndexAnalysisResponse {
 export interface StockData {
   close: number
   date: string
+  'Daily change percentage': number
 }
 
 export interface MonthlyAverageClose {
