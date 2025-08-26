@@ -39,6 +39,7 @@ interface stockAnalysisResult {
   periodHigh: number
   periodChange: number
   monthlyAverageClose: MonthlyAverageClose[]
+  closeStandardDeviation: number
 }
 
 const AnalyseStockPage = (): ReactElement => {
@@ -70,7 +71,8 @@ const AnalyseStockPage = (): ReactElement => {
       periodLow: 0,
       periodHigh: 0,
       periodChange: 0,
-      monthlyAverageClose: []
+      monthlyAverageClose: [],
+      closeStandardDeviation: 0
     })
 
   const plotStockChart = async (stockSymbol: string) => {
@@ -171,7 +173,8 @@ const AnalyseStockPage = (): ReactElement => {
         correlationStock: data.correlationStock,
         periodLow: data.periodLow,
         periodHigh: data.periodHigh,
-        periodChange: data.periodChange
+        periodChange: data.periodChange,
+        closeStandardDeviation: data.closeStandardDeviation
       })
     } catch (err: any) {
       const errorMessage = err.response.data.message
@@ -376,6 +379,11 @@ const AnalyseStockPage = (): ReactElement => {
                   subject={'PE ratio'}
                   index={stockAnalysisResult.peRatio}
                   icon="money"
+                />
+                <KeyStatisticsCard
+                  subject={'Standard deviation'}
+                  index={stockAnalysisResult.closeStandardDeviation}
+                  icon="info"
                 />
                 {stockAnalysisResult.correlationStock && (
                   <KeyStatisticsCard
