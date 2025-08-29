@@ -39,7 +39,7 @@ const KeyStatisticsCard: FC<Props> = ({
     <div className="bg-black/60 to-white/5 p-6 rounded-lg">
       <div className="flex flex-row space-x-4 items-center">
         <div id="stats-1">{returnIcon(icon)}</div>
-        <div>
+        <div className="flex flex-col items-start">
           <p className="text-indigo-300 text-sm font-medium uppercase leading-4">
             {subject}
           </p>

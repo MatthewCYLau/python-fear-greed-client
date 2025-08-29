@@ -131,6 +131,66 @@ const AnalyseStockPage = (): ReactElement => {
     }
   }
 
+  const plotStockCloseDailyReturnChart = async (stockSymbol: string) => {
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: 'Plot Data',
+        children: (
+          <div className="h-60 w-60">
+            <Loader />
+          </div>
+        ),
+        onConfirm: () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+        }
+      }
+    })
+    try {
+      const res = await api.post(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/generate-stock-close-daily-return-plot`,
+        {
+          stock: formValues.stockSymbol,
+          years: 1
+        }
+      )
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `${stockSymbol} Stock Plot`,
+          children: (
+            <a
+              href={res.data.image_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={res.data.image_url}
+                alt={`${formValues.stockSymbol} Stock Close Daily Change Plot`}
+              />
+            </a>
+          ),
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    } catch (error: any) {
+      const errors: Error[] = error.response.data.errors
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `Something went wrong! ${errors[0].message}`,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    }
+  }
+
   const handleAnalyseStock = async () => {
     setIsLoading(true)
     try {
@@ -380,11 +440,17 @@ const AnalyseStockPage = (): ReactElement => {
                   index={stockAnalysisResult.peRatio}
                   icon="money"
                 />
-                <KeyStatisticsCard
-                  subject={'Standard deviation'}
-                  index={stockAnalysisResult.closeStandardDeviation}
-                  icon="info"
-                />
+                <button
+                  onClick={() =>
+                    plotStockCloseDailyReturnChart(formValues.stockSymbol)
+                  }
+                >
+                  <KeyStatisticsCard
+                    subject={'Standard deviation'}
+                    index={stockAnalysisResult.closeStandardDeviation}
+                    icon="info"
+                  />
+                </button>
                 {stockAnalysisResult.correlationStock && (
                   <KeyStatisticsCard
                     subject={`Correlation ${stockAnalysisResult.correlationStock}`}
