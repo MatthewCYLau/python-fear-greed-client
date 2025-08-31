@@ -167,6 +167,7 @@ const AnalyseStockPage = (): ReactElement => {
               rel="noopener noreferrer"
             >
               <img
+                className="pt-12"
                 src={res.data.image_url}
                 alt={`${formValues.stockSymbol} Stock Close Daily Change Plot`}
               />
