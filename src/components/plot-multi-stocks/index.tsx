@@ -24,6 +24,7 @@ interface Props {
 interface Values {
   stockSymbol: string
   years: number
+  secondaryAxis: string
 }
 
 const PlotMultiStocks: FC<Props> = ({ header, plotData }): ReactElement => {
@@ -37,7 +38,8 @@ const PlotMultiStocks: FC<Props> = ({ header, plotData }): ReactElement => {
   >(commonStockSymbolsAndIndices)
   const [formValues, setFormValues] = useState<Values>({
     stockSymbol: '',
-    years: 1
+    years: 1,
+    secondaryAxis: 'No'
   })
   const yearsDropdownRef = useRef<HTMLDivElement>(null)
   const stockSymbolDropdownRef = useRef<HTMLDivElement>(null)
@@ -61,8 +63,13 @@ const PlotMultiStocks: FC<Props> = ({ header, plotData }): ReactElement => {
     setStocksList(stocksList.filter((ele) => ele !== item))
   }
 
-  const dropdownItemOnClickHandler = (n: number) => {
+  const yearsDropdownItemOnClickHandler = (n: number) => {
     setFormValues({ ...formValues, years: n })
+    setShowDropdown(!showDropdown)
+  }
+
+  const secondaryAxisDropdownItemOnClickHandler = (n: string) => {
+    setFormValues({ ...formValues, secondaryAxis: n })
     setShowDropdown(!showDropdown)
   }
 
@@ -83,7 +90,9 @@ const PlotMultiStocks: FC<Props> = ({ header, plotData }): ReactElement => {
           import.meta.env.VITE_API_BASE_URL
         }/api/generate-stock-plot?stocks=${stocksList.join(
           ','
-        )}&years=${+formValues.years}`
+        )}&years=${+formValues.years}&secondaryAxis=${
+          formValues.secondaryAxis == 'Yes'
+        }`
       )
     }
   }
@@ -245,8 +254,16 @@ const PlotMultiStocks: FC<Props> = ({ header, plotData }): ReactElement => {
           header="Time ago in years"
           dropdownItems={years}
           value={formValues.years}
-          selectDropdownItem={dropdownItemOnClickHandler}
+          selectDropdownItem={yearsDropdownItemOnClickHandler}
         />
+        {stocksList.length == 1 && (
+          <Dropdown
+            header="Plot volatility against secondary axis"
+            dropdownItems={['Yes', 'No']}
+            value={formValues.secondaryAxis}
+            selectDropdownItem={secondaryAxisDropdownItemOnClickHandler}
+          />
+        )}
         <button
           disabled={stocksList.length === 0}
           onClick={(e) => handlePlotDataOnClick(e)}

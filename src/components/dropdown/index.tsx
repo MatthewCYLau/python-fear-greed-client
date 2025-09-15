@@ -56,7 +56,7 @@ const Dropdown: FC<Props> = ({
         <div
           ref={dropdownRef}
           id="dropdown-menu"
-          className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 z-2"
+          className="absolute w-full right-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 p-1 space-y-1 z-20"
         >
           {dropdownItems.map((n) => (
             <DropdownButton
