@@ -16,13 +16,13 @@ const LineChart = () => {
   const getRecords = async () => {
     try {
       const { data } = await api.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/records?count=365&order=asc`
+        `${import.meta.env.VITE_API_BASE_URL}/api/records?count=365&order=desc`
       )
       data.forEach((i) => {
         i.created = new Date(Date.parse(i.created ? i.created : i.creatd))
         i.index = Number(i.index)
       })
-      setData(data)
+      setData(data.reverse())
     } catch (err) {
       console.log(err)
     }
