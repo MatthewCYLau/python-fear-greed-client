@@ -54,8 +54,7 @@ const PlotMultiStocks: FC<Props> = ({ header, plotData }): ReactElement => {
   }
 
   const stockSymbolDropdownItemOnClickHandler = (item: string) => {
-    setStocksList([...stocksList, item])
-    setFormValues({ ...formValues, stockSymbol: '' })
+    setFormValues({ ...formValues, stockSymbol: item })
     setShowStockSymbolsDropdown(false)
   }
 
