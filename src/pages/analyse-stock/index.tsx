@@ -8,7 +8,11 @@ import { ActionType, MonthlyAverageClose, StockData } from '../../types'
 import { formatAmountTwoDecimals } from '../../utils/string'
 import KeyStatisticsCard from '../../components/key-statistics-card'
 import SearchDropdown from '../../components/search-dropdown'
-import { commonStockSymbols, years } from '../../constants'
+import {
+  commonCurrencySymbols,
+  commonStockSymbols,
+  years
+} from '../../constants'
 import Loader from '../../components/loader'
 import { Store } from '../../store'
 import ChartIcon from '../../components/icons/chart-icon'
@@ -18,6 +22,7 @@ import PlotChartIcon from '../../components/icons/plot-chart-icon'
 interface Values {
   stockSymbol: string
   correlationStockSymbol: string
+  currency: string
   years: number
 }
 
@@ -51,6 +56,7 @@ const AnalyseStockPage = (): ReactElement => {
   const [formValues, setFormValues] = useState<Values>({
     stockSymbol: '',
     correlationStockSymbol: '',
+    currency: '',
     years: 1
   })
   const [stockAnalysisResult, setStockAnalysisResult] =
@@ -401,6 +407,24 @@ const AnalyseStockPage = (): ReactElement => {
             }
             header="Correlation Stock Symbol"
             placeholder="TSLA"
+          />
+          <SearchDropdown
+            onBlurHandler={() =>
+              setFormValues({
+                ...formValues,
+                currency: formValues.currency.toUpperCase()
+              })
+            }
+            value={formValues.currency}
+            onChangeHandler={(e) =>
+              setFormValues({ ...formValues, currency: e.target.value })
+            }
+            dropdownItems={commonCurrencySymbols}
+            selectDropdownItem={(n: string) =>
+              setFormValues({ ...formValues, currency: n })
+            }
+            header="Currency impact on return"
+            placeholder="USD"
           />
           <Dropdown
             header="Time ago in years"
