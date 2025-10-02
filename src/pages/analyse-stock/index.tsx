@@ -26,6 +26,12 @@ interface Values {
   years: number
 }
 
+interface analyseCurrencyImpactResult {
+  cumulativeUsdReturn: number
+  currencyImpact: number
+  localCurrencyReturn: number
+}
+
 interface stockAnalysisResult {
   stock: string
   close: number
@@ -59,6 +65,14 @@ const AnalyseStockPage = (): ReactElement => {
     currency: '',
     years: 1
   })
+
+  const [currencyImpact, setCurrencyImpact] =
+    useState<analyseCurrencyImpactResult>({
+      cumulativeUsdReturn: 0,
+      currencyImpact: 0,
+      localCurrencyReturn: 0
+    })
+
   const [stockAnalysisResult, setStockAnalysisResult] =
     useState<stockAnalysisResult>({
       stock: '',
@@ -243,6 +257,28 @@ const AnalyseStockPage = (): ReactElement => {
         periodChange: data.periodChange,
         closeStandardDeviation: data.closeStandardDeviation
       })
+
+      if (formValues.currency) {
+        const { data: currencyImpactData }: AxiosResponse<any> = await api.post(
+          `${import.meta.env.VITE_API_BASE_URL}/api/analyse-currency-impact`,
+          {
+            stock: formValues.stockSymbol,
+            years: +formValues.years,
+            currency: formValues.currency
+          }
+        )
+        setCurrencyImpact({
+          cumulativeUsdReturn: currencyImpactData.cumulativeUsdReturn,
+          currencyImpact: currencyImpactData.currencyImpact,
+          localCurrencyReturn: currencyImpactData.localCurrencyReturn
+        })
+      } else {
+        setCurrencyImpact({
+          cumulativeUsdReturn: 0,
+          currencyImpact: 0,
+          localCurrencyReturn: 0
+        })
+      }
     } catch (err: any) {
       const errorMessage = err.response.data.message
       dispatch({
@@ -516,6 +552,43 @@ const AnalyseStockPage = (): ReactElement => {
                 </tbody>
               </table>
             </div>
+            {Object.values(currencyImpact).every((n) => n) && (
+              <div className="m-7" id="rolling-averages">
+                <h1 className="font-bold py-4 uppercase">Currency Impact</h1>
+                <table className="w-full whitespace-nowrap table-fixed">
+                  <thead className="bg-black/60">
+                    <tr>
+                      <th className="text-left py-3 px-2 rounded-l-lg">Data</th>
+                      <th className="text-left py-3 px-2">Value percentage</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr key="50" className="border-b border-gray-700">
+                      <td className="py-3 px-2 font-bold">
+                        Cumulative USD Return
+                      </td>
+                      <td className="py-3 px-2">
+                        {currencyImpact.cumulativeUsdReturn}
+                      </td>
+                    </tr>
+                    <tr key="100" className="border-b border-gray-700">
+                      <td className="py-3 px-2 font-bold">
+                        Local Currency Return
+                      </td>
+                      <td className="py-3 px-2">
+                        {currencyImpact.localCurrencyReturn}
+                      </td>
+                    </tr>
+                    <tr key="200" className="border-b border-gray-700">
+                      <td className="py-3 px-2 font-bold">Crrency Impact</td>
+                      <td className="py-3 px-2">
+                        {currencyImpact.currencyImpact}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            )}
             <div className="m-7" id="rolling-averages">
               <div className="flex">
                 <h1 className="font-bold py-4 uppercase mr-2">
