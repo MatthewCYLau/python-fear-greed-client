@@ -18,6 +18,7 @@ import { Store } from '../../store'
 import ChartIcon from '../../components/icons/chart-icon'
 import Dropdown from '../../components/dropdown'
 import PlotChartIcon from '../../components/icons/plot-chart-icon'
+import Table from '../../components/table'
 
 interface Values {
   stockSymbol: string
@@ -521,73 +522,27 @@ const AnalyseStockPage = (): ReactElement => {
                 )}
               </div>
             </div>
-            <div className="m-7" id="rolling-averages">
-              <h1 className="font-bold py-4 uppercase">Rolling Averages</h1>
-              <table className="w-full whitespace-nowrap table-fixed">
-                <thead className="bg-black/60">
-                  <tr>
-                    <th className="text-left py-3 px-2 rounded-l-lg">Days</th>
-                    <th className="text-left py-3 px-2">Rolling Average</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr key="50" className="border-b border-gray-700">
-                    <td className="py-3 px-2 font-bold">50</td>
-                    <td className="py-3 px-2">
-                      {stockAnalysisResult.rollingAverages[50]}
-                    </td>
-                  </tr>
-                  <tr key="100" className="border-b border-gray-700">
-                    <td className="py-3 px-2 font-bold">100</td>
-                    <td className="py-3 px-2">
-                      {stockAnalysisResult.rollingAverages[100]}
-                    </td>
-                  </tr>
-                  <tr key="200" className="border-b border-gray-700">
-                    <td className="py-3 px-2 font-bold">200</td>
-                    <td className="py-3 px-2">
-                      {stockAnalysisResult.rollingAverages[200]}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <Table
+              id="rolling-averages"
+              header="Rolling Averages"
+              columns={['Days', 'Rolling Average']}
+              data={[
+                ['50', stockAnalysisResult.rollingAverages[50]],
+                ['100', stockAnalysisResult.rollingAverages[100]],
+                ['200', stockAnalysisResult.rollingAverages[200]]
+              ]}
+            ></Table>
             {Object.values(currencyImpact).every((n) => n) && (
-              <div className="m-7" id="rolling-averages">
-                <h1 className="font-bold py-4 uppercase">Currency Impact</h1>
-                <table className="w-full whitespace-nowrap table-fixed">
-                  <thead className="bg-black/60">
-                    <tr>
-                      <th className="text-left py-3 px-2 rounded-l-lg">Data</th>
-                      <th className="text-left py-3 px-2">Value percentage</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr key="50" className="border-b border-gray-700">
-                      <td className="py-3 px-2 font-bold">
-                        Cumulative USD Return
-                      </td>
-                      <td className="py-3 px-2">
-                        {currencyImpact.cumulativeUsdReturn}
-                      </td>
-                    </tr>
-                    <tr key="100" className="border-b border-gray-700">
-                      <td className="py-3 px-2 font-bold">
-                        Local Currency Return
-                      </td>
-                      <td className="py-3 px-2">
-                        {currencyImpact.localCurrencyReturn}
-                      </td>
-                    </tr>
-                    <tr key="200" className="border-b border-gray-700">
-                      <td className="py-3 px-2 font-bold">Crrency Impact</td>
-                      <td className="py-3 px-2">
-                        {currencyImpact.currencyImpact}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <Table
+                id="currency-impact"
+                header="Currency Impact"
+                columns={['Data', 'Value percentage']}
+                data={[
+                  ['Cumulative USD Return', currencyImpact.cumulativeUsdReturn],
+                  ['Local Currency Return', currencyImpact.localCurrencyReturn],
+                  ['Currency Impact', currencyImpact.currencyImpact]
+                ]}
+              ></Table>
             )}
             <div className="m-7" id="rolling-averages">
               <div className="flex">
