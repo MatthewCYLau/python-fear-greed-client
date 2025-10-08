@@ -325,6 +325,67 @@ const AnalyseStockPage = (): ReactElement => {
     setShowDropdown(!showDropdown)
   }
 
+  const plotCurrencyImpactChart = async () => {
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: 'Plot Data',
+        children: (
+          <div className="h-60 w-60">
+            <Loader />
+          </div>
+        ),
+        onConfirm: () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+        }
+      }
+    })
+    try {
+      const res = await api.post(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/generate-currency-impact-plot`,
+        {
+          stock: formValues.stockSymbol,
+          years: +formValues.years,
+          currency: formValues.currency
+        }
+      )
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `${formValues.currency} Currency Impact on ${formValues.stockSymbol} Return Plot`,
+          children: (
+            <a
+              href={res.data.image_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={res.data.image_url}
+                alt={`${formValues.currency} Currency Impact on ${formValues.stockSymbol} Return Plot`}
+              />
+            </a>
+          ),
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    } catch (error: any) {
+      const errors: Error[] = error.response.data.errors
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `Something went wrong! ${errors[0].message}`,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    }
+  }
+
   const plotMeanCloseStockChart = async (stockSymbol: string) => {
     dispatch({
       type: ActionType.SET_MODAL,
@@ -537,6 +598,7 @@ const AnalyseStockPage = (): ReactElement => {
                 id="currency-impact"
                 header="Currency Impact"
                 columns={['Data', 'Value percentage']}
+                handlePlotChartIconOnClick={plotCurrencyImpactChart}
                 data={[
                   ['Cumulative USD Return', currencyImpact.cumulativeUsdReturn],
                   ['Local Currency Return', currencyImpact.localCurrencyReturn],
