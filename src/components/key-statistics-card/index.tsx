@@ -4,8 +4,9 @@ import ChartIcon from '../icons/chart-icon'
 import PlotChartIcon from '../icons/plot-chart-icon'
 import PeopleIcon from '../icons/people-icon'
 import InfoIcon from '../icons/info-icon'
+import AlertIcon from '../icons/alert-icon'
 
-type IconName = 'money' | 'plotChart' | 'people' | 'info'
+type IconName = 'money' | 'plotChart' | 'people' | 'info' | 'alert'
 
 interface Props {
   subject: string
@@ -24,6 +25,8 @@ const returnIcon = (iconName: IconName): ReactNode => {
       return <PeopleIcon />
     case 'info':
       return <InfoIcon />
+    case 'alert':
+      return <AlertIcon />
     default:
       break
   }

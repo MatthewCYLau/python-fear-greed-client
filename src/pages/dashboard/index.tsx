@@ -26,7 +26,19 @@ interface IndexValues {
   previousIndex: number
 }
 
+interface KeyIndicesValues {
+  sp500: {
+    open: number
+    previousClose: number
+  }
+  vix: {
+    open: number
+    previousClose: number
+  }
+}
+
 const SP500_TICKER = '^GSPC'
+const VIX_TICKER = '^VIX'
 
 const DashboardPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
@@ -34,9 +46,15 @@ const DashboardPage = (): ReactElement => {
     currentIndex: 0,
     previousIndex: 0
   })
-  const [sp500Analysis, setSpyAnalysis] = useState<IndexAnalysisResponse>({
-    open: 0,
-    previousClose: 0
+  const [keyIndicesValues, setKeyIndicesValues] = useState<KeyIndicesValues>({
+    sp500: {
+      open: 0,
+      previousClose: 0
+    },
+    vix: {
+      open: 0,
+      previousClose: 0
+    }
   })
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentUserAlerts, setCurrentUserAlerts] = useState<Alert[]>([])
@@ -56,14 +74,26 @@ const DashboardPage = (): ReactElement => {
       console.log(err)
     }
   }
-  const getSp500Open = async () => {
+  const getKeyIndicesValues = async () => {
     try {
-      const { data }: AxiosResponse<any> = await api.get(
+      const { data: sp500Data }: AxiosResponse<any> = await api.get(
         `${
           import.meta.env.VITE_API_BASE_URL
         }/api/analysis?index=${SP500_TICKER}`
       )
-      setSpyAnalysis(data)
+      const { data: vixData }: AxiosResponse<any> = await api.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/analysis?index=${VIX_TICKER}`
+      )
+      setKeyIndicesValues({
+        sp500: {
+          open: sp500Data.open,
+          previousClose: sp500Data.previousClose
+        },
+        vix: {
+          open: vixData.open,
+          previousClose: vixData.previousClose
+        }
+      })
     } catch (err) {
       console.log(err)
     }
@@ -257,7 +287,7 @@ const DashboardPage = (): ReactElement => {
 
   useEffect(() => {
     getCurrentIndex()
-    getSp500Open()
+    getKeyIndicesValues()
     getCurrentUserAlerts()
     getCurrentUserEvents()
   }, [])
@@ -288,28 +318,17 @@ const DashboardPage = (): ReactElement => {
                   icon="plotChart"
                 />
               </button>
-              {!!currentUserAlerts.length && (
-                <div className="bg-black/60 p-6 rounded-lg">
-                  <div className="flex flex-row space-x-4 items-center">
-                    <div>
-                      <AlertIcon />
-                    </div>
-                    <div>
-                      <p className="text-indigo-300 text-sm font-medium uppercase leading-4">
-                        Latest Alert
-                      </p>
-                      <p className="text-white font-bold text-2xl inline-flex items-center space-x-2">
-                        <span>{currentUserMostRecentAlert}</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
+              <KeyStatisticsCard
+                subject="VIX"
+                index={keyIndicesValues.vix.open}
+                previousIndex={keyIndicesValues.vix.previousClose}
+                icon="alert"
+              />
               <button onClick={plotSpyStockChart}>
                 <KeyStatisticsCard
                   subject="S&P 500"
-                  index={sp500Analysis.open}
-                  previousIndex={sp500Analysis.previousClose}
+                  index={keyIndicesValues.sp500.open}
+                  previousIndex={keyIndicesValues.sp500.previousClose}
                   icon="money"
                 />
               </button>
