@@ -26,13 +26,15 @@ interface IndexValues {
   previousIndex: number
 }
 
+const SP500_TICKER = '^GSPC'
+
 const DashboardPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
   const [indexValues, setIndexValues] = useState<IndexValues>({
     currentIndex: 0,
     previousIndex: 0
   })
-  const [spyAnalysis, setSpyAnalysis] = useState<IndexAnalysisResponse>({
+  const [sp500Analysis, setSpyAnalysis] = useState<IndexAnalysisResponse>({
     open: 0,
     previousClose: 0
   })
@@ -54,10 +56,12 @@ const DashboardPage = (): ReactElement => {
       console.log(err)
     }
   }
-  const getSpyOpen = async () => {
+  const getSp500Open = async () => {
     try {
       const { data }: AxiosResponse<any> = await api.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/analysis?index=SPY`
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/analysis?index=${SP500_TICKER}`
       )
       setSpyAnalysis(data)
     } catch (err) {
@@ -189,19 +193,19 @@ const DashboardPage = (): ReactElement => {
       const res = await api.post(
         `${
           import.meta.env.VITE_API_BASE_URL
-        }/api/generate-stock-plot?stocks=SPY&rollingAverageDays=50`
+        }/api/generate-stock-plot?stocks=${SP500_TICKER}&rollingAverageDays=50`
       )
       dispatch({
         type: ActionType.SET_MODAL,
         payload: {
-          message: 'SPY Stock Plot',
+          message: 'S&P 500 Plot',
           children: (
             <a
               href={res.data.image_url}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img src={res.data.image_url} alt="SPY Stock Plot" />
+              <img src={res.data.image_url} alt="S&P 500 Plot" />
             </a>
           ),
           onConfirm: () => {
@@ -253,7 +257,7 @@ const DashboardPage = (): ReactElement => {
 
   useEffect(() => {
     getCurrentIndex()
-    getSpyOpen()
+    getSp500Open()
     getCurrentUserAlerts()
     getCurrentUserEvents()
   }, [])
@@ -304,8 +308,8 @@ const DashboardPage = (): ReactElement => {
               <button onClick={plotSpyStockChart}>
                 <KeyStatisticsCard
                   subject="S&P 500"
-                  index={spyAnalysis.open}
-                  previousIndex={spyAnalysis.previousClose}
+                  index={sp500Analysis.open}
+                  previousIndex={sp500Analysis.previousClose}
                   icon="money"
                 />
               </button>
