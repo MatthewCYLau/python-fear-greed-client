@@ -204,7 +204,7 @@ const DashboardPage = (): ReactElement => {
       })
     }
   }
-  const plotSpyStockChart = async () => {
+  const plotStockChart = async (stockSymbol: string) => {
     dispatch({
       type: ActionType.SET_MODAL,
       payload: {
@@ -223,19 +223,19 @@ const DashboardPage = (): ReactElement => {
       const res = await api.post(
         `${
           import.meta.env.VITE_API_BASE_URL
-        }/api/generate-stock-plot?stocks=${SP500_TICKER}&rollingAverageDays=50`
+        }/api/generate-stock-plot?stocks=${stockSymbol}&rollingAverageDays=50`
       )
       dispatch({
         type: ActionType.SET_MODAL,
         payload: {
-          message: 'S&P 500 Plot',
+          message: `${stockSymbol} Plot`,
           children: (
             <a
               href={res.data.image_url}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img src={res.data.image_url} alt="S&P 500 Plot" />
+              <img src={res.data.image_url} alt={`${stockSymbol} Plot`} />
             </a>
           ),
           onConfirm: () => {
@@ -318,13 +318,15 @@ const DashboardPage = (): ReactElement => {
                   icon="plotChart"
                 />
               </button>
-              <KeyStatisticsCard
-                subject="VIX"
-                index={keyIndicesValues.vix.open}
-                previousIndex={keyIndicesValues.vix.previousClose}
-                icon="alert"
-              />
-              <button onClick={plotSpyStockChart}>
+              <button onClick={() => plotStockChart(VIX_TICKER)}>
+                <KeyStatisticsCard
+                  subject="VIX"
+                  index={keyIndicesValues.vix.open}
+                  previousIndex={keyIndicesValues.vix.previousClose}
+                  icon="alert"
+                />
+              </button>
+              <button onClick={() => plotStockChart(SP500_TICKER)}>
                 <KeyStatisticsCard
                   subject="S&P 500"
                   index={keyIndicesValues.sp500.open}
