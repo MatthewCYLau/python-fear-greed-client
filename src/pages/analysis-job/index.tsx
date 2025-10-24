@@ -22,6 +22,7 @@ import Pill from '../../components/pill'
 import PlotChartIcon from '../../components/icons/plot-chart-icon'
 import Loader from '../../components/loader'
 import StockPicker from '../../components/search-dropdown'
+import DownloadIcon from '../../components/icons/download-icon'
 
 interface CreateAnalysisJobValues {
   stock: string
@@ -185,6 +186,44 @@ const AnalysisJobPage = (): ReactElement => {
           },
           onCopyClick: () => {
             navigator.clipboard.writeText(res.data.analysisJobId)
+          }
+        }
+      })
+    } catch (err: any) {
+      const errors: Error[] = err.response.data.errors
+      errors.forEach((e) =>
+        dispatch({
+          type: AlertActionType.SET_ALERT,
+          payload: { id: uuid(), message: e.message, severity: 'error' }
+        })
+      )
+    }
+  }
+
+  const handleOnDownload = async (stockSymbol: string) => {
+    try {
+      const res = await api.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/models/export-to-blob`,
+        {
+          stock: stockSymbol,
+          years: 1
+        },
+        {
+          headers: {
+            'content-type': 'application/json'
+          }
+        }
+      )
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `Model ID: ${res.data.model_id}`,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+            navigate('/dashboard')
+          },
+          onCopyClick: () => {
+            navigator.clipboard.writeText(res.data.model_id)
           }
         }
       })
@@ -389,6 +428,12 @@ const AnalysisJobPage = (): ReactElement => {
                           className="hover:text-white"
                         >
                           <PlotChartIcon />
+                        </button>
+                        <button
+                          onClick={() => handleOnDownload(job.stock_symbol)}
+                          className="hover:text-white"
+                        >
+                          <DownloadIcon />
                         </button>
                       </div>
                     </td>
