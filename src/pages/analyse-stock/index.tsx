@@ -270,6 +270,17 @@ const AnalyseStockPage = (): ReactElement => {
         closeStandardDeviation: data.closeStandardDeviation
       })
 
+      const { data: dividendAnalysisData }: AxiosResponse<any> = await api.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/dividends-analysis?stock=${
+          formValues.stockSymbol
+        }&years=${+formValues.years}`
+      )
+
+      setDividendsAnalysis({
+        ttmDividendAnnual: dividendAnalysisData.ttm_dividend_annual,
+        ttmYield: dividendAnalysisData.ttm_yield
+      })
+
       if (formValues.currency) {
         const { data: currencyImpactData }: AxiosResponse<any> = await api.post(
           `${import.meta.env.VITE_API_BASE_URL}/api/analyse-currency-impact`,
@@ -602,6 +613,18 @@ const AnalyseStockPage = (): ReactElement => {
                 ['50', stockAnalysisResult.rollingAverages[50]],
                 ['100', stockAnalysisResult.rollingAverages[100]],
                 ['200', stockAnalysisResult.rollingAverages[200]]
+              ]}
+            ></Table>
+            <Table
+              id="dividends-analysis"
+              header="Dividends Analysis"
+              columns={['Data', 'Value']}
+              data={[
+                [
+                  'TTM dividend (annual)',
+                  `$${dividendsAnalysis.ttmDividendAnnual}`
+                ],
+                ['TTM yield', `${dividendsAnalysis.ttmYield}%`]
               ]}
             ></Table>
             {Object.values(currencyImpact).every((n) => n) && (
