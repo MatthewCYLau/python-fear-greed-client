@@ -33,6 +33,11 @@ interface analyseCurrencyImpactResult {
   localCurrencyReturn: number
 }
 
+interface dividendsAnalysisResult {
+  ttmDividendAnnual: number
+  ttmYield: number
+}
+
 interface stockAnalysisResult {
   stock: string
   close: number
@@ -72,6 +77,12 @@ const AnalyseStockPage = (): ReactElement => {
       cumulativeUsdReturn: 0,
       currencyImpact: 0,
       localCurrencyReturn: 0
+    })
+
+  const [dividendsAnalysis, setDividendsAnalysis] =
+    useState<dividendsAnalysisResult>({
+      ttmDividendAnnual: 0,
+      ttmYield: 0
     })
 
   const [stockAnalysisResult, setStockAnalysisResult] =
@@ -586,7 +597,7 @@ const AnalyseStockPage = (): ReactElement => {
             <Table
               id="rolling-averages"
               header="Rolling Averages"
-              columns={['Days', 'Rolling Average']}
+              columns={['Days', 'Rolling average']}
               data={[
                 ['50', stockAnalysisResult.rollingAverages[50]],
                 ['100', stockAnalysisResult.rollingAverages[100]],
@@ -625,7 +636,7 @@ const AnalyseStockPage = (): ReactElement => {
                 <thead className="bg-black/60">
                   <tr>
                     <th className="text-left py-3 px-2 rounded-l-lg">Month</th>
-                    <th className="text-left py-3 px-2">Average Close</th>
+                    <th className="text-left py-3 px-2">Average close</th>
                   </tr>
                 </thead>
                 <tbody>
