@@ -107,123 +107,6 @@ const AnalyseStockPage = (): ReactElement => {
       closeStandardDeviation: 0
     })
 
-  const plotStockChart = async (stockSymbol: string) => {
-    dispatch({
-      type: ActionType.SET_MODAL,
-      payload: {
-        message: 'Plot Data',
-        children: (
-          <div className="h-60 w-60">
-            <Loader />
-          </div>
-        ),
-        onConfirm: () => {
-          dispatch({ type: ActionType.REMOVE_MODAL })
-        }
-      }
-    })
-    try {
-      const res = await api.post(
-        `${
-          import.meta.env.VITE_API_BASE_URL
-        }/api/generate-stock-plot?stocks=${stockSymbol}&rollingAverageDays=50`
-      )
-      dispatch({
-        type: ActionType.SET_MODAL,
-        payload: {
-          message: `${stockSymbol} Stock Plot`,
-          children: (
-            <a
-              href={res.data.image_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src={res.data.image_url}
-                alt={`${formValues.stockSymbol} Stock Plot`}
-              />
-            </a>
-          ),
-          onConfirm: () => {
-            dispatch({ type: ActionType.REMOVE_MODAL })
-          }
-        }
-      })
-    } catch (error: any) {
-      const errors: Error[] = error.response.data.errors
-      dispatch({
-        type: ActionType.SET_MODAL,
-        payload: {
-          message: `Something went wrong! ${errors[0].message}`,
-          onConfirm: () => {
-            dispatch({ type: ActionType.REMOVE_MODAL })
-          }
-        }
-      })
-    }
-  }
-
-  const plotStockCloseDailyReturnChart = async (stockSymbol: string) => {
-    dispatch({
-      type: ActionType.SET_MODAL,
-      payload: {
-        message: 'Plot Data',
-        children: (
-          <div className="h-60 w-60">
-            <Loader />
-          </div>
-        ),
-        onConfirm: () => {
-          dispatch({ type: ActionType.REMOVE_MODAL })
-        }
-      }
-    })
-    try {
-      const res = await api.post(
-        `${
-          import.meta.env.VITE_API_BASE_URL
-        }/api/generate-stock-close-daily-return-plot`,
-        {
-          stock: formValues.stockSymbol,
-          years: 1
-        }
-      )
-      dispatch({
-        type: ActionType.SET_MODAL,
-        payload: {
-          message: `${stockSymbol} Stock Plot`,
-          children: (
-            <a
-              href={res.data.image_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                className="pt-12"
-                src={res.data.image_url}
-                alt={`${formValues.stockSymbol} Stock Close Daily Change Plot`}
-              />
-            </a>
-          ),
-          onConfirm: () => {
-            dispatch({ type: ActionType.REMOVE_MODAL })
-          }
-        }
-      })
-    } catch (error: any) {
-      const errors: Error[] = error.response.data.errors
-      dispatch({
-        type: ActionType.SET_MODAL,
-        payload: {
-          message: `Something went wrong! ${errors[0].message}`,
-          onConfirm: () => {
-            dispatch({ type: ActionType.REMOVE_MODAL })
-          }
-        }
-      })
-    }
-  }
-
   const handleAnalyseStock = async () => {
     setIsLoading(true)
     try {
@@ -347,6 +230,123 @@ const AnalyseStockPage = (): ReactElement => {
     setShowDropdown(!showDropdown)
   }
 
+  const plotStockChart = async () => {
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: 'Plot Data',
+        children: (
+          <div className="h-60 w-60">
+            <Loader />
+          </div>
+        ),
+        onConfirm: () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+        }
+      }
+    })
+    try {
+      const res = await api.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/generate-stock-plot?stocks=${
+          formValues.stockSymbol
+        }&rollingAverageDays=50`
+      )
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `${formValues.stockSymbol} Stock Plot`,
+          children: (
+            <a
+              href={res.data.image_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={res.data.image_url}
+                alt={`${formValues.stockSymbol} Stock Plot`}
+              />
+            </a>
+          ),
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    } catch (error: any) {
+      const errors: Error[] = error.response.data.errors
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `Something went wrong! ${errors[0].message}`,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    }
+  }
+
+  const plotStockCloseDailyReturnChart = async () => {
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: 'Plot Data',
+        children: (
+          <div className="h-60 w-60">
+            <Loader />
+          </div>
+        ),
+        onConfirm: () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+        }
+      }
+    })
+    try {
+      const res = await api.post(
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/generate-stock-close-daily-return-plot`,
+        {
+          stock: formValues.stockSymbol,
+          years: 1
+        }
+      )
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `${formValues.stockSymbol} Stock Plot`,
+          children: (
+            <a
+              href={res.data.image_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                className="pt-12"
+                src={res.data.image_url}
+                alt={`${formValues.stockSymbol} Stock Close Daily Change Plot`}
+              />
+            </a>
+          ),
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    } catch (error: any) {
+      const errors: Error[] = error.response.data.errors
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `Something went wrong! ${errors[0].message}`,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    }
+  }
+
   const plotDividendsAnalysisChart = async () => {
     dispatch({
       type: ActionType.SET_MODAL,
@@ -468,7 +468,7 @@ const AnalyseStockPage = (): ReactElement => {
     }
   }
 
-  const plotMeanCloseStockChart = async (stockSymbol: string) => {
+  const plotMeanCloseStockChart = async () => {
     dispatch({
       type: ActionType.SET_MODAL,
       payload: {
@@ -496,7 +496,7 @@ const AnalyseStockPage = (): ReactElement => {
       dispatch({
         type: ActionType.SET_MODAL,
         payload: {
-          message: `${stockSymbol} Mean Close Plot`,
+          message: `${formValues.stockSymbol} Mean Close Plot`,
           children: (
             <a
               href={res.data.image_url}
@@ -505,7 +505,7 @@ const AnalyseStockPage = (): ReactElement => {
             >
               <img
                 src={res.data.image_url}
-                alt={`${stockSymbol} Mean Close Plot`}
+                alt={`${formValues.stockSymbol} Mean Close Plot`}
               />
             </a>
           ),
@@ -632,7 +632,7 @@ const AnalyseStockPage = (): ReactElement => {
                 id="stats"
                 className="grid gird-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
-                <button onClick={() => plotStockChart(formValues.stockSymbol)}>
+                <button onClick={plotStockChart}>
                   <KeyStatisticsCard
                     subject={`${stockAnalysisResult.stock}`}
                     index={stockAnalysisResult.close}
@@ -645,11 +645,7 @@ const AnalyseStockPage = (): ReactElement => {
                   index={stockAnalysisResult.peRatio}
                   icon="money"
                 />
-                <button
-                  onClick={() =>
-                    plotStockCloseDailyReturnChart(formValues.stockSymbol)
-                  }
-                >
+                <button onClick={plotStockCloseDailyReturnChart}>
                   <KeyStatisticsCard
                     subject={'Standard deviation'}
                     index={stockAnalysisResult.closeStandardDeviation}
@@ -707,9 +703,7 @@ const AnalyseStockPage = (): ReactElement => {
                   Monthly Averages Close
                 </h1>
                 <button
-                  onClick={async () =>
-                    await plotMeanCloseStockChart(formValues.stockSymbol)
-                  }
+                  onClick={plotMeanCloseStockChart}
                   className="hover:text-white"
                 >
                   <PlotChartIcon />
