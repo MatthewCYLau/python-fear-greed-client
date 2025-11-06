@@ -231,7 +231,7 @@ const AnalyseStockPage = (): ReactElement => {
   }
 
   const plotStockChart = async (
-    chartType: 'close' | 'closeDailyReturn' | 'dividends'
+    chartType: 'close' | 'closeDailyReturn' | 'dividends' | 'currencyImpact'
   ) => {
     dispatch({
       type: ActionType.SET_MODAL,
@@ -252,7 +252,8 @@ const AnalyseStockPage = (): ReactElement => {
     let title = ''
     const payload = {
       stock: formValues.stockSymbol,
-      years: +formValues.years
+      years: +formValues.years,
+      currency: formValues.currency
     }
     switch (chartType) {
       case 'close':
@@ -261,7 +262,6 @@ const AnalyseStockPage = (): ReactElement => {
         }/api/generate-stock-plot?stocks=${
           formValues.stockSymbol
         }&rollingAverageDays=50`
-
         title = `${formValues.stockSymbol} Stock Plot`
         break
       case 'closeDailyReturn':
@@ -275,6 +275,12 @@ const AnalyseStockPage = (): ReactElement => {
           import.meta.env.VITE_API_BASE_URL
         }/api/generate-stock-dividends-plot`
         title = `${formValues.stockSymbol} Dividends Plot`
+        break
+      case 'currencyImpact':
+        url = `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/generate-currency-impact-plot`
+        title = `${formValues.currency} Currency Impact on ${formValues.stockSymbol} Return Plot`
         break
     }
     try {
@@ -290,67 +296,6 @@ const AnalyseStockPage = (): ReactElement => {
               rel="noopener noreferrer"
             >
               <img src={res.data.image_url} alt={title} />
-            </a>
-          ),
-          onConfirm: () => {
-            dispatch({ type: ActionType.REMOVE_MODAL })
-          }
-        }
-      })
-    } catch (error: any) {
-      const errors: Error[] = error.response.data.errors
-      dispatch({
-        type: ActionType.SET_MODAL,
-        payload: {
-          message: `Something went wrong! ${errors[0].message}`,
-          onConfirm: () => {
-            dispatch({ type: ActionType.REMOVE_MODAL })
-          }
-        }
-      })
-    }
-  }
-
-  const plotCurrencyImpactChart = async () => {
-    dispatch({
-      type: ActionType.SET_MODAL,
-      payload: {
-        message: 'Plot Data',
-        children: (
-          <div className="h-60 w-60">
-            <Loader />
-          </div>
-        ),
-        onConfirm: () => {
-          dispatch({ type: ActionType.REMOVE_MODAL })
-        }
-      }
-    })
-    try {
-      const res = await api.post(
-        `${
-          import.meta.env.VITE_API_BASE_URL
-        }/api/generate-currency-impact-plot`,
-        {
-          stock: formValues.stockSymbol,
-          years: +formValues.years,
-          currency: formValues.currency
-        }
-      )
-      dispatch({
-        type: ActionType.SET_MODAL,
-        payload: {
-          message: `${formValues.currency} Currency Impact on ${formValues.stockSymbol} Return Plot`,
-          children: (
-            <a
-              href={res.data.image_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img
-                src={res.data.image_url}
-                alt={`${formValues.currency} Currency Impact on ${formValues.stockSymbol} Return Plot`}
-              />
             </a>
           ),
           onConfirm: () => {
@@ -593,7 +538,9 @@ const AnalyseStockPage = (): ReactElement => {
                 id="currency-impact"
                 header="Currency Impact"
                 columns={['Data', 'Value percentage']}
-                handlePlotChartIconOnClick={plotCurrencyImpactChart}
+                handlePlotChartIconOnClick={() =>
+                  plotStockChart('currencyImpact')
+                }
                 data={[
                   ['Cumulative USD Return', currencyImpact.cumulativeUsdReturn],
                   ['Local Currency Return', currencyImpact.localCurrencyReturn],
