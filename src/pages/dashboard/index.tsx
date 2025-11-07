@@ -1,11 +1,6 @@
 import { ReactElement, useEffect, useState, useContext } from 'react'
 import { Store } from '../../store'
-import {
-  ActionType,
-  ChartTypeValues,
-  Domain,
-  IndexAnalysisResponse
-} from '../../types'
+import { ActionType, ChartTypeValues, Domain } from '../../types'
 import { AxiosResponse } from 'axios'
 import { Link } from 'react-router-dom'
 import api from '../../utils/api'
@@ -18,7 +13,6 @@ import KeyStatisticsCard from '../../components/key-statistics-card'
 import LineChart from '../../components/line-chart'
 import DeleteIcon from '../../components/icons/delete-icon'
 import CheckIcon from '../../components/icons/check-icon'
-import AlertIcon from '../../components/icons/alert-icon'
 import { convertDateToValidFormet, getDateOneYearAgo } from '../../utils/date'
 
 interface IndexValues {
@@ -59,8 +53,7 @@ const DashboardPage = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentUserAlerts, setCurrentUserAlerts] = useState<Alert[]>([])
   const [currentUserEvents, setCurrentUserEvents] = useState<Event[]>([])
-  const [currentUserMostRecentAlert, setCurrentUserMostRecentAlert] =
-    useState<number>(0)
+
   const getCurrentIndex = async () => {
     try {
       const { data }: AxiosResponse<any> = await api.get(
@@ -105,9 +98,6 @@ const DashboardPage = (): ReactElement => {
         `${import.meta.env.VITE_API_BASE_URL}/api/alerts/me`
       )
       setCurrentUserAlerts(data)
-      if (!!data.length) {
-        setCurrentUserMostRecentAlert(data[0].index)
-      } else setCurrentUserMostRecentAlert(0)
     } catch (err) {
       console.log(err)
     } finally {
@@ -291,12 +281,6 @@ const DashboardPage = (): ReactElement => {
     getCurrentUserAlerts()
     getCurrentUserEvents()
   }, [])
-
-  useEffect(() => {
-    if (!!currentUserAlerts.length) {
-      setCurrentUserMostRecentAlert(currentUserAlerts[0].index)
-    }
-  }, [currentUserAlerts])
 
   return (
     <Layout>
