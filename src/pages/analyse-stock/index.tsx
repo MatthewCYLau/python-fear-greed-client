@@ -59,6 +59,8 @@ interface stockAnalysisResult {
   closeStandardDeviation: number
 }
 
+type ChartTypes = 'close' | 'closeDailyReturn' | 'dividends' | 'currencyImpact'
+
 const AnalyseStockPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -230,9 +232,7 @@ const AnalyseStockPage = (): ReactElement => {
     setShowDropdown(!showDropdown)
   }
 
-  const plotStockChart = async (
-    chartType: 'close' | 'closeDailyReturn' | 'dividends' | 'currencyImpact'
-  ) => {
+  const plotStockChart = async (chartType: ChartTypes) => {
     dispatch({
       type: ActionType.SET_MODAL,
       payload: {
