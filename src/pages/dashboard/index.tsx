@@ -283,10 +283,13 @@ const DashboardPage = (): ReactElement => {
     getCurrentIndex()
     getKeyIndicesValues()
     getCurrentUserEvents()
+  }, [])
+
+  useEffect(() => {
     if (fetchedData) {
       setCurrentUserAlerts(fetchedData.data)
     }
-  }, [])
+  }, [fetchedData])
 
   return (
     <Layout>
