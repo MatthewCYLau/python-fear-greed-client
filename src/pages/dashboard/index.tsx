@@ -14,6 +14,7 @@ import LineChart from '../../components/line-chart'
 import DeleteIcon from '../../components/icons/delete-icon'
 import CheckIcon from '../../components/icons/check-icon'
 import { convertDateToValidFormet, getDateOneYearAgo } from '../../utils/date'
+import { useFetchData } from '../../utils/hook'
 
 interface IndexValues {
   currentIndex: number
@@ -53,6 +54,9 @@ const DashboardPage = (): ReactElement => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentUserAlerts, setCurrentUserAlerts] = useState<Alert[]>([])
   const [currentUserEvents, setCurrentUserEvents] = useState<Event[]>([])
+  const { data: fetchedData, isLoading: isFetchDataLoading } = useFetchData<
+    AxiosResponse<Alert[]>
+  >(`${import.meta.env.VITE_API_BASE_URL}/api/alerts/me`)
 
   const getCurrentIndex = async () => {
     try {
@@ -278,13 +282,15 @@ const DashboardPage = (): ReactElement => {
   useEffect(() => {
     getCurrentIndex()
     getKeyIndicesValues()
-    getCurrentUserAlerts()
     getCurrentUserEvents()
+    if (fetchedData) {
+      setCurrentUserAlerts(fetchedData.data)
+    }
   }, [])
 
   return (
     <Layout>
-      {isLoading ? (
+      {isLoading && isFetchDataLoading ? (
         <Loader />
       ) : (
         <>
