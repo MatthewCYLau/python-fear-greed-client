@@ -61,6 +61,43 @@ interface stockAnalysisResult {
 
 type ChartTypes = 'close' | 'closeDailyReturn' | 'dividends' | 'currencyImpact'
 
+const getRequestDetails = (
+  chartType: ChartTypes,
+  stockSymbol: string,
+  currency: string
+) => {
+  let url = ''
+  let title = ''
+  switch (chartType) {
+    case 'close':
+      url = `${
+        import.meta.env.VITE_API_BASE_URL
+      }/api/generate-stock-plot?stocks=${stockSymbol}&rollingAverageDays=50`
+      title = `${stockSymbol} Stock Plot`
+      break
+    case 'closeDailyReturn':
+      url = `${
+        import.meta.env.VITE_API_BASE_URL
+      }/api/generate-stock-close-daily-return-plot`
+      title = `${stockSymbol} Stock Close Daily Change Plot`
+      break
+    case 'dividends':
+      url = `${
+        import.meta.env.VITE_API_BASE_URL
+      }/api/generate-stock-dividends-plot`
+      title = `${stockSymbol} Dividends Plot`
+      break
+    case 'currencyImpact':
+      url = `${
+        import.meta.env.VITE_API_BASE_URL
+      }/api/generate-currency-impact-plot`
+      title = `${currency} Currency Impact on ${stockSymbol} Return Plot`
+      break
+  }
+
+  return { url, title }
+}
+
 const AnalyseStockPage = (): ReactElement => {
   const { dispatch } = useContext(Store)
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -248,41 +285,17 @@ const AnalyseStockPage = (): ReactElement => {
       }
     })
 
-    let url = ''
-    let title = ''
     const payload = {
       stock: formValues.stockSymbol,
       years: +formValues.years,
       currency: formValues.currency
     }
-    switch (chartType) {
-      case 'close':
-        url = `${
-          import.meta.env.VITE_API_BASE_URL
-        }/api/generate-stock-plot?stocks=${
-          formValues.stockSymbol
-        }&rollingAverageDays=50`
-        title = `${formValues.stockSymbol} Stock Plot`
-        break
-      case 'closeDailyReturn':
-        url = `${
-          import.meta.env.VITE_API_BASE_URL
-        }/api/generate-stock-close-daily-return-plot`
-        title = `${formValues.stockSymbol} Stock Close Daily Change Plot`
-        break
-      case 'dividends':
-        url = `${
-          import.meta.env.VITE_API_BASE_URL
-        }/api/generate-stock-dividends-plot`
-        title = `${formValues.stockSymbol} Dividends Plot`
-        break
-      case 'currencyImpact':
-        url = `${
-          import.meta.env.VITE_API_BASE_URL
-        }/api/generate-currency-impact-plot`
-        title = `${formValues.currency} Currency Impact on ${formValues.stockSymbol} Return Plot`
-        break
-    }
+    const { url, title } = getRequestDetails(
+      chartType,
+      formValues.stockSymbol,
+      formValues.currency
+    )
+
     try {
       const res = await api.post(url, payload)
       dispatch({
