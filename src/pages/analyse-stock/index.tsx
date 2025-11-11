@@ -4,7 +4,12 @@ import { AxiosResponse } from 'axios'
 import api from '../../utils/api'
 import { v4 as uuid } from 'uuid'
 import { ActionType as AlertActionType } from '../../store/alert/action-types'
-import { ActionType, MonthlyAverageClose, StockData } from '../../types'
+import {
+  ActionType,
+  ChartTypes,
+  MonthlyAverageClose,
+  StockData
+} from '../../types'
 import { formatAmountTwoDecimals } from '../../utils/string'
 import KeyStatisticsCard from '../../components/key-statistics-card'
 import SearchDropdown from '../../components/search-dropdown'
@@ -19,6 +24,7 @@ import ChartIcon from '../../components/icons/chart-icon'
 import Dropdown from '../../components/dropdown'
 import PlotChartIcon from '../../components/icons/plot-chart-icon'
 import Table from '../../components/table'
+import { getRequestDetails } from '../../utils/requests'
 
 interface Values {
   stockSymbol: string
@@ -57,45 +63,6 @@ interface stockAnalysisResult {
   periodChange: number
   monthlyAverageClose: MonthlyAverageClose[]
   closeStandardDeviation: number
-}
-
-type ChartTypes = 'close' | 'closeDailyReturn' | 'dividends' | 'currencyImpact'
-
-const getRequestDetails = (
-  chartType: ChartTypes,
-  stockSymbol: string,
-  currency: string
-) => {
-  let url = ''
-  let title = ''
-  switch (chartType) {
-    case 'close':
-      url = `${
-        import.meta.env.VITE_API_BASE_URL
-      }/api/generate-stock-plot?stocks=${stockSymbol}&rollingAverageDays=50`
-      title = `${stockSymbol} Stock Plot`
-      break
-    case 'closeDailyReturn':
-      url = `${
-        import.meta.env.VITE_API_BASE_URL
-      }/api/generate-stock-close-daily-return-plot`
-      title = `${stockSymbol} Stock Close Daily Change Plot`
-      break
-    case 'dividends':
-      url = `${
-        import.meta.env.VITE_API_BASE_URL
-      }/api/generate-stock-dividends-plot`
-      title = `${stockSymbol} Dividends Plot`
-      break
-    case 'currencyImpact':
-      url = `${
-        import.meta.env.VITE_API_BASE_URL
-      }/api/generate-currency-impact-plot`
-      title = `${currency} Currency Impact on ${stockSymbol} Return Plot`
-      break
-  }
-
-  return { url, title }
 }
 
 const AnalyseStockPage = (): ReactElement => {

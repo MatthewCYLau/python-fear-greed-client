@@ -100,3 +100,9 @@ export interface MonthlyAverageClose {
   date: string
   'Monthly Average': string
 }
+
+export type ChartTypes =
+  | 'close'
+  | 'closeDailyReturn'
+  | 'dividends'
+  | 'currencyImpact'
