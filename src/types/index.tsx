@@ -8,6 +8,7 @@ export interface User {
   avatarImageUrl: string
   regularContributionAmount: number
   currency: Currency
+  balance: number
 }
 
 export interface AppAlert {

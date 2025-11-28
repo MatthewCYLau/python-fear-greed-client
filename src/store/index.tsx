@@ -27,6 +27,7 @@ export type AppState = {
         avatarImageUrl: ''
         regularContributionAmount: 0
         currency: CurrencyValues.GBP
+        balance: 0
       }
 }
 
@@ -45,7 +46,8 @@ const initialState: AppState = {
     name: '',
     avatarImageUrl: '',
     regularContributionAmount: 0,
-    currency: CurrencyValues.GBP
+    currency: CurrencyValues.GBP,
+    balance: 0
   }
 }
 
@@ -100,7 +102,8 @@ function reducer(state: AppState, action: Action): AppState {
           name: '',
           avatarImageUrl: '',
           regularContributionAmount: 0,
-          currency: CurrencyValues.GBP
+          currency: CurrencyValues.GBP,
+          balance: 0
         }
       }
     case AlertActionType.SET_ALERT:
