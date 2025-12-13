@@ -16,6 +16,7 @@ import CumulativeReturnsPage from '../pages/cumulative-returns'
 import AnalyseStockPage from '../pages/analyse-stock'
 import ClosingPricesPage from '../pages/closing-prices'
 import ForexPage from '../pages/forex'
+import OrdersPage from '../pages/orders'
 
 type PrivateRouteProps = {
   component: React.ComponentType<any>
@@ -77,6 +78,10 @@ export const router = createBrowserRouter([
   {
     path: '/forex',
     element: <PrivateRoute component={ForexPage} />
+  },
+  {
+    path: '/orders',
+    element: <PrivateRoute component={OrdersPage} />
   },
   {
     path: '/alerts/:id',

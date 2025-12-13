@@ -13,6 +13,7 @@ import PlotChartIcon from '../icons/plot-chart-icon'
 import InfoIcon from '../icons/info-icon'
 import CheckIcon from '../icons/check-icon'
 import WorldIcon from '../icons/world-icon'
+import MoneyIcon2 from '../icons/money-icon2'
 
 const SideNav = () => {
   const { dispatch } = useContext(Store)
@@ -73,6 +74,12 @@ const SideNav = () => {
         iconComponant={<WorldIcon />}
         copy="Forex Data"
         description="Foreign exchange data"
+      />
+      <SideNavButton
+        url="/orders"
+        iconComponant={<MoneyIcon2 />}
+        copy="Orders"
+        description="Stock trade orders"
       />
       <SideNavButton
         url="/update-user"
