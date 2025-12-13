@@ -1,6 +1,12 @@
 export interface Token {
   token: string
 }
+
+export interface PortfolioData {
+  stock_symbol: string
+  quantity: number
+}
+
 export interface User {
   _id: string
   email: string
@@ -9,6 +15,7 @@ export interface User {
   regularContributionAmount: number
   currency: Currency
   balance: number
+  portfolio: PortfolioData[]
 }
 
 export interface AppAlert {
