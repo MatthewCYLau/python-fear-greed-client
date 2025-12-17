@@ -40,8 +40,10 @@ const Table: FC<Props> = ({
         <tbody>
           {data.map((row) => (
             <tr key="100" className="border-b border-gray-700">
-              <td className="py-3 px-2 font-bold">{row[0]}</td>
-              <td className="py-3 px-2">{row[1]}</td>
+              <td className="py-3 px-2 font-bold">{row.slice(0, 1)[0]}</td>
+              {row.slice(1).map((column) => (
+                <td className="py-3 px-2">{column}</td>
+              ))}
             </tr>
           ))}
         </tbody>
