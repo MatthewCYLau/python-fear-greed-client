@@ -67,6 +67,23 @@ export interface AnalysisJobsResponse {
   analysisJobs: AnalysisJob[]
 }
 
+export interface Order {
+  _id: string
+  created: string
+  created_by: string
+  last_modified: string
+  order_type: string
+  price: number
+  quantity: number
+  status: string
+  stock_symbol: string
+}
+
+export interface OrdersResponse {
+  paginationMetadata: PaginationMeta
+  data: Order[]
+}
+
 export type Domain = 'event' | 'alert'
 
 export enum ChartTypeValues {
