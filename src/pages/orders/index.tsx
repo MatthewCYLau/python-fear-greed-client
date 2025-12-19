@@ -1,16 +1,50 @@
-import { ReactElement, useEffect, useState } from 'react'
+import StockPicker from '../../components/search-dropdown'
+import { v4 as uuid } from 'uuid'
+import {
+  ChangeEvent,
+  ReactElement,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import Layout from '../../components/layout'
 import { Order, OrdersResponse } from '../../types'
+import { ActionType, AnalysisJob, AnalysisJobsResponse } from '../../types'
+import { ActionType as AlertActionType } from '../../store/alert/action-types'
 import { AxiosResponse } from 'axios'
 import api from '../../utils/api'
 import NoItemsFoundCard from '../../components/no-item-found-card'
 import PaginationNavButton from '../../components/pagination-nav-button'
+import { useNavigate } from 'react-router-dom'
+import { Store } from '../../store'
+import { commonStockSymbols } from '../../constants'
+import Dropdown from '../../components/dropdown'
+
+interface CreateOrderValues {
+  stock: string
+  orderType: string
+  quantity: number
+  price: number
+}
 
 const OrdersPage = (): ReactElement => {
+  const navigate = useNavigate()
+  const { dispatch } = useContext(Store)
+  const [createOrderformValues, setCreateOrderformValues] =
+    useState<CreateOrderValues>({
+      stock: '',
+      orderType: 'BUY',
+      quantity: 0,
+      price: 0
+    })
   const [orders, setOrders] = useState<Order[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [pageCount, setPageCount] = useState<number>(1)
+  const [showDropdown, setShowDropdown] = useState<boolean>(false)
   const pageSize: number = 5
+  const orderTypeDropdownRef = useRef<HTMLDivElement>(null)
+
   const getOrders = async () => {
     try {
       const { data }: AxiosResponse<OrdersResponse> = await api.get(
@@ -24,6 +58,56 @@ const OrdersPage = (): ReactElement => {
       console.log(err)
     }
   }
+
+  const onCreateOrderFormChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setCreateOrderformValues({
+      ...createOrderformValues,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const createOrderSubmitHandler = async (e: React.SyntheticEvent) => {
+    e.preventDefault()
+    try {
+      await api.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/orders`,
+        {
+          stock_symbol: createOrderformValues.stock,
+          order_type: createOrderformValues.orderType,
+          quantity: createOrderformValues.quantity,
+          price: createOrderformValues.price
+        },
+        {
+          headers: {
+            'content-type': 'application/json'
+          }
+        }
+      )
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: 'Order placed.',
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+            navigate('/dashboard')
+          }
+        }
+      })
+    } catch (err: any) {
+      const errors: Error[] = err.response.data.errors
+      errors.forEach((e) =>
+        dispatch({
+          type: AlertActionType.SET_ALERT,
+          payload: { id: uuid(), message: e.message, severity: 'error' }
+        })
+      )
+    }
+  }
+
+  const orderTypeDropdownItemOnClickHandler = (n: string) => {
+    setCreateOrderformValues({ ...createOrderformValues, orderType: n })
+    setShowDropdown(!showDropdown)
+  }
   const handleOnNextPageClick = () => setCurrentPage(currentPage + 1)
   const handleOnPreviousPageClick = () => setCurrentPage(currentPage - 1)
   useEffect(() => {
@@ -31,11 +115,101 @@ const OrdersPage = (): ReactElement => {
   }, [])
 
   useEffect(() => {
+    function handleClickOutside(event: MouseEvent): void {
+      if (
+        orderTypeDropdownRef.current &&
+        !orderTypeDropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  })
+
+  useEffect(() => {
     getOrders()
   }, [currentPage])
 
   return (
     <Layout>
+      <div className="m-7 w-1/2">
+        <h1 className="font-bold py-4 uppercase">Create Stock Trade Order</h1>
+        <form onSubmit={createOrderSubmitHandler}>
+          <StockPicker
+            header="Stock Symbol"
+            onBlurHandler={() =>
+              setCreateOrderformValues({
+                ...createOrderformValues,
+                stock: createOrderformValues.stock.toUpperCase()
+              })
+            }
+            value={createOrderformValues.stock}
+            onChangeHandler={(e) =>
+              setCreateOrderformValues({
+                ...createOrderformValues,
+                stock: e.target.value
+              })
+            }
+            dropdownItems={commonStockSymbols}
+            selectDropdownItem={(n: string) =>
+              setCreateOrderformValues({
+                ...createOrderformValues,
+                stock: n
+              })
+            }
+            placeholder="AAPL"
+          />
+          <Dropdown
+            header="Order type"
+            dropdownItems={['BUY', 'SELL']}
+            value={createOrderformValues.orderType}
+            selectDropdownItem={orderTypeDropdownItemOnClickHandler}
+          />
+          <div className="mb-6">
+            <label
+              htmlFor="quantity"
+              className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+            >
+              Quantity
+            </label>
+            <input
+              type="text"
+              name="quantity"
+              id="quantity"
+              className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+              value={createOrderformValues.quantity}
+              onChange={(e) => onCreateOrderFormChange(e)}
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="price"
+              className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+            >
+              Price
+            </label>
+            <input
+              type="text"
+              name="price"
+              id="price"
+              className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
+              value={createOrderformValues.price}
+              onChange={(e) => onCreateOrderFormChange(e)}
+            />
+          </div>
+          <div className="mb-6">
+            <button
+              type="submit"
+              className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none disabled:opacity-75"
+            >
+              Create Stock Trade Order
+            </button>
+          </div>
+        </form>
+      </div>
       <div className="m-7" id="orders">
         <h1 className="font-bold py-4 uppercase">Stock Trade Orders</h1>
         {!!orders.length ? (
