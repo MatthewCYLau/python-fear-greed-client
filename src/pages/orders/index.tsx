@@ -4,23 +4,35 @@ import { Order, OrdersResponse } from '../../types'
 import { AxiosResponse } from 'axios'
 import api from '../../utils/api'
 import NoItemsFoundCard from '../../components/no-item-found-card'
+import PaginationNavButton from '../../components/pagination-nav-button'
 
 const OrdersPage = (): ReactElement => {
   const [orders, setOrders] = useState<Order[]>([])
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [pageCount, setPageCount] = useState<number>(1)
+  const pageSize: number = 5
   const getOrders = async () => {
     try {
       const { data }: AxiosResponse<OrdersResponse> = await api.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/orders`
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/orders?page=${currentPage}&pageSize=${pageSize}`
       )
       setOrders(data.data)
+      setPageCount(data.paginationMetadata.totalPages)
     } catch (err) {
       console.log(err)
     }
   }
-
+  const handleOnNextPageClick = () => setCurrentPage(currentPage + 1)
+  const handleOnPreviousPageClick = () => setCurrentPage(currentPage - 1)
   useEffect(() => {
     getOrders()
   }, [])
+
+  useEffect(() => {
+    getOrders()
+  }, [currentPage])
 
   return (
     <Layout>
@@ -54,6 +66,29 @@ const OrdersPage = (): ReactElement => {
                 </tbody>
               ))}
             </table>
+            <div className="flex justify-center items-center space-x-4 mt-4">
+              <PaginationNavButton
+                disabled={currentPage === 1}
+                onClickHandler={() => setCurrentPage(1)}
+                copy="<<"
+              />
+              <PaginationNavButton
+                disabled={currentPage === 1}
+                onClickHandler={handleOnPreviousPageClick}
+                copy="<"
+              />
+              <div className="text-slate-500">{`${currentPage} / ${pageCount}`}</div>
+              <PaginationNavButton
+                disabled={currentPage === pageCount}
+                onClickHandler={handleOnNextPageClick}
+                copy=">"
+              />
+              <PaginationNavButton
+                disabled={currentPage === pageCount}
+                onClickHandler={() => setCurrentPage(pageCount)}
+                copy=">>"
+              />
+            </div>
           </>
         ) : (
           <NoItemsFoundCard itemName="orders" />
