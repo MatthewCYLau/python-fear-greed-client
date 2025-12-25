@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom'
 import { Store } from '../../store'
 import { commonStockSymbols } from '../../constants'
 import Dropdown from '../../components/dropdown'
+import DeleteIcon from '../../components/icons/delete-icon'
 
 interface CreateOrderValues {
   stock: string
@@ -113,6 +114,29 @@ const OrdersPage = (): ReactElement => {
   useEffect(() => {
     getOrders()
   }, [])
+
+  const deleteOrderById = async (id: string) => {
+    try {
+      await api.delete(`${import.meta.env.VITE_API_BASE_URL}/api/orders/${id}`)
+      getOrders()
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const handleOnDelete = (id: string) => {
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: `Do you want to delete order?`,
+        onCancel: () => dispatch({ type: ActionType.REMOVE_MODAL }),
+        onConfirm: () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+          deleteOrderById(id)
+        }
+      }
+    })
+  }
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent): void {
@@ -223,6 +247,7 @@ const OrdersPage = (): ReactElement => {
                   <th className="text-left py-3 px-2">Quantity</th>
                   <th className="text-left py-3 px-2">Status</th>
                   <th className="text-left py-3 px-2">Stock Symbol</th>
+                  <th className="text-left py-3 px-2 rounded-r-lg">Actions</th>
                 </tr>
               </thead>
               {orders.map((order) => (
@@ -234,8 +259,18 @@ const OrdersPage = (): ReactElement => {
                     <td className="py-3 px-2">{order.order_type}</td>
                     <td className="py-3 px-2">{order.price}</td>
                     <td className="py-3 px-2">{order.quantity}</td>
-                    <td className="py-3 px-2">{order.status}</td>
+                    <td className="py-3 px-2 uppercase">{order.status}</td>
                     <td className="py-3 px-2">{order.stock_symbol}</td>
+                    <td className="py-3 px-2">
+                      <div className="inline-flex items-center space-x-3">
+                        <button
+                          onClick={() => handleOnDelete(order._id)}
+                          className="hover:text-white"
+                        >
+                          <DeleteIcon />
+                        </button>
+                      </div>
+                    </td>
                   </tr>
                 </tbody>
               ))}
