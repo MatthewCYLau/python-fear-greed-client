@@ -21,6 +21,7 @@ import { Store } from '../../store'
 import { commonStockSymbols } from '../../constants'
 import Dropdown from '../../components/dropdown'
 import DeleteIcon from '../../components/icons/delete-icon'
+import Toggle from '../../components/toggle'
 
 interface CreateOrderValues {
   stock: string
@@ -43,6 +44,7 @@ const OrdersPage = (): ReactElement => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [pageCount, setPageCount] = useState<number>(1)
   const [showDropdown, setShowDropdown] = useState<boolean>(false)
+  const [showOpenOrdersOnly, setShowOpenOrdersOnly] = useState<boolean>(false)
   const pageSize: number = 5
   const orderTypeDropdownRef = useRef<HTMLDivElement>(null)
 
@@ -233,6 +235,12 @@ const OrdersPage = (): ReactElement => {
             </button>
           </div>
         </form>
+      </div>
+      <div className="m-7" id="toggle">
+        <Toggle
+          copy="Show open orders only"
+          onClickHandler={() => setShowOpenOrdersOnly(!showOpenOrdersOnly)}
+        />
       </div>
       <div className="m-7" id="orders">
         <h1 className="font-bold py-4 uppercase">Stock Trade Orders</h1>
