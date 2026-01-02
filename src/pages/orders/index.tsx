@@ -10,7 +10,7 @@ import {
 } from 'react'
 import Layout from '../../components/layout'
 import { Order, OrdersResponse } from '../../types'
-import { ActionType, AnalysisJob, AnalysisJobsResponse } from '../../types'
+import { ActionType } from '../../types'
 import { ActionType as AlertActionType } from '../../store/alert/action-types'
 import { AxiosResponse } from 'axios'
 import api from '../../utils/api'
@@ -41,6 +41,7 @@ const OrdersPage = (): ReactElement => {
       price: 0
     })
   const [orders, setOrders] = useState<Order[]>([])
+  const [filteredOrders, setFilteredOrders] = useState<Order[]>([])
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [pageCount, setPageCount] = useState<number>(1)
   const [showDropdown, setShowDropdown] = useState<boolean>(false)
@@ -57,6 +58,11 @@ const OrdersPage = (): ReactElement => {
       )
       setOrders(data.data)
       setPageCount(data.paginationMetadata.totalPages)
+      if (showOpenOrdersOnly) {
+        setFilteredOrders(data.data.filter((n) => n.status == 'open'))
+      } else {
+        setFilteredOrders(data.data)
+      }
     } catch (err) {
       console.log(err)
     }
@@ -159,6 +165,14 @@ const OrdersPage = (): ReactElement => {
     getOrders()
   }, [currentPage])
 
+  useEffect(() => {
+    if (showOpenOrdersOnly) {
+      setFilteredOrders(orders.filter((n) => n.status == 'open'))
+    } else {
+      setFilteredOrders(orders)
+    }
+  }, [showOpenOrdersOnly])
+
   return (
     <Layout>
       <div className="m-7 w-1/2">
@@ -244,7 +258,7 @@ const OrdersPage = (): ReactElement => {
       </div>
       <div className="m-7" id="orders">
         <h1 className="font-bold py-4 uppercase">Stock Trade Orders</h1>
-        {!!orders.length ? (
+        {!!filteredOrders.length ? (
           <>
             <table className="w-full whitespace-nowrap">
               <thead className="bg-black/60">
@@ -258,7 +272,7 @@ const OrdersPage = (): ReactElement => {
                   <th className="text-left py-3 px-2 rounded-r-lg">Actions</th>
                 </tr>
               </thead>
-              {orders.map((order) => (
+              {filteredOrders.map((order) => (
                 <tbody key={order._id}>
                   <tr key={order._id} className="border-b border-gray-700">
                     <td className="py-3 px-2 font-bold">
