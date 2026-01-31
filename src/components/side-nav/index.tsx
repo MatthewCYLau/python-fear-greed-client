@@ -82,6 +82,12 @@ const SideNav = () => {
         description="Stock trade orders"
       />
       <SideNavButton
+        url="/portfolio"
+        iconComponant={<PlotChartIcon />}
+        copy="Stock Portfolio"
+        description="Stock portfolio"
+      />
+      <SideNavButton
         url="/update-user"
         iconComponant={<CogwheelIcon />}
         copy="Settings"
