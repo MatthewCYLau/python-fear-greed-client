@@ -14,6 +14,7 @@ import InfoIcon from '../icons/info-icon'
 import CheckIcon from '../icons/check-icon'
 import WorldIcon from '../icons/world-icon'
 import MoneyIcon2 from '../icons/money-icon2'
+import SendMoneyIcon from '../icons/send-money'
 
 const SideNav = () => {
   const { dispatch } = useContext(Store)
@@ -83,7 +84,7 @@ const SideNav = () => {
       />
       <SideNavButton
         url="/portfolio"
-        iconComponant={<PlotChartIcon />}
+        iconComponant={<SendMoneyIcon />}
         copy="Stock Portfolio"
         description="Stock portfolio"
       />

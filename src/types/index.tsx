@@ -7,6 +7,17 @@ export interface PortfolioData {
   quantity: number
 }
 
+export interface IndividualPortfolioData {
+  stock_symbol: string
+  quantity: number
+  weight: number
+}
+
+export interface PortfolioAnalysis {
+  portfolio_data: IndividualPortfolioData[]
+  total_value: number
+}
+
 export interface User {
   _id: string
   email: string
