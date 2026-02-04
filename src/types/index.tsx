@@ -16,6 +16,7 @@ export interface IndividualPortfolioData {
 export interface PortfolioAnalysis {
   portfolio_data: IndividualPortfolioData[]
   total_value: number
+  portfolio_roi: number
 }
 
 export interface User {

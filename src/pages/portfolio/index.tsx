@@ -12,6 +12,7 @@ const PortfolioPage = (): ReactElement => {
   const [portfolioAnalysis, setPortfolioAnalysis] = useState<PortfolioAnalysis>(
     {
       total_value: 0,
+      portfolio_roi: 0,
       portfolio_data: []
     }
   )
@@ -44,6 +45,11 @@ const PortfolioPage = (): ReactElement => {
               subject="Total Value"
               index={portfolioAnalysis.total_value}
               icon="money"
+            />
+            <KeyStatisticsCard
+              subject="ROI %"
+              index={portfolioAnalysis.portfolio_roi}
+              icon="plotChart"
             />
           </div>
         </div>
