@@ -13,6 +13,7 @@ const PortfolioPage = (): ReactElement => {
     {
       total_value: 0,
       portfolio_roi: 0,
+      portfolio_alpha: 0,
       portfolio_data: []
     }
   )
@@ -50,6 +51,11 @@ const PortfolioPage = (): ReactElement => {
               subject="ROI %"
               index={portfolioAnalysis.portfolio_roi}
               icon="plotChart"
+            />
+            <KeyStatisticsCard
+              subject="Alpha %"
+              index={portfolioAnalysis.portfolio_alpha}
+              icon="info"
             />
           </div>
         </div>
