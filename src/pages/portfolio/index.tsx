@@ -1,11 +1,26 @@
+import 'chart.js/auto'
 import { ReactElement, useContext, useEffect, useState } from 'react'
 import Layout from '../../components/layout'
 import Table from '../../components/table'
 import { Store } from '../../store'
 import KeyStatisticsCard from '../../components/key-statistics-card'
 import { AxiosResponse } from 'axios'
-import { PortfolioAnalysis } from '../../types'
+import { Doughnut } from 'react-chartjs-2'
+import { IndividualPortfolioData, PortfolioAnalysis } from '../../types'
 import api from '../../utils/api'
+import { generateColours } from '../../utils/string'
+
+const getDoughnutData = (portfolio_data: IndividualPortfolioData[]) => ({
+  labels: portfolio_data.map((n) => n.stock_symbol),
+  datasets: [
+    {
+      label: 'weight %',
+      data: portfolio_data.map((n) => n.weight * 100),
+      backgroundColor: generateColours(portfolio_data.length),
+      hoverOffset: 4
+    }
+  ]
+})
 
 const PortfolioPage = (): ReactElement => {
   const { state } = useContext(Store)
@@ -58,6 +73,9 @@ const PortfolioPage = (): ReactElement => {
               icon="info"
             />
           </div>
+        </div>
+        <div className="m-7 w-1/2" id="chart">
+          <Doughnut data={getDoughnutData(portfolioAnalysis.portfolio_data)} />
         </div>
         <Table
           id="stock-portfolio"

@@ -4,3 +4,9 @@ export const capitaliseFirstLetter = (val: string): string => {
 
 export const formatAmountTwoDecimals = (value: string): string =>
   parseFloat(value).toFixed(2)
+
+export const generateColours = (count: number) =>
+  Array.from(
+    { length: count },
+    (_, i) => `rgb(${75 + i * 6}, ${60 + i * 8}, ${200 - i * 6})`
+  )
