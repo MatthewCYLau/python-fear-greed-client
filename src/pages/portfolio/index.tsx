@@ -6,9 +6,14 @@ import { Store } from '../../store'
 import KeyStatisticsCard from '../../components/key-statistics-card'
 import { AxiosResponse } from 'axios'
 import { Doughnut } from 'react-chartjs-2'
-import { IndividualPortfolioData, PortfolioAnalysis } from '../../types'
+import {
+  IndividualPortfolioData,
+  PortfolioAnalysis,
+  ActionType
+} from '../../types'
 import api from '../../utils/api'
 import { generateColours } from '../../utils/string'
+import Loader from '../../components/loader'
 
 const getDoughnutData = (portfolio_data: IndividualPortfolioData[]) => ({
   labels: portfolio_data.map((n) => n.stock_symbol),
@@ -23,7 +28,7 @@ const getDoughnutData = (portfolio_data: IndividualPortfolioData[]) => ({
 })
 
 const PortfolioPage = (): ReactElement => {
-  const { state } = useContext(Store)
+  const { state, dispatch } = useContext(Store)
   const [portfolioAnalysis, setPortfolioAnalysis] = useState<PortfolioAnalysis>(
     {
       total_value: 0,
@@ -44,6 +49,61 @@ const PortfolioPage = (): ReactElement => {
       console.log(err)
     }
   }
+  const plotPortfolioRoiChart = async () => {
+    dispatch({
+      type: ActionType.SET_MODAL,
+      payload: {
+        message: 'Plot Data',
+        children: (
+          <div className="h-60 w-60">
+            <Loader />
+          </div>
+        ),
+        onConfirm: () => {
+          dispatch({ type: ActionType.REMOVE_MODAL })
+        }
+      }
+    })
+    try {
+      const res = await api.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/${
+          state.user._id
+        }/generate-portfolio-roi-plot`
+      )
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: 'Portfolio ROI vs. S&P 500 Benchmark',
+          children: (
+            <a
+              href={res.data.image_url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={res.data.image_url}
+                alt={'Portfolio ROI vs. S&P 500 Benchmark'}
+              />
+            </a>
+          ),
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    } catch (error: any) {
+      const errors: Error[] = error.response.data.errors
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `Something went wrong! ${errors[0].message}`,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
+    }
+  }
 
   useEffect(() => {
     getUserPortfolioAnalysis()
@@ -62,11 +122,13 @@ const PortfolioPage = (): ReactElement => {
               index={portfolioAnalysis.total_value}
               icon="money"
             />
-            <KeyStatisticsCard
-              subject="ROI %"
-              index={portfolioAnalysis.portfolio_roi}
-              icon="plotChart"
-            />
+            <button onClick={plotPortfolioRoiChart}>
+              <KeyStatisticsCard
+                subject="ROI %"
+                index={portfolioAnalysis.portfolio_roi}
+                icon="plotChart"
+              />
+            </button>
             <KeyStatisticsCard
               subject="Alpha %"
               index={portfolioAnalysis.portfolio_alpha}
