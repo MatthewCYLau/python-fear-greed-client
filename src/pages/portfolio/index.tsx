@@ -68,7 +68,10 @@ const PortfolioPage = (): ReactElement => {
       const res = await api.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/users/${
           state.user._id
-        }/generate-portfolio-roi-plot`
+        }/generate-portfolio-roi-plot`,
+        {
+          benchmark_stock_symbol: '^GSPC'
+        }
       )
       dispatch({
         type: ActionType.SET_MODAL,
