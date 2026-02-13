@@ -11,6 +11,7 @@ export interface IndividualPortfolioData {
   stock_symbol: string
   quantity: number
   weight: number
+  market_value: number
 }
 
 export interface PortfolioAnalysis {

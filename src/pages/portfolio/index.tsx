@@ -145,11 +145,12 @@ const PortfolioPage = (): ReactElement => {
         <Table
           id="stock-portfolio"
           header="Stock Portfolio"
-          columns={['Stock symbol', 'Quantity', 'Weight']}
+          columns={['Stock symbol', 'Quantity', 'Weight', 'Market Value']}
           data={portfolioAnalysis.portfolio_data.map((n) => [
             n.stock_symbol,
             n.quantity,
-            (n.weight * 100).toFixed(2) + '%'
+            (n.weight * 100).toFixed(2) + '%',
+            n.market_value
           ])}
         ></Table>
       </>
