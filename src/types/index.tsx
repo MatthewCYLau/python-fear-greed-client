@@ -12,6 +12,7 @@ export interface IndividualPortfolioData {
   quantity: number
   weight: number
   market_value: number
+  return: number
 }
 
 export interface PortfolioAnalysis {

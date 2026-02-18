@@ -145,14 +145,21 @@ const PortfolioPage = (): ReactElement => {
         <Table
           id="stock-portfolio"
           header="Stock Portfolio"
-          columns={['Stock symbol', 'Quantity', 'Weight', 'Market Value']}
+          columns={[
+            'Stock symbol',
+            'Quantity',
+            'Weight',
+            'Market Value',
+            'Return'
+          ]}
           data={portfolioAnalysis.portfolio_data
             .sort((a, b) => b.weight - a.weight)
             .map((n) => [
               n.stock_symbol,
               n.quantity,
               (n.weight * 100).toFixed(2) + '%',
-              n.market_value
+              n.market_value,
+              (n.return * 100).toFixed(2) + '%'
             ])}
         ></Table>
       </>
