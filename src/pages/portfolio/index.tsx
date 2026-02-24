@@ -14,6 +14,7 @@ import {
 import api from '../../utils/api'
 import { generateColours } from '../../utils/string'
 import Loader from '../../components/loader'
+import Toggle from '../../components/toggle'
 
 const getDoughnutData = (portfolio_data: IndividualPortfolioData[]) => ({
   labels: portfolio_data.map((n) => n.stock_symbol),
@@ -29,6 +30,8 @@ const getDoughnutData = (portfolio_data: IndividualPortfolioData[]) => ({
 
 const PortfolioPage = (): ReactElement => {
   const { state, dispatch } = useContext(Store)
+  const [sortByWeightDescending, setSortByWeightDescending] =
+    useState<boolean>(true)
   const [portfolioAnalysis, setPortfolioAnalysis] = useState<PortfolioAnalysis>(
     {
       total_value: 0,
@@ -142,6 +145,14 @@ const PortfolioPage = (): ReactElement => {
         <div className="m-7 w-1/2" id="chart">
           <Doughnut data={getDoughnutData(portfolioAnalysis.portfolio_data)} />
         </div>
+        <div className="m-7" id="toggle">
+          <Toggle
+            copy="Sort by weight descending"
+            onClickHandler={() =>
+              setSortByWeightDescending(!sortByWeightDescending)
+            }
+          />
+        </div>
         <Table
           id="stock-portfolio"
           header="Stock Portfolio"
@@ -153,7 +164,13 @@ const PortfolioPage = (): ReactElement => {
             'Return'
           ]}
           data={portfolioAnalysis.portfolio_data
-            .sort((a, b) => b.weight - a.weight)
+            .toSorted((a, b) => {
+              if (sortByWeightDescending) {
+                return a.weight - b.weight
+              } else {
+                return b.weight - a.weight
+              }
+            })
             .map((n) => [
               n.stock_symbol,
               n.quantity,
