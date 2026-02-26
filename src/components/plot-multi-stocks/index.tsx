@@ -16,6 +16,7 @@ import Loader from '../../components/loader'
 import DeleteIcon from '../../components/icons/delete-icon'
 import DropdownButton from '../../components/dropdown-button'
 import Dropdown from '../dropdown'
+import Toggle from '../toggle'
 
 interface Props {
   header: string
@@ -25,6 +26,7 @@ interface Values {
   stockSymbol: string
   years: number
   secondaryAxis: string
+  groupBySector: boolean
 }
 
 const PlotMultiStocks: FC<Props> = ({ header, plotData }): ReactElement => {
@@ -39,7 +41,8 @@ const PlotMultiStocks: FC<Props> = ({ header, plotData }): ReactElement => {
   const [formValues, setFormValues] = useState<Values>({
     stockSymbol: '',
     years: 1,
-    secondaryAxis: 'No'
+    secondaryAxis: 'No',
+    groupBySector: false
   })
   const yearsDropdownRef = useRef<HTMLDivElement>(null)
   const stockSymbolDropdownRef = useRef<HTMLDivElement>(null)
@@ -80,7 +83,8 @@ const PlotMultiStocks: FC<Props> = ({ header, plotData }): ReactElement => {
         }/api/generate-stocks-cumulative-returns-plot`,
         {
           stocks: stocksList.join(','),
-          years: +formValues.years
+          years: +formValues.years,
+          groupBySector: formValues.groupBySector
         }
       )
     } else {
@@ -262,6 +266,19 @@ const PlotMultiStocks: FC<Props> = ({ header, plotData }): ReactElement => {
             value={formValues.secondaryAxis}
             selectDropdownItem={secondaryAxisDropdownItemOnClickHandler}
           />
+        )}
+        {plotData == 'cumulative' && (
+          <div className="mb-6">
+            <Toggle
+              copy="Group by sector"
+              onClickHandler={() =>
+                setFormValues({
+                  ...formValues,
+                  groupBySector: !formValues.groupBySector
+                })
+              }
+            />
+          </div>
         )}
         <button
           disabled={stocksList.length === 0}
