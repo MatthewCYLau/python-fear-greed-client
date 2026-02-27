@@ -3,9 +3,10 @@ import { FC } from 'react'
 interface Props {
   onClickHandler?: () => void
   copy: string
+  disabled?: boolean
 }
 
-const Toggle: FC<Props> = ({ onClickHandler, copy }) => {
+const Toggle: FC<Props> = ({ onClickHandler, copy, disabled = false }) => {
   return (
     <div>
       <label
@@ -17,6 +18,7 @@ const Toggle: FC<Props> = ({ onClickHandler, copy }) => {
       <div className="flex items-center justify-between w-64">
         <label className="relative inline-flex items-center cursor-pointer">
           <input
+            disabled={disabled}
             type="checkbox"
             className="sr-only peer"
             onClick={onClickHandler}

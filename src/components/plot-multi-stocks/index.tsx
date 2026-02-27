@@ -17,6 +17,7 @@ import DeleteIcon from '../../components/icons/delete-icon'
 import DropdownButton from '../../components/dropdown-button'
 import Dropdown from '../dropdown'
 import Toggle from '../toggle'
+import data from '../../resource/data.json'
 
 interface Props {
   header: string
@@ -271,6 +272,10 @@ const PlotMultiStocks: FC<Props> = ({ header, plotData }): ReactElement => {
           <div className="mb-6">
             <Toggle
               copy="Group by sector"
+              disabled={
+                stocksList.length < 2 ||
+                stocksList.some((n) => data.indices.includes(n))
+              }
               onClickHandler={() =>
                 setFormValues({
                   ...formValues,
