@@ -7,6 +7,8 @@ interface Values {
   note: string
 }
 
+const maxLength: number = 20
+
 const CreateAlertPage = (): ReactElement => {
   const navigate = useNavigate()
   const [formValues, setFormValues] = useState<Values>({
@@ -15,7 +17,12 @@ const CreateAlertPage = (): ReactElement => {
   })
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value })
+    if (
+      (e.target.name == 'note' && e.target.value.length <= maxLength) ||
+      e.target.name != 'note'
+    ) {
+      setFormValues({ ...formValues, [e.target.name]: e.target.value })
+    }
   }
 
   const submitHandler = async (e: React.SyntheticEvent) => {
@@ -79,8 +86,17 @@ const CreateAlertPage = (): ReactElement => {
               value={formValues.note}
               onChange={(e) => onChange(e)}
             />
+            <span
+              className={`font-medium ${
+                formValues.note.length >= maxLength
+                  ? 'text-red-400'
+                  : 'text-gray-600'
+              }`}
+            >
+              {maxLength - formValues.note.length} characters remaining
+            </span>
           </div>
-          <div className="mb-6">
+          <div>
             <button
               type="submit"
               className="w-full px-3 py-4 text-white bg-indigo-500 rounded-md focus:bg-indigo-600 focus:outline-none"
