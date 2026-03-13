@@ -2,6 +2,7 @@ import { ReactElement, useState, ChangeEvent } from 'react'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
 import Layout from '../../components/layout'
+import Input from '../../components/input'
 interface Values {
   index: number
   note: string
@@ -77,24 +78,14 @@ const CreateAlertPage = (): ReactElement => {
                 Note
               </label>
             </div>
-            <input
-              type="text"
+            <Input
               name="note"
-              id="note"
+              id="name"
               placeholder="Add a custom note"
-              className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500"
               value={formValues.note}
-              onChange={(e) => onChange(e)}
+              onChangeHandler={(e) => onChange(e)}
+              maxLength={maxLength}
             />
-            <span
-              className={`font-medium ${
-                formValues.note.length >= maxLength
-                  ? 'text-red-400'
-                  : 'text-gray-600'
-              }`}
-            >
-              {maxLength - formValues.note.length} characters remaining
-            </span>
           </div>
           <div>
             <button
