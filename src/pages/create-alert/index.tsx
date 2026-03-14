@@ -20,7 +20,7 @@ const CreateAlertPage = (): ReactElement => {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (
       (e.target.name == 'note' && e.target.value.length <= maxLength) ||
-      e.target.name != 'note'
+      (e.target.name == 'index' && +e.target.value < 100 && +e.target.value > 0)
     ) {
       setFormValues({ ...formValues, [e.target.name]: e.target.value })
     }
