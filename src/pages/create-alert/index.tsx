@@ -1,8 +1,10 @@
-import { ReactElement, useState, ChangeEvent } from 'react'
+import { ReactElement, useState, ChangeEvent, useContext } from 'react'
 import api from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
+import { ActionType } from '../../types'
 import Layout from '../../components/layout'
 import Input from '../../components/input'
+import { Store } from '../../store'
 interface Values {
   index: number
   note: string
@@ -11,16 +13,18 @@ interface Values {
 const maxLength: number = 20
 
 const CreateAlertPage = (): ReactElement => {
+  const { dispatch } = useContext(Store)
   const navigate = useNavigate()
   const [formValues, setFormValues] = useState<Values>({
-    index: 0,
+    index: 1,
     note: ''
   })
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (
       (e.target.name == 'note' && e.target.value.length <= maxLength) ||
-      (e.target.name == 'index' && +e.target.value < 100 && +e.target.value > 0)
+      (e.target.name == 'index' &&
+        (!e.target.value || (+e.target.value < 100 && +e.target.value > 0)))
     ) {
       setFormValues({ ...formValues, [e.target.name]: e.target.value })
     }
@@ -42,8 +46,17 @@ const CreateAlertPage = (): ReactElement => {
         }
       )
       navigate('/dashboard')
-    } catch (err) {
-      console.log(err)
+    } catch (error: any) {
+      const errors: Error[] = error.response.data.errors
+      dispatch({
+        type: ActionType.SET_MODAL,
+        payload: {
+          message: `Something went wrong! ${errors[0].message}`,
+          onConfirm: () => {
+            dispatch({ type: ActionType.REMOVE_MODAL })
+          }
+        }
+      })
     }
   }
 
